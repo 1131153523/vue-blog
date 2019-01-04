@@ -1,0 +1,231 @@
+const Model = require('../model/index')
+const base_dir = __dirname.slice(0, __dirname.lastIndexOf('/server/') + 8)
+const fs = require('fs')
+class ArticleController {
+    static async getDraft(ctx) {
+        try {
+            let content = JSON.parse(JSON.stringify(await Model.getDraft()))
+            ctx.body = {
+                code:1,
+                isShow:false,
+                data: content[0].draft_content
+            }
+        } catch (e){
+            console.log('上次记录内容获取失败')
+            console.log(e)
+            ctx.body = {
+                code: 0,
+                msg: '服务器出错，上次记录内容获取失败'
+            }
+        }
+    }
+    static async saveDraft(ctx){
+        try {
+            let data = JSON.parse(JSON.stringify(await Model.saveDraft(ctx.request.body)))
+            if (data.changedRows >= 0) {
+                ctx.body = {
+                    code:1,
+                    isShow:false
+                }
+            } else {
+                ctx.body = {
+                    code:0,
+                    msg: '服务器出错，存稿失败'
+                }
+            }
+        }catch (e) {
+            console.log('存稿失败')
+            console.log(e)
+            ctx.body = {
+                code:0,
+                msg: '服务器出错，存稿失败'
+            }
+        }
+    }
+    static async writeArticle (ctx) {
+        let {article_content,article_title} = ctx.request.body
+        console.log(article_title);
+        let path = `${base_dir}static/articles/${article_title.trim()}.md`
+        try {
+            if (!fs.existsSync(path)) {
+                await fs.writeFileSync(path, article_content)
+            } else {
+                ctx.body = {
+                    code: 0,
+                    msg: '该文章已经存在，请更换标题或修改文章'
+                }
+                return;
+            }
+            try {
+                await Model.writeArticle({...ctx.request.body, article_path: path})
+                ctx.body = {
+                    code: 1,
+                    msg: '发布成功'
+                }
+            } catch (e) {
+                console.log('发布失败');
+                console.log(e);
+                ctx.body = {
+                    code:0,
+                    msg: '服务器出错，发布失败'
+                }
+            }
+        } catch (e) {
+            console.log('保存失败');
+            console.log(e);
+            ctx.body = {
+                code:0,
+                msg: '服务器出错，保存失败'
+            }
+        }
+
+    }
+    static async uploadArticleImg (ctx) {
+        let {_name, miniurl} = ctx.request.body
+        let path = `${base_dir}static/uploads/articleImg/${_name}`
+        let base64 = miniurl.replace(/^data:image\/\w+;base64,/, "")
+        let dataBuffer = new Buffer(base64, 'base64')
+        let url = `http://${ctx.request.host}/uploads/articleImg/${_name}`
+        if (fs.existsSync(path)) {
+            ctx.body = {
+                code: 1,
+                isShow: false,
+                data: url
+            }
+        } else {
+            try {
+                fs.writeFileSync(path, dataBuffer)
+                ctx.body = {
+                    code: 1,
+                    isShow: false,
+                    data: url
+                }
+            } catch (e) {
+                console.log(e)
+                console.log('服务器出错，上传图片失败')
+                ctx.body = {
+                    code: 0,
+                    msg: '服务器出错，上传图片失败'
+                }
+            }
+        }
+    }
+    static async getArticleList (ctx) {
+        try {
+            let data = await Model.getArticleList()
+            if (data.every(item => item.tags_id && !item.tags_name)) {
+                let a = data.find(item => item.tags_id && !item.tags_name)
+                ctx.body = {
+                    code: 0,
+                    msg: `文章名为${a.article_title}的标签可能删除，请更改文章的标签`
+                }
+            }
+            ctx.body = {
+                code: 1,
+                data: data,
+                isShow: false
+            }
+        } catch (e) {
+            console.log('服务器错误，获取文章列表失败');
+            console.log(e)
+            ctx.body = {
+                code: 0,
+                msg: '服务器错误，获取文章列表失败'
+            }
+        }
+    }
+    static async uploadArticle (ctx) {
+        let {article_title, tags_id} = ctx.request.body
+        console.log(ctx.request.body);
+        let prePath = ctx.request.files.file.path
+        let {type} = ctx.request.files.file
+        if (!article_title || !tags_id) {
+            ctx.body = {
+                code: 0,
+                msg: '标签或标题不能为空'
+            }
+            return
+        }
+        if (type !== 'text/markdown') {
+            ctx.body = {
+                code: 0,
+                msg: '请上传markdown文件'
+            }
+            return
+        } else {
+            try {
+                let file = fs.readFileSync(prePath)
+                let path = `${base_dir}static/articles/${article_title.trim()}.md`
+                if (fs.existsSync(path)) {
+                    ctx.body = {
+                        code: 0,
+                        msg: '该文章已经存在，请更换标题或修改文章'
+                    }
+                } else {
+                    try {
+                        fs.writeFileSync(path, file)
+                    } catch (e) {
+                        console.log(e)
+                        console.log('服务器错误，写入文件失败')
+                        ctx.body = {
+                            code: 0,
+                            msg: '服务器错误，写入文件失败'
+                        }
+                    }
+                    try {
+                        await Model.uploadArticle({...ctx.request.body, article_path: path})
+                        ctx.body = {
+                            code: 1,
+                            msg: '发布成功'
+                        }
+                    } catch (e) {
+                        console.log(e)
+                        console.log('服务器错误，发布失败')
+                        ctx.body = {
+                            code: 0,
+                            msg: '服务器错误，写入文件失败'
+                        }
+                    }
+
+                }
+            } catch (e) {
+                console.log(e)
+                console.log('服务器错误，读取文件失败')
+                ctx.body = {
+                    code: 0,
+                    msg: '服务器错误，读取文件失败'
+                }
+            }
+        }
+
+    }
+    static async updateArticleVerify (ctx) {
+        try {
+            let data = await Model.updateArticleVerify(ctx.request.body)
+            if (data.changedRows > 0) {
+                ctx.body = {
+                    code: 1,
+                    msg: '审核通过',
+                    isShow: false
+                }
+            } else {
+                ctx.body = {
+                    code: 0,
+                    msg: '该文章已经审核通过'
+                }
+            }
+        } catch (e) {
+            console.log(e)
+            console.log('服务器错误，更新审核状态失败')
+            ctx.body = {
+                code: 0,
+                msg: '服务器错误，更新审核状态失败'
+            }
+        }
+
+        
+    }
+}
+
+module.exports = ArticleController
+
