@@ -225,6 +225,40 @@ class ArticleController {
 
         
     }
+    static async getArticleById (ctx) {
+        try {
+            let data = await Model.getArticleById(ctx.request.body.article_id)
+            if (data.length === 1) {  
+                let path = data[0].article_path
+                console.log(path);
+                
+                try {
+                    let content = fs.readFileSync(path)
+                    ctx.body = {
+                        code: 1,
+                        isShow: false,
+                        data: content + ''
+                    }
+                    
+                } catch (e) {
+                    console.log(e)
+                    console.log('服务器错误，读取文章失败')
+                    ctx.body = {
+                        code: 0,
+                        msg: '服务器错误，读取文章失败'
+                    }
+                }
+            }
+            
+        } catch(e) {
+            console.log(e)
+            console.log('服务器错误，查询文章失败')
+            ctx.body = {
+                code: 0,
+                msg: '服务器错误，查询文章失败'
+            }
+        }
+    }
 }
 
 module.exports = ArticleController

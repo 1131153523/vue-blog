@@ -8,6 +8,7 @@ import _404 from '../pages/admin/404.vue'
 import Tags from '../components/admin/Tags.vue'
 import Write from '../components/admin/Write.vue'
 import VerifyArticle from '../components/admin/VerifyArticle.vue'
+import Read from '../components/common/Read.vue'
 Vue.use(Router)
 
 const router = new Router({
@@ -57,6 +58,14 @@ const router = new Router({
                     },
                     component: VerifyArticle
                 },
+                {
+                    path: '/admin/readArticle/:article_id',
+                    name: '查看文章',
+                    meta: {
+                        requireAuth: true
+                    },
+                    component: Read
+                }
             ],
             redirect: '/admin/home'
         },

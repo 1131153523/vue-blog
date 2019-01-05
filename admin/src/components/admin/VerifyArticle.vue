@@ -226,7 +226,7 @@
                 console.log(index, row)
             },
             handleRead(index, row) {
-                console.log(index, row)
+                this.$store.dispatch('changePath', {path: `/admin/readArticle/${row.article_id}`, tag: '查看文章'})
             },
             handleUpdate(index, row) {
                 console.log(index, row)

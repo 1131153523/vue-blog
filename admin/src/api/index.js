@@ -35,5 +35,8 @@ export default {
     },
     updateArticleVerify (value) {
         return ajax('/admin/updateArticleVerify', value, 'POST')
+    },
+    getArticleById (value) {
+        return ajax('/admin/getArticleById', value, 'POST')
     }
 }

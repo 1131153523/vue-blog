@@ -64,5 +64,9 @@ ${article_id}, ${article_title}, ${article_author}, ${article_path}, ${article_a
         let sql = escape`update articles set article_pass=1 where article_id=${article_id}`
         return p.query(sql)
     }
+    static getArticleById(article_id) {
+        let sql = escape`select * from articles where article_id=${article_id}`
+        return p.query(sql)
+    }
 }
 module.exports = Model

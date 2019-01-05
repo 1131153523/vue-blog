@@ -4,7 +4,7 @@
             <li
                     class="view-item"
                     v-for="(item, index) in tagsView"
-                    :key="item.tag"
+                    :key="item.path"
                     :class="{now: $route.path === item.path ? true : false}"
                     @click.stop="$store.dispatch('changePath', {path: item.path, tag: item.tag})"
             >
@@ -27,6 +27,9 @@
 </script>
 <style scoped lang="less">
     .tags-view {
+        overflow-y: hidden;
+        overflow-x: auto;
+        white-space: nowrap;
         .view-list {
             height: 100%;
             list-style: none;
@@ -46,11 +49,13 @@
                 padding: 4px 8px 4px 13px;
                 margin-left: 10px;
                 margin-bottom: 5px;
+                height: 18px;
+                width: 100px;
                 -webkit-transition: all 0.3s ease;
-
                 transition: all 0.3s ease;
                 i {
-                    margin-left: 25px;
+                    float: right;
+                    margin-top: 3px;
                     &:hover {
                         background-color: #ccc;
                     }

@@ -7,6 +7,14 @@ const state = {
         {
             tag: '首页',
             path: '/admin/home'
+        },
+        {
+            tag: '发布文章',
+            path: '/admin/write'
+        },
+        {
+            tag: '审核文章',
+            path: '/admin/verifyArticle'
         }
     ],
     tags: [],
@@ -17,5 +25,6 @@ const state = {
     options2: [],
     options1: [],
     articleTree: [],
+    
 };
 export default state;

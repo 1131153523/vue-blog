@@ -142,6 +142,7 @@ const mutations = {
     [types.GET_ARTICLE_LIST]: (state) => {
         api.getArticleList()
             .then(res => {
+                
                 if (res.code) {
                     let tags = {}
                     let data = []
@@ -219,7 +220,7 @@ const mutations = {
                 console.log(e)
                 console.log('UPDATE_ARTICLE_VERIFY出现错误')
             })
-    }
+    },
 }
 
 export default mutations

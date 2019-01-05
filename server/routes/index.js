@@ -16,5 +16,6 @@ router.post('/admin/uploadArticleImg', checkToken, Article.uploadArticleImg)
 router.get('/admin/getArticleList', Article.getArticleList)
 router.post('/admin/uploadArticle',checkToken, Article.uploadArticle)
 router.post('/admin/updateArticleVerify',checkToken, Article.updateArticleVerify)
+router.post('/admin/getArticleById',checkToken, Article.getArticleById)
 
 module.exports = router
