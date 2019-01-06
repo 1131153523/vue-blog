@@ -203,8 +203,7 @@ const mutations = {
     },
     //搜索筛选
     [types.SCREEN_SEARCH]: (state, value) => {
-        state.articleList = state.articleList.filter(e => e.article_title.indexOf(value) > -1)
-
+        state.articleList = state.articleList1.filter(e => e.article_title.indexOf(value) > -1)
     },
     //更新文章审核状态
     [types.UPDATE_ARTICLE_VERIFY]: (state, value) => {
@@ -213,7 +212,6 @@ const mutations = {
                 if (res.code) {
                     state.articleList[state.articleList.findIndex(e => e.article_id === value)].article_pass = 1
                     state.articleList1[state.articleList1.findIndex(e => e.article_id === value)].article_pass = 1
-
                 }
             })
             .catch(e => {

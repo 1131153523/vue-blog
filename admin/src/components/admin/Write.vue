@@ -47,7 +47,7 @@
         <h1 style="font-size: 30px;font-weight: 200;margin-bottom: 10px">直接发布</h1>
         <mavon-editor
                 v-model="articleValue"
-                style="min-height: 800px"
+                style="height: 100%"
                 :boxShadow="true"
                 @imgAdd="$imgAdd"
                 :toolbars="toolbars"
@@ -265,9 +265,13 @@
     .write {
         padding: 0 10px;
         box-sizing: border-box;
+        height: 400px;
     }
     .Breadcrumb {
         margin-bottom: 15px;
+
+
+        
     }
 
     .upload {
@@ -276,6 +280,17 @@
     .upload-demo {
         margin-top: 10px;
     }
+    @media screen and (min-width: 1400px){
+        .write {
+            height: 800px;
+        }
+    }
+    @media screen and (max-width: 1399px){
+        .write {
+            height: 400px;
+        }
+    }
+    
     @media screen and (max-width: 460px){
         .upload {
             width: 100%;

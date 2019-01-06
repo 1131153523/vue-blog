@@ -127,7 +127,7 @@
                 <el-table-column
                         prop="tag"
                         label="缩略图上传"
-                        width="100"
+                        width="120"
                         filter-placement="bottom-end">
                     <template slot-scope="scope">
                         <el-upload
@@ -145,7 +145,7 @@
                 </el-table-column>
 
 
-                <el-table-column label="操作" fixed="right" >
+                <el-table-column label="操作" fixed="right" width="300">
                     <template slot-scope="scope" >
                         <el-button
                                 size="mini"
