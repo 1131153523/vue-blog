@@ -145,7 +145,7 @@
                 </el-table-column>
 
 
-                <el-table-column label="操作" fixed="right" width="300">
+                <el-table-column label="操作" fixed="right" width="140">
                     <template slot-scope="scope" >
                         <el-button
                                 size="mini"
@@ -254,7 +254,9 @@
                 this.multipleSelection = val
             },
             verifyMore () {
-
+                this.multipleSelection.forEach(e => {
+                    this.$store.dispatch('updateArticleVerify', e.article_id)
+                })
             },
             deleteMore () {
 
