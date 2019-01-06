@@ -145,7 +145,7 @@
                 </el-table-column>
 
 
-                <el-table-column label="操作" fixed="right" width="140">
+                <el-table-column label="操作" fixed="right" >
                     <template slot-scope="scope" >
                         <el-button
                                 size="mini"
@@ -171,23 +171,27 @@
                                 type="danger"
                                 @click="handleDelete(scope.$index, scope.row)"
                                 class="clearMargin"
-                        >删除</el-button>
+                        >删除
+                            <el-popover
+                                    placement="top"
+                                    width="160"
+                                    v-model="dialogVisible"
+                                    v-if="scope.$index === index1"
+                            >
+                                <p>确定删除吗?</p>
+                                <div style="text-align: right; margin: 0">
+                                    <el-button size="mini" type="text" @click.stop="deleteArticle(scope.$index, scope.row, 0)">取消</el-button>
+                                    <el-button type="primary" size="mini" @click.stop="deleteArticle(scope.$index, scope.row, 1)">确定</el-button>
+                                </div>
+                            </el-popover>
+                        </el-button>
+
 
                     </template>
                 </el-table-column>
             </el-table>
         </div>
-        <el-dialog
-        title="提示"
-        :visible.sync="dialogVisible"
-        width="30%"
-        >
-        <span>这是一段信息</span>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="dialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-        </span>
-        </el-dialog>
+
     </div>
 </template>
 <script>
@@ -198,7 +202,8 @@
         data() {
             return {
                 multipleSelection: [],
-                dialogVisible: false
+                dialogVisible: false,
+                index1: -1
             }
         },
         mounted(){
@@ -237,7 +242,16 @@
                 
             },
             handleDelete(index, row) {
-                
+                this.dialogVisible = true
+                this.index1 = index
+            },
+            deleteArticle (index, row, flag) {
+                if (flag) {
+                    this.dialogVisible = false
+                    this.$store.dispatch('deleteArticle', row.article_id)
+                } else {
+                    this.dialogVisible = false
+                }
             },
             handleRead(index, row) {
                 this.$store.dispatch('changePath', {path: `/admin/readArticle/${row.article_id}`, tag: '查看文章'})

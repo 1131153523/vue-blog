@@ -72,5 +72,9 @@ ${article_id}, ${article_title}, ${article_author}, ${article_path}, ${article_a
         let sql = escape`update articles set article_img=${article_img} where article_id=${article_id}`
         return p.query(sql)
     }
+    static deleteArticle (article_id) {
+        let sql = escape`delete from articles where article_id=${article_id}`
+        return p.query(sql)
+    }
 }
 module.exports = Model

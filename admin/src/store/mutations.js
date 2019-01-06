@@ -222,6 +222,20 @@ const mutations = {
     [types.UPDATE_ARTICLE_IMG]: (state, value) => {
         state.articleList[state.articleList.findIndex(e => e.article_id === value.article_id)].article_img = value.article_img
         state.articleList1[state.articleList1.findIndex(e => e.article_id === value.article_id)].article_img = value.article_img
+    },
+    [types.DELETE_ARTICLE]: (state, value) => {
+        api.deleteArticle({token: state.token, article_id: value})
+            .then(res => {
+                if (res.code) {
+                    let index = state.articleList1.findIndex(e => e.article_id === value)
+                    state.articleList1 = [...state.articleList1.slice(0, index), ...state.articleList1.slice(index+1)]
+                    state.articleList = [...state.articleList.slice(0, index), ...state.articleList.slice(index+1)]
+                }   
+            })
+            .catch(e => {
+                console.log(e)
+                console.log('UPDATE_ARTICLE_VERIFY出现错误')
+            })
     }
 }
 

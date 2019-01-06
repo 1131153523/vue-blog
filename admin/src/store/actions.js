@@ -60,6 +60,9 @@ export default {
     },
     updateArticleImg ({commit}, value) {
         commit(types.UPDATE_ARTICLE_IMG, value)
+    },
+    deleteArticle ({commit}, value) {
+        commit(types.DELETE_ARTICLE, value)
     }
 }
 

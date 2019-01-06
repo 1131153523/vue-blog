@@ -38,5 +38,8 @@ export default {
     },
     getArticleById (value) {
         return ajax('/admin/getArticleById', value, 'POST')
+    },
+    deleteArticle (value) {
+        return ajax('/admin/deleteArticle', value, 'POST')
     }
 }

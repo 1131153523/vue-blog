@@ -1,6 +1,7 @@
 const Model = require('../model/index')
 const base_dir = __dirname.slice(0, __dirname.lastIndexOf('/server/') + 8)
 const fs = require('fs')
+const path = require('path')
 class ArticleController {
     static async getDraft(ctx) {
         try {
@@ -82,33 +83,26 @@ class ArticleController {
     }
     static async uploadArticleImg (ctx) {
         let {_name, miniurl} = ctx.request.body
-        let path = `${base_dir}static/uploads/articleImg/${_name}`
+        let path = `${base_dir}static/uploads/articleImg/${_name}-${(+new Date()).toString().slice(5)}`
         let base64 = miniurl.replace(/^data:image\/\w+;base64,/, "")
         let dataBuffer = new Buffer(base64, 'base64')
-        let url = `http://${ctx.request.host}/uploads/articleImg/${_name}`
-        if (fs.existsSync(path)) {
+        let url = `http://${ctx.request.host}/uploads/articleImg/${_name}-${(+new Date()).toString().slice(5)}`
+        try {
+            fs.writeFileSync(path, dataBuffer)
             ctx.body = {
                 code: 1,
                 isShow: false,
                 data: url
             }
-        } else {
-            try {
-                fs.writeFileSync(path, dataBuffer)
-                ctx.body = {
-                    code: 1,
-                    isShow: false,
-                    data: url
-                }
-            } catch (e) {
-                console.log(e)
-                console.log('服务器出错，上传图片失败')
-                ctx.body = {
-                    code: 0,
-                    msg: '服务器出错，上传图片失败'
-                }
+        } catch (e) {
+            console.log(e)
+            console.log('服务器出错，上传图片失败')
+            ctx.body = {
+                code: 0,
+                msg: '服务器出错，上传图片失败'
             }
         }
+
     }
     static async getArticleList (ctx) {
         try {
@@ -303,6 +297,56 @@ class ArticleController {
                 msg: '服务器错误，图片读取或写入失败'
             }
         }
+    }
+    static async deleteArticle (ctx) {
+        let {article_id} = ctx.request.body
+        try {
+            let data = JSON.parse(JSON.stringify(await Model.getArticleById(article_id)))
+            let {article_img, article_path} = data[0]
+            let a = fs.readFileSync(article_path)
+            a = a + ''
+            let imgs = []
+            let r = /\!\[.*\]\((.*)\)?/g
+            let result = null
+            while ((result = r.exec(a)) != null) {
+                imgs.push(result[1])
+            } 
+            imgs = imgs.map(e => path.join(`${base_dir}static`, e.slice(e.lastIndexOf('/uploads'), e.length - 1)))
+            for (let e of imgs) {
+                console.log(fs.existsSync(e));
+                console.log(e);
+                
+                if (fs.existsSync(e)) {
+                    fs.unlinkSync(e)
+                }
+            }
+            if (fs.existsSync(article_img)) {
+                fs.unlinkSync(article_img)
+            }
+            if (fs.existsSync(article_path)) {
+                fs.unlinkSync(article_path)
+            }
+            let del = await Model.deleteArticle(article_id)
+            if (del.affectedRows > 0) {
+                ctx.body = {
+                    code: 1,
+                    msg: '删除成功'
+                }
+            } else {
+                ctx.body = {
+                    code: 0,
+                    msg: '删除的文章不存在'
+                }
+            }
+        } catch (e) {
+            console.log(e)
+            console.log('删除文章失败')
+            ctx.body = {
+                code: 0,
+                msg: '服务器错误，删除文章失败'
+            }
+        }
+
     }
 }
 
