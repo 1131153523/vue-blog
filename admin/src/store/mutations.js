@@ -28,9 +28,9 @@ const mutations = {
         let res = []
         let obj = {}
         for (let i = 0;i < state.tagsView.length;i++) {
-            if (!obj[state.tagsView[i].path]) {
+            if (!obj[state.tagsView[i].tag]) {
                 res.push(state.tagsView[i])
-                obj[state.tagsView[i].path] = true
+                obj[state.tagsView[i].tag] = true
             }
         }
         state.tagsView = res
@@ -221,6 +221,10 @@ const mutations = {
                 console.log('UPDATE_ARTICLE_VERIFY出现错误')
             })
     },
+    [types.UPDATE_ARTICLE_IMG]: (state, value) => {
+        state.articleList[state.articleList.findIndex(e => e.article_id === value.article_id)].article_img = value.article_img
+        state.articleList1[state.articleList1.findIndex(e => e.article_id === value.article_id)].article_img = value.article_img
+    }
 }
 
 export default mutations

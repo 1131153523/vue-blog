@@ -28,7 +28,7 @@ const router = new Router({
             children: [
                 {
                     path: '/admin/home',
-                    name: '仪表盘',
+                    name: '首页',
                     meta: {
                         requireAuth: true
                     },

@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken')
 module.exports = async (ctx, next) => {
     let {token} = ctx.request.body
-    
     try {
         let decoded = await jwt.verify(token, 'ffyyhh')
         if (decoded && decoded.exp <= new Date() / 1000) {

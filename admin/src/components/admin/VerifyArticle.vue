@@ -132,11 +132,14 @@
                     <template slot-scope="scope">
                         <el-upload
                                 class="upload-demo"
-                                action="https://jsonplaceholder.typicode.com/posts/"
+                                action="http://127.0.0.1:3000/admin/uploadArticleTumbImg"
                                 multiple
                                 :limit="1"
+                                :show-file-list="false"
+                                :data="{article_id: scope.row.article_id, token: $store.state.token}"
+                                :on-success="fileSuccess"
                         >
-                            <el-button type="success" @click="handleUploadImg(scope.$index, scope.row)">上传<i class="el-icon-upload el-icon--right"></i></el-button>
+                            <el-button type="success">{{scope.row.article_img ? '重新上传' : '上传'}}<i class="el-icon-upload el-icon--right"></i></el-button>
                         </el-upload>
                     </template>
                 </el-table-column>
@@ -174,6 +177,17 @@
                 </el-table-column>
             </el-table>
         </div>
+        <el-dialog
+        title="提示"
+        :visible.sync="dialogVisible"
+        width="30%"
+        >
+        <span>这是一段信息</span>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        </span>
+        </el-dialog>
     </div>
 </template>
 <script>
@@ -183,7 +197,8 @@
     export default {
         data() {
             return {
-                multipleSelection: []
+                multipleSelection: [],
+                dialogVisible: false
             }
         },
         mounted(){
@@ -212,10 +227,9 @@
                 },
                 set(val){
                     this.$store.dispatch('screenSearch', val)
-
                 }
             },
-            ...mapState(['articleList','options2', 'options1'])
+            ...mapState(['articleList','options2', 'options1','token'])
         },
         methods: {
             handleVerify(index, row) {
@@ -223,7 +237,7 @@
                 
             },
             handleDelete(index, row) {
-                console.log(index, row)
+                
             },
             handleRead(index, row) {
                 this.$store.dispatch('changePath', {path: `/admin/readArticle/${row.article_id}`, tag: '查看文章'})
@@ -244,6 +258,20 @@
             },
             deleteMore () {
 
+            },
+            fileSuccess(response, file, fileList) {
+                if (response.code) {
+                    this.$store.dispatch('updateArticleImg', response.data)
+                    this.$message.success({
+                        message:response.msg,
+                        offset: 150
+                    })
+                } else {
+                    this.$message.error({
+                        message:response.msg,
+                        offset: 150
+                    })
+                }
             }
         },
         filters: {

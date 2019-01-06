@@ -63,6 +63,7 @@ export default {
     activated () {
         api.getArticleById({article_id: this.$route.params.article_id, token: this.token})
             .then(res => {
+                
                 if (res.code) {
                     this.value = res.data
                 }

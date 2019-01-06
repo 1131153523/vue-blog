@@ -230,8 +230,6 @@ class ArticleController {
             let data = await Model.getArticleById(ctx.request.body.article_id)
             if (data.length === 1) {  
                 let path = data[0].article_path
-                console.log(path);
-                
                 try {
                     let content = fs.readFileSync(path)
                     ctx.body = {
@@ -256,6 +254,53 @@ class ArticleController {
             ctx.body = {
                 code: 0,
                 msg: '服务器错误，查询文章失败'
+            }
+        }
+    }
+    static async uploadArticleTumbImg (ctx) {
+        let {article_id} = ctx.request.body
+        let prePath = ctx.request.files.file.path
+        let name = ctx.request.files.file.name
+        let type = ctx.request.files.file.type
+        if (type !== 'image/png' || type !== 'image/jpg' || type !== 'image/jpeg' || type !== 'image/gif') {
+            ctx.body = {
+                code: 0,
+                msg: '上传失败，只支持上传图片'
+            }
+        }
+
+        try {
+            let file = fs.readFileSync(prePath)
+            let path = `${base_dir}static/uploads/articleTumbImg/${+new Date()}-${name}`
+            fs.writeFileSync(path, file)
+            try {
+                let data = await Model.uploadArticleTumbImg(article_id, `/uploads/articleTumbImg/${+new Date()}-${name}`)
+                if (data.changedRows > 0) {
+                    ctx.body = {
+                        code: 1,
+                        msg: '上传成功',
+                        data: {article_img: `/uploads/articleTumbImg/${+new Date()}-${name}`, article_id: article_id}
+                    }
+                } else {
+                    ctx.body = {
+                        code: 0,
+                        msg: '该图片路径已存在'
+                    }
+                }
+            } catch (e) {
+                console.log(e)
+                console.log('服务器错误，上传图片失败')
+                ctx.body = {
+                    code: 0,
+                    msg: '服务器错误，上传图片失败'
+                }
+            }
+        } catch (e) {
+            console.log(e)
+            console.log('服务器错误，图片读取或写入失败')
+            ctx.body = {
+                code: 0,
+                msg: '服务器错误，图片读取或写入失败'
             }
         }
     }

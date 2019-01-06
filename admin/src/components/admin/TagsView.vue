@@ -4,8 +4,8 @@
             <li
                     class="view-item"
                     v-for="(item, index) in tagsView"
-                    :key="item.path"
-                    :class="{now: $route.path === item.path ? true : false}"
+                    :key="item.tag"
+                    :class="{now: $route.name === item.tag ? true : false}"
                     @click.stop="$store.dispatch('changePath', {path: item.path, tag: item.tag})"
             >
                 <span>{{item.tag}}</span>

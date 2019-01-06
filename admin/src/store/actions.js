@@ -57,6 +57,9 @@ export default {
     },
     updateArticleVerify({commit}, value) {
         commit(types.UPDATE_ARTICLE_VERIFY, value)
+    },
+    updateArticleImg ({commit}, value) {
+        commit(types.UPDATE_ARTICLE_IMG, value)
     }
 }
 

@@ -1,7 +1,7 @@
 const state = {
     token: window.sessionStorage.getItem('token'),
     username:window.sessionStorage.getItem('username'),
-    isCollapse: true,
+    isCollapse: false,
     headColor: '#37AA7A',
     tagsView: [
         {
