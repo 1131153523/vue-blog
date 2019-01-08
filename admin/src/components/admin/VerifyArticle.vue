@@ -7,8 +7,20 @@
             </el-breadcrumb>
         </div>
         <div class="btns">
-            <el-button type="primary" round @click="verifyMore">批量审核</el-button>
-            <el-button type="danger" round @click="deleteMore">批量删除</el-button>
+            <el-button type="primary" round @click.stop="verifyMore">批量审核</el-button>
+            <el-button type="danger" round @click.stop="deleteMore(-1)">批量删除
+                <el-popover
+                        placement="left"
+                        width="160"
+                        v-model="dialogVisible1"
+                >
+                    <p>确定删除吗?</p>
+                    <div style="text-align: right; margin: 0">
+                        <el-button size="mini" type="text" @click.stop="deleteMore(0)">取消</el-button>
+                        <el-button type="primary" size="mini" @click.stop="deleteMore(1)">确定</el-button>
+                    </div>
+                </el-popover>
+            </el-button>
             <el-button round @click.stop="clearScreen">清除筛选</el-button>
         </div>
         <el-select v-model="value2" placeholder="日期筛选" class="selectAndInput">
@@ -34,7 +46,6 @@
                         v-for="item in group.options"
                         :key="item.value"
                         :label="item.label"
-
                         :value="item.value">
                 </el-option>
             </el-option-group>
@@ -42,12 +53,11 @@
 
         <el-input
                 v-model="search"
-                size="mini"
                 placeholder="文章关键字搜索"
                 style="width: 250px;margin-bottom: 10px;margin-right: 10px;width: 172px"
                 class="selectAndInput"
-        />
-
+                
+        ><i slot="prefix" class="el-input__icon el-icon-search"></i></el-input>
         <div class="articleList">
             <el-table
                     :data="articleList"
@@ -55,9 +65,7 @@
                     border
                     style="width: 100%"
                     :default-sort = "{prop: 'date', order: 'descending'}"
-                    @selection-change="handleSelectionChange"
-            >
-
+                    @selection-change="handleSelectionChange">
                 <el-table-column
                         type="selection"
                         width="55">
@@ -65,8 +73,7 @@
                 <el-table-column
                         label="日期"
                         width="180"
-                        prop="date"
-                >
+                        prop="date">
 
                     <template slot-scope="scope">
                         <i class="el-icon-time"></i>
@@ -165,11 +172,12 @@
                                 type="primary"
                                 @click="handleUpdate(scope.$index, scope.row)"
                                 class="clearMargin"
+                                
                         >修改</el-button>
                         <el-button
                                 size="mini"
                                 type="danger"
-                                @click="handleDelete(scope.$index, scope.row)"
+                                @click="handleDelete(scope.$index, scope.row, -1)"
                                 class="clearMargin"
                         >删除
                             <el-popover
@@ -185,13 +193,37 @@
                                 </div>
                             </el-popover>
                         </el-button>
-
-
                     </template>
                 </el-table-column>
             </el-table>
         </div>
+        <el-dialog title="文章信息" :visible.sync="dialogFormVisible" style="margin-top: 10vh;">
+            <h4 style="margin-bottom: 5px;margin-top: 10px;">标题</h4>
+            <el-input
+                placeholder="标题"
+                v-model="inputTitle">
+            </el-input>
+            <h4 style="margin-bottom: 5px;margin-top: 10px;">作者或标签</h4>
+            <el-select v-model="inputTag" placeholder="作者或标签" style="z-index: 2" >
+                <el-option-group
+                        v-for="group in options1"
+                        :key="group.label"
+                        :label="group.label"
+                >
+                    <el-option
+                            v-for="item in group.options"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                    </el-option>
+                </el-option-group>
+            </el-select>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click.stop="handleDelete(scope.$index, scope.row, 0)">取 消</el-button>
+                <el-button type="primary" @click="handleDelete(scope.$index, scope.row, 1)">保 存</el-button>
+            </div>
 
+        </el-dialog>
     </div>
 </template>
 <script>
@@ -203,7 +235,10 @@
             return {
                 multipleSelection: [],
                 dialogVisible: false,
-                index1: -1
+                index1: -1,
+                dialogVisible1: false,
+                dialogFormVisible: false,
+                inputTitle: '',
             }
         },
         mounted(){
@@ -234,6 +269,16 @@
                     this.$store.dispatch('screenSearch', val)
                 }
             },
+
+            inputTag: {
+                get(){
+
+                },
+                set(val){
+                    console.log(val)
+                    
+                }
+            },
             ...mapState(['articleList','options2', 'options1','token'])
         },
         methods: {
@@ -256,8 +301,18 @@
             handleRead(index, row) {
                 this.$store.dispatch('changePath', {path: `/admin/readArticle/${row.article_id}`, tag: '查看文章'})
             },
-            handleUpdate(index, row) {
-                console.log(index, row)
+            handleUpdate(index, row, flag) {
+                if (flag === -1) {
+                    this.dialogFormVisible = true
+                    let articleInfo = this.$store.state.articleList1.find(e => e.article_id === row.article_id)
+                    this.inputTitle = articleInfo.article_title
+                }
+                if (flag === 0) {
+                    this.dialogFormVisible = false
+                }
+                if (flag === 1) {
+                    
+                }
             },
 
             clearScreen(){
@@ -272,7 +327,17 @@
                     this.$store.dispatch('updateArticleVerify', e.article_id)
                 })
             },
-            deleteMore () {
+            deleteMore (flag) {
+                if (flag === 1) {
+                    this.dialogVisible1 = false
+                    this.multipleSelection.forEach(e => {
+                        this.$store.dispatch('deleteArticle', e.article_id)
+                    })
+                } else if (flag === 0){
+                    this.dialogVisible1 = false
+                } else {
+                    this.dialogVisible1 = true
+                }
 
             },
             fileSuccess(response, file, fileList) {
@@ -298,7 +363,10 @@
                 value = value.toString()
                 return value.slice(0, 10)
             }
-        }
+        },
+        activated() {
+            window.scrollTo(0,0)
+        },
     }
 </script>
 <style scoped>

@@ -125,7 +125,6 @@ const mutations = {
         api.writeArticle({...info, token: state.token})
             .then(res => {
                 if (res.code) {
-                    console.log('发布成功')
                     store.dispatch('getArticleList')
                 }
             })

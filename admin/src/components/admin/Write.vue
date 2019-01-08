@@ -247,6 +247,7 @@
                         message:response.msg,
                         offset: 150
                     })
+                    this.$store.dispatch('getArticleList')
                 } else {
                     this.$notify.error({
                         message:response.msg,

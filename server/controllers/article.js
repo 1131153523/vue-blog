@@ -107,7 +107,9 @@ class ArticleController {
     static async getArticleList (ctx) {
         try {
             let data = await Model.getArticleList()
-            if (data.every(item => item.tags_id && !item.tags_name)) {
+            console.log(data);
+            
+            if (data.every(item => item.tags_id && !item.tags_name) && data.length > 0) {
                 let a = data.find(item => item.tags_id && !item.tags_name)
                 ctx.body = {
                     code: 0,
@@ -265,15 +267,16 @@ class ArticleController {
 
         try {
             let file = fs.readFileSync(prePath)
-            let path = `${base_dir}static/uploads/articleTumbImg/${+new Date()}-${name}`
+            let imgName = `${+new Date()}-${name}`
+            let path = `${base_dir}static/uploads/articleTumbImg/${imgName}`
             fs.writeFileSync(path, file)
             try {
-                let data = await Model.uploadArticleTumbImg(article_id, `/uploads/articleTumbImg/${+new Date()}-${name}`)
+                let data = await Model.uploadArticleTumbImg(article_id, `/uploads/articleTumbImg/${imgName}`)
                 if (data.changedRows > 0) {
                     ctx.body = {
                         code: 1,
                         msg: '上传成功',
-                        data: {article_img: `/uploads/articleTumbImg/${+new Date()}-${name}`, article_id: article_id}
+                        data: {article_img: `/uploads/articleTumbImg/${imgName}`, article_id: article_id}
                     }
                 } else {
                     ctx.body = {
@@ -313,18 +316,21 @@ class ArticleController {
             } 
             imgs = imgs.map(e => path.join(`${base_dir}static`, e.slice(e.lastIndexOf('/uploads'), e.length - 1)))
             for (let e of imgs) {
-                console.log(fs.existsSync(e));
-                console.log(e);
-                
-                if (fs.existsSync(e)) {
+                if (fs.existsSync(e) && fs.statSync(e).isFile()) {
                     fs.unlinkSync(e)
                 }
             }
-            if (fs.existsSync(article_img)) {
+            article_img = `${base_dir}static${article_img}`
+            if (fs.existsSync(article_img) && fs.statSync(article_img).isFile()) {
                 fs.unlinkSync(article_img)
             }
-            if (fs.existsSync(article_path)) {
+            if (fs.existsSync(article_path) && fs.statSync(article_path).isFile()) {
                 fs.unlinkSync(article_path)
+            } else {
+                ctx.body = {
+                    code: 0,
+                    msg: '服务器错误，删除文章失败'
+                }
             }
             let del = await Model.deleteArticle(article_id)
             if (del.affectedRows > 0) {
