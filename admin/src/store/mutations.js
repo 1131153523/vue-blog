@@ -141,7 +141,6 @@ const mutations = {
     [types.GET_ARTICLE_LIST]: (state) => {
         api.getArticleList()
             .then(res => {
-                
                 if (res.code) {
                     let tags = {}
                     let data = []
@@ -164,7 +163,7 @@ const mutations = {
                     state.articleTree = data
                     state.options1[0] = {
                         label: '标签',
-                        options: [...new Set([...res.data.map(e => e.tags_name)])].map(e => ({value: e, label: e}))
+                        options: state.tags.map(e => ({value: e.tags_id, label: e.tags_name}))
                     }
                     state.options1[1] = {
                         label: '作者',

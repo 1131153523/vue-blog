@@ -170,14 +170,14 @@
                         <el-button
                                 size="mini"
                                 type="primary"
-                                @click="handleUpdate(scope.$index, scope.row)"
+                                @click.stop="handleUpdate(scope.$index, scope.row, -1)"
                                 class="clearMargin"
                                 
                         >修改</el-button>
                         <el-button
                                 size="mini"
                                 type="danger"
-                                @click="handleDelete(scope.$index, scope.row, -1)"
+                                @click.stop="handleDelete(scope.$index, scope.row)"
                                 class="clearMargin"
                         >删除
                             <el-popover
@@ -214,13 +214,24 @@
                             v-for="item in group.options"
                             :key="item.value"
                             :label="item.label"
+                            :disabled="item.label === clickRow.article_author || item.label === clickRow.tags_name ? true : false"
                             :value="item.value">
                     </el-option>
                 </el-option-group>
-            </el-select>
+            </el-select><br>
+            <h4 style="margin-bottom: 5px;margin-top: 10px;">文章内容</h4>
+            <Read 
+                :navigation="false" 
+                :toolbarsFlag="true" 
+                :editable="true"
+                :status="'updateArticle'"
+                :article_id="clickRow.article_id"
+                :toolbars="toolbars"
+                :defaultOpen="'edit'" >
+            </Read>    
             <div slot="footer" class="dialog-footer">
-                <el-button @click.stop="handleDelete(scope.$index, scope.row, 0)">取 消</el-button>
-                <el-button type="primary" @click="handleDelete(scope.$index, scope.row, 1)">保 存</el-button>
+                <el-button @click.stop="handleUpdate(null, null, 0)">取 消</el-button>
+                <el-button type="primary" @click="handleUpdate(null, null, 1)">保 存</el-button>
             </div>
 
         </el-dialog>
@@ -229,6 +240,7 @@
 <script>
     import {mapState,mapGetters} from 'vuex'
     import api from '../../api/index'
+    import Read from '../common/Read.vue'
     import { log } from 'util'
     export default {
         data() {
@@ -239,28 +251,50 @@
                 dialogVisible1: false,
                 dialogFormVisible: false,
                 inputTitle: '',
+                clickRow: {},
+                inputTag: '',
+                value2: '',
+                value1: '',
+                toolbars: {
+                    bold: false, // 粗体
+                    italic: false, // 斜体
+                    header: false, // 标题
+                    underline: false, // 下划线
+                    strikethrough: false, // 中划线
+                    mark: false, // 标记
+                    superscript: false, // 上角标
+                    subscript: false, // 下角标
+                    quote: true, // 引用
+                    ol: false, // 有序列表
+                    ul: false, // 无序列表
+                    link: true, // 链接
+                    imagelink: true, // 图片链接
+                    code: true, // code
+                    table: true, // 表格
+                    readmodel: true, // 沉浸式阅读
+                    htmlcode: false, // 展示html源码
+                    help: false, // 帮助
+                    /* 1.3.5 */
+                    undo: false, // 上一步
+                    redo: false, // 下一步
+                    save: false, // 保存（触发events中的save事件）
+                    /* 1.4.2 */
+                    navigation: false, // 导航目录
+                    /* 2.1.8 */
+                    alignleft: true, // 左对齐
+                    aligncenter: true, // 居中
+                    alignright: true, // 右对齐
+                    /* 2.2.1 */
+                    subfield: true, // 单双栏模式
+                    preview: true, // 预览
+                }
             }
         },
         mounted(){
+            this.$store.dispatch('getTags')
             this.$store.dispatch('getArticleList')
         },
         computed: {
-            value1:{
-                get(){
-
-                },
-                set(val){
-                    this.$store.dispatch('screenTagsAuthor', val)
-                }
-            },
-            value2:{
-                get(){
-                    
-                },
-                set(val){
-                    this.$store.dispatch('screenDate', val)
-                }
-            },
             search: {
                 get(){
 
@@ -269,17 +303,18 @@
                     this.$store.dispatch('screenSearch', val)
                 }
             },
-
-            inputTag: {
-                get(){
-
-                },
-                set(val){
-                    console.log(val)
-                    
-                }
-            },
             ...mapState(['articleList','options2', 'options1','token'])
+        },
+        watch: {
+            inputTag (val){
+                
+            },
+            value2 (val) {
+                this.$store.dispatch('screenDate', val)
+            },
+            value1 (val) {
+                this.$store.dispatch('screenTagsAuthor', val)
+            }
         },
         methods: {
             handleVerify(index, row) {
@@ -306,11 +341,20 @@
                     this.dialogFormVisible = true
                     let articleInfo = this.$store.state.articleList1.find(e => e.article_id === row.article_id)
                     this.inputTitle = articleInfo.article_title
+                    this.clickRow = row
                 }
                 if (flag === 0) {
                     this.dialogFormVisible = false
                 }
                 if (flag === 1) {
+                    let article = {
+                        article_title: this.inputTitle,
+                        article_author: this.$store.state.articleList1.find(e => e.article_author === this.inputTag) !== undefined ?  this.$store.state.articleList1.find(e => e.article_author === this.inputTag).article_author : this.clickRow.article_author,
+                        tags_id: this.$store.state.articleList1.find(e => e.tags_name === this.inputTag) !== undefined ? this.$store.state.articleList1.find(e => e.tags_name === this.inputTag).tags_id : this.clickRow.tags_id,
+                    }
+                    console.log(this.inputTag);
+                    
+                    console.log(article)
                     
                 }
             },
@@ -367,6 +411,9 @@
         activated() {
             window.scrollTo(0,0)
         },
+        components: {
+            Read
+        }
     }
 </script>
 <style scoped>

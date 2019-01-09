@@ -1,5 +1,14 @@
 <template>
-    <mavon-editor v-model="value" :toolbarsFlag="false" defaultOpen="preview" :editable="false" :subfield="false" :navigation="true" class="readStyle"/>
+    <mavon-editor 
+        v-model="value" 
+        :toolbarsFlag="toolbarsFlag" 
+        :defaultOpen="defaultOpen" 
+        :editable="editable" 
+        :subfield="false" 
+        :navigation="navigation" 
+        :toolbars="toolbars"
+        @imgAdd="$imgAdd"
+        class="readStyle"/>
 </template>
 <script>
 import api from '../../api/index.js'
@@ -9,6 +18,25 @@ export default {
         navigation: {
             type: Boolean,
             default: true
+        },
+        toolbarsFlag: {
+            type: Boolean,
+            default: false
+        },
+        defaultOpen: {
+            type: String,
+            default: 'preview'
+        },
+        editable: {
+            type: Boolean,
+            default: false
+        },
+        status: {
+            type: String,
+            default: 'readArticle'
+        },
+        article_id: {
+            type: String,
         },
         toolbars: {
             type: Object,
@@ -54,24 +82,63 @@ export default {
             value: ''
         }
     },
+    watch: {
+        article_id (val) {
+            if (this.status === 'updateArticle') {
+                api.getArticleById({article_id: this.article_id, token: this.token})
+                    .then(res => {
+                        if (res.code) {
+                            this.value = res.data
+                        }
+                    })
+                    .catch(e => {
+                        console.log(e)
+                    })           
+            }
+        }
+    },
     mounted () {
-
+        if (this.status === 'updateArticle') {
+            api.getArticleById({article_id: this.article_id, token: this.token})
+                .then(res => {
+                    if (res.code) {
+                        this.value = res.data
+                    }
+                })
+                .catch(e => {
+                    console.log(e)
+                })           
+        }
     },
     computed: {
         ...mapState(['token'])
     },
+    methods: {
+        $imgAdd(pos, $file){
+            api.uploadArticleImg({...$file, token:this.$store.state.token})
+                .then(res => {
+                    if (res.code) {
+                        this.value = this.value.replace(`![${$file._name}](${pos})`,`![${$file._name}](${res.data})`)
+                    }
+                })
+                .catch(e => {
+                    console.log(e)
+                })
+        },
+    },
     activated () {
-        api.getArticleById({article_id: this.$route.params.article_id, token: this.token})
-            .then(res => {
-                
-                if (res.code) {
-                    this.value = res.data
-                }
-                
-            })
-            .catch(e => {
-                console.log(e)
-            })
+        if (this.status === 'readArticle') {
+            api.getArticleById({article_id: this.$route.params.article_id, token: this.token})
+                .then(res => {
+                    if (res.code) {
+                        this.value = res.data
+                    }
+                    
+                })
+                .catch(e => {
+                    console.log(e)
+                })
+        }
     }
 }
 </script>

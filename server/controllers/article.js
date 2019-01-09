@@ -107,7 +107,6 @@ class ArticleController {
     static async getArticleList (ctx) {
         try {
             let data = await Model.getArticleList()
-            console.log(data);
             
             if (data.every(item => item.tags_id && !item.tags_name) && data.length > 0) {
                 let a = data.find(item => item.tags_id && !item.tags_name)
