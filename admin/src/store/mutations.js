@@ -238,11 +238,36 @@ const mutations = {
     [types.UPDATE_ARTICLE]: (state, value) => {
         api.updateArticle(value)
             .then(res => {
-                console.log(res)
-                
+                if (res.code) {
+                    state.articleList1 = state.articleList1.map(e => {
+                        let item = JSON.parse(JSON.stringify(e))
+                        if (item.article_id === value.article_id) {
+                            item.tags_id = value.tags_id
+                            item.tags_name = state.tags.find(tag => tag.tags_id === value.tags_id).tags_name
+                            item.article_title = value.article_title
+                            item.article_author = value.article_author
+                            return item
+                        } else {
+                            return e
+                        }
+                    })
+                    state.articleList = state.articleList.map(e => {
+                        let item = JSON.parse(JSON.stringify(e))
+                        if (item.article_id === value.article_id) {
+                            item.tags_id = value.tags_id
+                            item.tags_name = state.tags.find(tag => tag.tags_id === value.tags_id).tags_name
+                            item.article_title = value.article_title
+                            item.article_author = value.article_author
+                            return item
+                        } else {
+                            return e
+                        }
+                    })
+                }
             })
             .catch(e => {
-
+                console.log(e)
+                console.log('UPDATE_ARTICLE出现错误')
             })
     }
 }

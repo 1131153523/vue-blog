@@ -350,21 +350,17 @@
                 }
                 if (flag === 1) {
                     this.dialogFormVisible = false
-                    console.log(this.inputTag);
-                    console.log(this.$store.state.options1);
-                    let options1 = this.$store.state.options1[0].options
+                    let options1 = this.$store.state.tags
                     let options2 = this.$store.state.options1[1].options
                     let article = {
                         article_id: this.clickRow.article_id,
                         article_title: this.inputTitle,
                         article_author: options2.find(e => e.value === this.inputTag) !== undefined ?  options2.find(e => e.value === this.inputTag).value : this.clickRow.article_author,
-                        tags_id: options1.find(e => e.value === this.inputTag) !== undefined ? options1.find(e => e.value === this.inputTag).value : this.clickRow.tags_id,
+                        tags_id: options1.find(e => e.tags_id === this.inputTag) !== undefined ? options1.find(e => e.tags_id === this.inputTag).tags_id : this.clickRow.tags_id,
                         article_content: this.value3,
                         article_path: this.clickRow.article_path,
                         token: this.$store.state.token
                     }
-                    console.log(article);
-                    
                     this.$store.dispatch('updateArticle', article)
                 }
             },
