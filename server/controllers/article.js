@@ -353,6 +353,35 @@ class ArticleController {
         }
 
     }
+    static async updateArticle (ctx) {
+        try {
+            let {article_path, article_content} = ctx.request.body
+            await Model.updateArticle(ctx.request.body)
+            if (fs.existsSync(article_path)) {
+                let file = fs.readFileSync(article_path)
+                file = file.toString()
+                if (file.trim() !== article_content) {
+                    fs.writeFileSync(article_path, article_content)
+                }
+                ctx.body = {
+                    code: 1,
+                    msg: '修改成功'
+                }
+            } else {
+                ctx.body = {
+                    code: 0,
+                    msg: '修改失败，该文章不存在'
+                }
+            }
+        } catch (e) {
+            console.log(e)
+            console.log('服务器错误，修改文章失败')
+            ctx.body = {
+                code: 0,
+                msg: '服务器错误，修改文章失败'
+            }
+        }
+    }
 }
 
 module.exports = ArticleController

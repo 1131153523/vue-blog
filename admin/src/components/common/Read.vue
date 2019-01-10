@@ -15,6 +15,9 @@ import api from '../../api/index.js'
 import {mapState} from 'vuex'
 export default {
     props:{
+        getValue: {
+            type: Function
+        },
         navigation: {
             type: Boolean,
             default: true
@@ -95,6 +98,9 @@ export default {
                         console.log(e)
                     })           
             }
+        },
+        value (val) {
+            this.getValue ? this.getValue (val) : null
         }
     },
     mounted () {

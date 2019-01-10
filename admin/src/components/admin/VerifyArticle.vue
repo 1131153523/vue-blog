@@ -227,6 +227,7 @@
                 :status="'updateArticle'"
                 :article_id="clickRow.article_id"
                 :toolbars="toolbars"
+                :getValue="getValue"
                 :defaultOpen="'edit'" >
             </Read>    
             <div slot="footer" class="dialog-footer">
@@ -251,8 +252,9 @@
                 dialogVisible1: false,
                 dialogFormVisible: false,
                 inputTitle: '',
-                clickRow: {},
+                clickRow: {},   //点击修改时的文章信息
                 inputTag: '',
+                value3: '',   //用来存储修改文章的内容
                 value2: '',
                 value1: '',
                 toolbars: {
@@ -347,18 +349,28 @@
                     this.dialogFormVisible = false
                 }
                 if (flag === 1) {
-                    let article = {
-                        article_title: this.inputTitle,
-                        article_author: this.$store.state.articleList1.find(e => e.article_author === this.inputTag) !== undefined ?  this.$store.state.articleList1.find(e => e.article_author === this.inputTag).article_author : this.clickRow.article_author,
-                        tags_id: this.$store.state.articleList1.find(e => e.tags_name === this.inputTag) !== undefined ? this.$store.state.articleList1.find(e => e.tags_name === this.inputTag).tags_id : this.clickRow.tags_id,
-                    }
+                    this.dialogFormVisible = false
                     console.log(this.inputTag);
+                    console.log(this.$store.state.options1);
+                    let options1 = this.$store.state.options1[0].options
+                    let options2 = this.$store.state.options1[1].options
+                    let article = {
+                        article_id: this.clickRow.article_id,
+                        article_title: this.inputTitle,
+                        article_author: options2.find(e => e.value === this.inputTag) !== undefined ?  options2.find(e => e.value === this.inputTag).value : this.clickRow.article_author,
+                        tags_id: options1.find(e => e.value === this.inputTag) !== undefined ? options1.find(e => e.value === this.inputTag).value : this.clickRow.tags_id,
+                        article_content: this.value3,
+                        article_path: this.clickRow.article_path,
+                        token: this.$store.state.token
+                    }
+                    console.log(article);
                     
-                    console.log(article)
-                    
+                    this.$store.dispatch('updateArticle', article)
                 }
             },
-
+            getValue (val) {
+                this.value3 = val
+            },
             clearScreen(){
                 this.$store.dispatch('clearScreen')
             },

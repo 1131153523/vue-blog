@@ -234,6 +234,16 @@ const mutations = {
                 console.log(e)
                 console.log('UPDATE_ARTICLE_VERIFY出现错误')
             })
+    },
+    [types.UPDATE_ARTICLE]: (state, value) => {
+        api.updateArticle(value)
+            .then(res => {
+                console.log(res)
+                
+            })
+            .catch(e => {
+
+            })
     }
 }
 

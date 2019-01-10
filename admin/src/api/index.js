@@ -41,5 +41,8 @@ export default {
     },
     deleteArticle (value) {
         return ajax('/admin/deleteArticle', value, 'POST')
+    },
+    updateArticle (value) {
+        return ajax('/admin/updateArticle', value, 'POST')
     }
 }

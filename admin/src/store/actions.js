@@ -63,6 +63,9 @@ export default {
     },
     deleteArticle ({commit}, value) {
         commit(types.DELETE_ARTICLE, value)
+    },
+    updateArticle ({commit}, value) {
+        commit(types.UPDATE_ARTICLE, value)
     }
 }
 
