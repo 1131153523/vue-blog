@@ -47,7 +47,7 @@ const mutations = {
     },
     //获取文章标签
     [types.GET_TAGS]: (state) => {
-        api.getTags({token: state.token})
+        api.getTags()
             .then(res => {
                 let color = ['success', 'info', 'warning', 'danger']
                 if (res.code) {

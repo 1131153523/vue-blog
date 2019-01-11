@@ -10,7 +10,7 @@ export default {
         return ajax('/admin/changePass', value, 'POST')
     },
     getTags(value) {
-        return ajax('/admin/getTags',  value, 'POST')
+        return ajax('/admin/getTags')
     },
     removeTag(tags_id) {
         return ajax('/admin/removeTag',  tags_id, 'POST')

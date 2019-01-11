@@ -75,7 +75,7 @@
         },
         mounted () {
             let num = Math.round(Math.random()*4) + 1      
-            switch (num) {
+            switch (2) {
                 case 1:
                     this.animate1()
                     break
@@ -224,7 +224,6 @@
                 }
                 animation();
             },
-
             animate2 () {
                 document.querySelector('html').style.backgroundImage = 'radial-gradient(ellipse farthest-corner at center top, #000d4d 0%, #000105 100%)'
                 var num = 200;
@@ -921,9 +920,12 @@
                 window.addEventListener('resize', onresize);
 
                 init();
-            }
-        }
-
+            },
+        },
+        beforeRouteLeave (to, from, next) {
+            document.querySelector('html').style.backgroundImage = ''
+            next()
+        },
     }
 </script>
 <style scoped>

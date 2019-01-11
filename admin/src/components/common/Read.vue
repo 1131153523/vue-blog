@@ -145,7 +145,8 @@ export default {
                     console.log(e)
                 })
         }
-    }
+    },
+
 }
 </script>
 <style lang="less" scoped>

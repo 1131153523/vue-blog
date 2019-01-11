@@ -9,10 +9,31 @@ import Tags from '../components/admin/Tags.vue'
 import Write from '../components/admin/Write.vue'
 import VerifyArticle from '../components/admin/VerifyArticle.vue'
 import Read from '../components/common/Read.vue'
+import Index from '../pages/front/Index.vue'
+import Main from '../pages/front/Home.vue'
+import Article from '../pages/front/Article.vue'
 Vue.use(Router)
-
 const router = new Router({
     routes: [
+        {
+            path: '/',
+            name: 'Index',
+            component:Index,
+            redirect: '/home',
+            children: [
+                {
+                    path: '/article',
+                    name: 'Article',
+                    component: Article
+                },
+                {
+                    path: '/home',
+                    name: 'Home',
+                    component: Main
+                },
+            ]
+        },
+
         {
             path: '/login',
             name: 'Login',
