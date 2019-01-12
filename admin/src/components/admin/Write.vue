@@ -152,9 +152,7 @@
         mounted(){
             this.$store.dispatch('getTags')
             this.$store.dispatch('getDraft')
-            this.timer = setInterval(() => {
-                this.$store.dispatch('saveDraft', this.articleValue)
-            },20000)
+
         },
         computed: {
             ...mapState(['tags', 'username', 'articleInfo', 'draft','articleValue', 'token']),
@@ -256,9 +254,16 @@
                 }
             }
         },
+        activated () {
+            this.timer = setInterval(() => {
+                this.$store.dispatch('saveDraft', this.articleValue)
+            },20000)
+        },
+        deactivated () {
+            clearInterval(this.timer)
+        },
         beforeDestroy(){
             clearInterval(this.timer)
-            clearTimeout(this.timeout)
         }
     }
 </script>

@@ -30,8 +30,8 @@ export default {
     uploadArticleImg(file) {
         return ajax('/admin/uploadArticleImg', file, 'POST')
     },
-    getArticleList() {
-        return ajax('/admin/getArticleList')
+    getArticleList(value={}) {
+        return ajax('/admin/getArticleList', value)
     },
     updateArticleVerify (value) {
         return ajax('/admin/updateArticleVerify', value, 'POST')

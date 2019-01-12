@@ -56,9 +56,23 @@ ${article_id}, ${article_title}, ${article_author}, ${article_path}, ${article_a
         values(${article_id}, ${article_title}, ${article_author}, ${article_path}, ${article_time}, ${tags_id})`
         return p.query(sql)
     }
-    static getArticleList () {
-        let sql = escape`select * from articles,tags where articles.tags_id=tags.tags_id`
-        return p.query(sql)
+    static getArticleList (value) {
+        
+        
+        if (!value['limit'] || !value['offset']) {
+
+            let sql = escape`select * from articles,tags where articles.tags_id=tags.tags_id`
+            return p.query(sql)
+        } else {
+            let {limit, offset, tags_name} = value
+            let sql = ''
+            if (!tags_name) {
+                sql = escape`select * from articles,tags where articles.tags_id=tags.tags_id  limit ${parseInt(limit)} offset ${parseInt(offset)}`
+            } else {
+                sql = escape`select * from articles,tags where articles.tags_id=tags.tags_id and tags_name=${tags_name} limit ${parseInt(limit)} offset ${parseInt(offset)}`
+            }
+            return p.query(sql)
+        }
     }
     static updateArticleVerify ({article_id}) {
         let sql = escape`update articles set article_pass=1 where article_id=${article_id}`
