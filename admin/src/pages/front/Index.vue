@@ -3,7 +3,9 @@
         <Header/> 
         <div class="main">
             <transition name="slide-fade">
-                <router-view></router-view> 
+                <keep-alive>
+                    <router-view></router-view> 
+                </keep-alive>
             </transition>
         </div>
         <div class="toTop">
@@ -53,22 +55,22 @@
         }
     }
     ::selection {
-        background: rgba(255, 255, 255, 0);
+        background: yellowgreen;
         color: #ffffff;
     }
 
     ::-moz-selection {
-        background: rgba(255, 255, 255, 0);
+        background: yellowgreen;
         color: #ffffff;
     }
 
     ::selection {
-        background: rgba(255, 255, 255, 0);
+        background: yellowgreen;
         color: #ffffff;
     }
 
     ::-moz-selection {
-        background: rgba(255, 255, 255, 0);
+        background: yellowgreen;
         color: #ffffff;
     }
 

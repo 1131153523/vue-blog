@@ -25,6 +25,7 @@
                 .then(res => {
                     if (res.code) {
                         this.tags = res.data
+                        this.$emit('getTags', res.data)
                     }
                 })
                 .catch(e => {

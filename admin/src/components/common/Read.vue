@@ -82,13 +82,14 @@ export default {
     },
     data () {
         return {
-            value: ''
+            value: '',
+            articles: {}
         }
     },
     watch: {
         article_id (val) {
             if (this.status === 'updateArticle') {
-                api.getArticleById({article_id: this.article_id, token: this.token})
+                api.getArticleById({article_id: this.article_id})
                     .then(res => {
                         if (res.code) {
                             this.value = res.data
@@ -98,6 +99,7 @@ export default {
                         console.log(e)
                     })           
             }
+            
         },
         value (val) {
             this.getValue ? this.getValue (val) : null
@@ -105,7 +107,7 @@ export default {
     },
     mounted () {
         if (this.status === 'updateArticle') {
-            api.getArticleById({article_id: this.article_id, token: this.token})
+            api.getArticleById({article_id: this.article_id})
                 .then(res => {
                     if (res.code) {
                         this.value = res.data
@@ -115,6 +117,7 @@ export default {
                     console.log(e)
                 })           
         }
+
     },
     computed: {
         ...mapState(['token'])
@@ -133,11 +136,17 @@ export default {
         },
     },
     activated () {
-        if (this.status === 'readArticle') {
-            api.getArticleById({article_id: this.$route.params.article_id, token: this.token})
+        this.value = ''
+        if (this.articles[this.$route.params.article_id] && this.articles[this.$route.params.article_id].length > 0) {
+            this.value = this.articles[this.$route.params.article_id]
+            return
+        }
+        if (this.status === 'readArticle' || this.status === 'read' ) {
+            api.getArticleById({article_id: this.$route.params.article_id})
                 .then(res => {
                     if (res.code) {
                         this.value = res.data
+                        this.articles[this.$route.params.article_id] = res.data
                     }
                     
                 })

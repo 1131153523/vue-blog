@@ -222,7 +222,7 @@ class ArticleController {
     }
     static async getArticleById (ctx) {
         try {
-            let data = await Model.getArticleById(ctx.request.body.article_id)
+            let data = await Model.getArticleById(ctx.request.query.article_id)
             if (data.length === 1) {  
                 let path = data[0].article_path
                 try {
@@ -232,7 +232,6 @@ class ArticleController {
                         isShow: false,
                         data: content + ''
                     }
-                    
                 } catch (e) {
                     console.log(e)
                     console.log('服务器错误，读取文章失败')

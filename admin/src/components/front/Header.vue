@@ -178,7 +178,7 @@
             color: #2098D1;
         }
         .header .nav .nav-left nav .nav-list li a:hover::before {
-            background: rgba(0, 0, 0, 0.08);
+            background: rgba(0, 0, 0, 0.2);
         }
 
     }

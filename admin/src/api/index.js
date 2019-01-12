@@ -37,7 +37,7 @@ export default {
         return ajax('/admin/updateArticleVerify', value, 'POST')
     },
     getArticleById (value) {
-        return ajax('/admin/getArticleById', value, 'POST')
+        return ajax('/admin/getArticleById', value)
     },
     deleteArticle (value) {
         return ajax('/admin/deleteArticle', value, 'POST')
