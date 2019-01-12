@@ -22,7 +22,7 @@ const router = new Router({
             redirect: '/home',
             children: [
                 {
-                    path: '/article',
+                    path: '/article/:article_id',
                     name: 'Article',
                     component: Article
                 },

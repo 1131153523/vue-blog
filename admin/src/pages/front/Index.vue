@@ -27,7 +27,7 @@
     
 <style lang="less">
     .wrapper {
-        padding-top: 5rem;
+        padding-top: 4rem;
         .toTop {
             position: fixed;
             right: 20px;
@@ -52,7 +52,25 @@
             box-sizing: border-box;
         }
     }
+    ::selection {
+        background: rgba(255, 255, 255, 0);
+        color: #ffffff;
+    }
 
+    ::-moz-selection {
+        background: rgba(255, 255, 255, 0);
+        color: #ffffff;
+    }
+
+    ::selection {
+        background: rgba(255, 255, 255, 0);
+        color: #ffffff;
+    }
+
+    ::-moz-selection {
+        background: rgba(255, 255, 255, 0);
+        color: #ffffff;
+    }
 
 
 

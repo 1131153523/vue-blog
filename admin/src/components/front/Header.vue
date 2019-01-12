@@ -7,11 +7,13 @@
                         <div class="logo">
                             MyBlog
                         </div>
+                        <i class="fa fa-angle-down" @click.stop="submenu"></i>
                         <nav>
                             <ul class="nav-list">
                                 <li class="hvr-underline-reveal hvr-underline-reveal-active"><router-link to="/">首页</router-link></li>
-                                <li class="hvr-underline-reveal"><router-link to="/article">作品</router-link></li>
+                                <li class="hvr-underline-reveal"><router-link to="/article/asdasd">作品</router-link></li>
                                 <li class="hvr-underline-reveal"><router-link to="/article">生活</router-link></li>
+                                <li class="hvr-underline-reveal"><router-link to="/article">归档</router-link></li>
                                 <li class="hvr-underline-reveal"><router-link to="/article">留言</router-link></li>
                                 <li class="hvr-underline-reveal"><router-link to="/article">关于我</router-link></li>
                             </ul>
@@ -46,6 +48,15 @@
                     document.querySelector('.header').classList.remove('backColor')
                 }
             }
+        },
+        methods: {
+            submenu () {
+                if (document.querySelector('.header .nav .nav-left nav').style.display == 'block') {
+                    document.querySelector('.header .nav .nav-left nav').style.display = 'none'
+                } else {
+                    document.querySelector('.header .nav .nav-left nav').style.display = 'block'
+                }
+            }
         }
     }
 </script>
@@ -57,10 +68,12 @@
         position: fixed;
         top: 0;
         left: 0;
-        background: rgba(255, 255, 255, 0);
+        background: rgba(255, 255, 255, 1);
         transition: all 0.4s linear;
         box-sizing: border-box;
         padding: 0 10px;
+        z-index: 10;
+        box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1), 0 1px rgba(0,0,0,0.1);
         .nav {
             width: 100%;
             display: flex;
@@ -69,11 +82,17 @@
                 height: 100%;
                 display: flex;
                 justify-content: space-between;
+                align-items: center;
                 .logo {
                     width: 7.5rem;
                     text-align: center;
                     line-height: 5rem;
                     font-size: 1.4375rem;
+                }
+                > i {
+                    font-size: 2.5rem;
+                    font-weight: 100;
+                    display: none;
                 }
                 nav {
                     .nav-list {
@@ -99,7 +118,6 @@
                                     right: 0;
                                     bottom: 0;
                                     left: 0;
-
                                 }
                             }
                         }
@@ -112,15 +130,58 @@
                     height: 100%;
                     display: flex;
                     align-items: center;
- 
                 }
             }
         }
     }
+    @media screen and (min-width: 801px) {
+        .header .nav .nav-left nav {
+            display: block!important;
+        }
+    }
 
+    @media screen and (max-width: 800px) {
+        .header .nav .nav-left nav .nav-list {
+            display: block;
+        }
+        .header .nav .nav-left {
+            position: relative;
+        }
+        .header .nav .nav-left > i {
+            margin-left: 20px;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .header .nav .nav-left nav {
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: -34px;
+            border-radius: 3px;
+            box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1), 0 1px rgba(0,0,0,0.1);
+        }
+        .header .nav .nav-left nav .nav-list li{
+            display: block;
+            text-align: center;
+            background-color: #fff;
+        }
+        .header .nav .nav-left nav .nav-list li::after {
+            display: none;
+        }
+        .header .nav .nav-left nav .nav-list li::before {
+            display: none;
+        }
+        .header .nav .nav-left nav .nav-list li a {
+            color: #000;
+        }
+        .header .nav .nav-left nav .nav-list li a:hover{
+            color: #2098D1;
+        }
+        .header .nav .nav-left nav .nav-list li a:hover::before {
+            background: rgba(0, 0, 0, 0.08);
+        }
 
-
-
+    }
 
 
     .backColor {
