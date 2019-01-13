@@ -24,7 +24,7 @@
                             <el-input
                                 placeholder="文章或作者关键字搜索"
                                 v-model="search">
-                                <i slot="suffix" class="el-input__icon el-icon-search" style="cursor:pointer;"></i>
+                                <i slot="suffix" class="el-input__icon el-icon-search" style="cursor:pointer;" @click.stop="Search"></i>
                             </el-input>
                         </div>
                     </div>
@@ -34,10 +34,21 @@
     </header>
 </template>
 <script>
+    import {mapState} from 'vuex'
     export default {
         data () {
             return {
-                search: ''
+
+            }
+        },
+        computed: {
+            search: {
+                get () {
+                    return this.$store.state.search
+                },
+                set (val) {
+                    this.$store.dispatch('setSearch', val)
+                }
             }
         },
         mounted () {

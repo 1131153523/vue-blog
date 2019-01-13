@@ -66,6 +66,9 @@ export default {
     },
     updateArticle ({commit}, value) {
         commit(types.UPDATE_ARTICLE, value)
+    },
+    setSearch ({commit}, value) {
+        commit(types.SET_SEARCH, value)
     }
 }
 

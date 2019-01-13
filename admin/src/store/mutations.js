@@ -269,6 +269,9 @@ const mutations = {
                 console.log(e)
                 console.log('UPDATE_ARTICLE出现错误')
             })
+    },
+    [types.SET_SEARCH]: (state, value) => {
+        state.search = value
     }
 }
 

@@ -1,6 +1,6 @@
 <template>
     <div class="wrapper">
-        <Header/> 
+        <Header /> 
         <div class="main">
             <transition name="slide-fade">
                 <keep-alive>

@@ -66,7 +66,7 @@ ${article_id}, ${article_title}, ${article_author}, ${article_path}, ${article_a
         } else {
             let {limit, offset, tags_name} = value
             let sql = ''
-            if (!tags_name) {
+            if (tags_name === 'home') {
                 sql = escape`select * from articles,tags where articles.tags_id=tags.tags_id  limit ${parseInt(limit)} offset ${parseInt(offset)}`
             } else {
                 sql = escape`select * from articles,tags where articles.tags_id=tags.tags_id and tags_name=${tags_name} limit ${parseInt(limit)} offset ${parseInt(offset)}`

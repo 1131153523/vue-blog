@@ -42,6 +42,7 @@
         display: flex;
         justify-content: space-around;
         height: 80px;
+        width: 100%;
     }
     .home .Info  > div {
         background-color: #fff;
