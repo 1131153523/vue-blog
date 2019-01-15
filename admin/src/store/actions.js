@@ -72,6 +72,12 @@ export default {
     },
     setList({commit}, value) {
         commit(types.SET_LIST, value)
+    },
+    toComment ({commit}, value) {
+        commit(types.TO_COMMENT, value)
+    },
+    getCommentsByIｄ({commit}, value) {
+        commit(types.GET_COMMENTS_BY_ID, value)
     }
 }
 

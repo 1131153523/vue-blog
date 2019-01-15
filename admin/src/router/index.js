@@ -103,8 +103,6 @@ const router = new Router({
         }
     ],
     scrollBehavior(to, from,savedPosition) {
-        console.log(document.querySelector('.wrapper').scrollHeight);
-        
         if (to.fullPath.indexOf('/article/') > -1 && !to.fullPath.includes('-comment')) {
             return {
                 x: 0,

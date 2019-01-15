@@ -44,5 +44,11 @@ export default {
     },
     updateArticle (value) {
         return ajax('/admin/updateArticle', value, 'POST')
+    },
+    toComment (value) {
+        return ajax('/toComment', value, 'POST')
+    },
+    getCommentsByIｄ (value) {
+        return ajax('/getCommentsByIｄ', value, 'POST')
     }
 }

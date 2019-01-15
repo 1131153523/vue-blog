@@ -275,6 +275,31 @@ const mutations = {
     },
     [types.SET_LIST]: (state, value) => {
         state.list = value
+    },
+    [types.TO_COMMENT]: (state, value) => {
+        api.toComment(value)
+            .then(res => {
+                if (res.code) {
+                    alert(res.msg)
+                    state.comments.unshift({...value, parent_id: '', comments_agree})
+                } else {
+                    alert(res.msg)
+                }
+            })
+            .catch(e => {
+                console.log(e)
+                console.log('TO_COMMENT出现错误')
+            })
+    },
+    [types.GET_COMMENTS_BY_ID]: (state, value) => {
+        api.getCommentsByIｄ(value)
+            .then (res => {
+                console.log(res)
+                
+            })
+            .catch (e => {
+                console.log(e)
+            }) 
     }
 }
 

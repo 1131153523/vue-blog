@@ -2,6 +2,7 @@ const router = require('koa-router')()
 const User  = require('../controllers/user')
 const Tags = require('../controllers/tags')
 const Article = require('../controllers/article')
+const Comment = require('../controllers/comment')
 const checkToken = require('../token/checkToken')
 router.post('/admin/login', User.loginPost)
 router.post('/admin/checkPrepass', checkToken, User.checkPrepass)
@@ -20,6 +21,8 @@ router.get('/admin/getArticleById', Article.getArticleById)
 router.post('/admin/uploadArticleTumbImg',checkToken, Article.uploadArticleTumbImg)
 router.post('/admin/deleteArticle',checkToken, Article.deleteArticle)
 router.post('/admin/updateArticle',checkToken, Article.updateArticle)
+router.post('/toComment', Comment.toComment)
+router.post('/getCommentsByIｄ', Comment.getCommentsByIｄ)
 
 
 module.exports = router

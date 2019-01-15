@@ -92,5 +92,14 @@ ${article_id}, ${article_title}, ${article_author}, ${article_path}, ${article_a
         let sql = escape`update articles set article_title=${article_title},article_author=${article_author},tags_id=${tags_id} where article_id=${article_id}`
         return p.query(sql)
     }
+    static toComment ({id, article_id,  comment_name, comment_content, comment_email, comment_create_time}) {
+        let sql = escape`insert into comments(id, article_id, comment_name, comment_content, comment_email, comment_create_time)
+        values(${id}, ${article_id}, ${comment_name}, ${comment_content}, ${comment_email}, ${comment_create_time})`
+        return p.query(sql)
+    }
+    static getCommentsByIｄ (article_id) {
+        let sql = escape`select * from comments where  article_id=${article_id}`
+        return p.query(sql)
+    }
 }
 module.exports = Model

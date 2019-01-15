@@ -1,31 +1,38 @@
 <template>
-    <div class="article">
-        <div class="article-detail">
-            <div class="article-info">
-                <h3 class="article-title">{{info.article_title}}</h3>  
-                <div class="article-info-d" >
-                    <svg class="icon" aria-hidden="true">
-                        <use xlink:href="#icon-biaoqian1"></use>
-                    </svg> &nbsp;&nbsp;                   
-                    <span>
-                        {{info.tags_name}}&nbsp;&nbsp;&nbsp;
-                        <svg class="icon" aria-hidden="true" style="font-size: 18px;">
-                            <use xlink:href="#icon-yueduliang"></use>
-                        </svg>                        
-                        {{info.article_read}} &nbsp;&nbsp;   &nbsp;&nbsp;                      
-                        作者:&nbsp;{{info.article_author}}&nbsp;·&nbsp;
-                        发布日期:&nbsp;{{info.article_time | formatDate}}
-                    </span>
-                </div>               
+    <div class="readArticle">
+        <div class="article">
+            <div style="overflow: auto;flex: 1;">
+                <div class="article-detail">
+                    <div class="article-info">
+                        <h3 class="article-title">{{info.article_title}}</h3>  
+                        <div class="article-info-d" >
+                            <svg class="icon" aria-hidden="true">
+                                <use xlink:href="#icon-biaoqian1"></use>
+                            </svg> &nbsp;&nbsp;                   
+                            <span>
+                                {{info.tags_name}}&nbsp;&nbsp;&nbsp;
+                                <svg class="icon" aria-hidden="true" style="font-size: 18px;">
+                                    <use xlink:href="#icon-yueduliang"></use>
+                                </svg>                        
+                                {{info.article_read}} &nbsp;&nbsp;   &nbsp;&nbsp;                      
+                                作者:&nbsp;{{info.article_author}}&nbsp;·&nbsp;
+                                发布日期:&nbsp;{{info.article_time | formatDate}}
+                            </span>
+                        </div>               
+                    </div>
+                    <Read status="read" @getArticle="getArticle" :article_id="$route.params.article_id" :navigation="false" class="read"/>         
+                </div> 
+                <Comment />                
             </div>
-            <Read status="read" @getArticle="getArticle" :article_id="$route.params.article_id" :navigation="false" class="read"/>            
+            <Tag class="tag"/>
         </div>
-        <Tag class="tag"/>
+
     </div>
 </template>
 <script>
     import Read from '../../components/common/Read.vue'
     import Tag from '../../components/front/Tag.vue'
+    import Comment from '../../components/front/Comment.vue'
     export default {
         data () {
             return {
@@ -34,7 +41,8 @@
         },
         components: {
             Read,
-            Tag
+            Tag,
+            Comment
         },
         mounted () {
 
@@ -56,43 +64,54 @@
 </script>
     
 <style lang="less" scoped>
-    .article {
-        display: flex;
-        justify-content: space-between;
-        .article-detail {
-            flex: 1;
-            box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1), 0 1px rgba(0,0,0,0.1);
-            margin-right: 10px!important;
-            overflow: auto;
-            .article-info {
-                width: 100%;
-                background-color: #fff;
-                padding-left: 20px;
-                box-sizing: border-box;
-                .article-title {
-                    line-height: 65px;
-                    font-size: 30px;
-                    font-weight: 200;
+    .readArticle {
+        .article {
+            display: flex;
+            justify-content: space-between;
+            .article-detail {
+                box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1), 0 1px rgba(0,0,0,0.1);
+                // overflow: auto;
+                margin-right: 10px;
+                &::-webkit-scrollbar {
+                    display: none;
                 }
-                .article-info-d {
-                    display: flex;
-                    align-items: center;
-                    padding-bottom: 10px;
-                    > span {
-                        color: #999;
-                        font-size: 14px;
+                .article-info {
+                    width: 100%;
+                    background-color: #fff;
+                    padding-left: 20px;
+                    box-sizing: border-box;
+                    .article-title {
+                        line-height: 65px;
+                        font-size: 30px;
+                        font-weight: 200;
                     }
-                }
+                    .article-info-d {
+                        display: flex;
+                        align-items: center;
+                        padding-bottom: 10px;
+                        > span {
+                            color: #999;
+                            font-size: 14px;
+                        }
+                    }
 
-            }        
-            .read {
-                margin: 0 -1px!important;
+                }        
+                .read {
+                    margin: 0 -1px!important;
+                }
             }
         }
+        .tag {
+            max-height: 500px;
+        }
     }
+
     @media screen and (max-width: 800px) {
         .tag {
             display: none;
+        }
+        .article-detail{
+            margin-right: 0!important;
         }
 
     }
