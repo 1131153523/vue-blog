@@ -127,7 +127,6 @@
                 justify-content: space-between;
                 span {
                     color: #fff;
-
                 }
                 .submenu {
                     padding-left: 10px;

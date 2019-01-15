@@ -7,7 +7,9 @@
                         <div class="logo">
                             MyBlog
                         </div>
-                        <i class="fa fa-angle-down" @click.stop="submenu"></i>
+                        <svg class="icon" aria-hidden="true" @click.stop="submenu">
+                            <use xlink:href="#icon-ai-arrow-down"></use>
+                        </svg>
                         <nav>
                             <ul class="nav-list">
                                 <li class="hvr-underline-reveal hvr-underline-reveal-active"><router-link to="/">首页</router-link></li>
@@ -23,8 +25,9 @@
                         <div class="search">
                             <el-input
                                 placeholder="文章或作者关键字搜索"
+                                @keyup.enter.native="Search"
                                 v-model="search">
-                                <i slot="suffix" class="el-input__icon el-icon-search" style="cursor:pointer;" @click.stop="Search"></i>
+                                <i slot="suffix" class="el-input__icon el-icon-search" style="cursor:pointer;"  @click.stop="Search"></i>
                             </el-input>
                         </div>
                     </div>
@@ -38,18 +41,11 @@
     export default {
         data () {
             return {
-
+                search: ''
             }
         },
         computed: {
-            search: {
-                get () {
-                    return this.$store.state.search
-                },
-                set (val) {
-                    this.$store.dispatch('setSearch', val)
-                }
-            }
+
         },
         mounted () {
             window.onscroll = () => {
@@ -67,6 +63,10 @@
                 } else {
                     document.querySelector('.header .nav .nav-left nav').style.display = 'block'
                 }
+            },
+            Search () {
+                this.$store.dispatch('setSearch', this.search)
+                this.search = ''
             }
         }
     }
@@ -83,7 +83,7 @@
         transition: all 0.4s linear;
         box-sizing: border-box;
         padding: 0 10px;
-        z-index: 10;
+        z-index: 101111111111111;
         box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1), 0 1px rgba(0,0,0,0.1);
         .nav {
             width: 100%;
@@ -100,7 +100,7 @@
                     line-height: 5rem;
                     font-size: 1.4375rem;
                 }
-                > i {
+                > svg {
                     font-size: 2.5rem;
                     font-weight: 100;
                     display: none;
@@ -158,10 +158,10 @@
         .header .nav .nav-left {
             position: relative;
         }
-        .header .nav .nav-left > i {
-            margin-left: 20px;
+        .header .nav .nav-left > svg {
             display: inline-block;
             cursor: pointer;
+            font-size: 1.5rem;
         }
         .header .nav .nav-left nav {
             display: none;

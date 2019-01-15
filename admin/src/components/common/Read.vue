@@ -8,6 +8,7 @@
         :navigation="navigation" 
         :toolbars="toolbars"
         @imgAdd="$imgAdd"
+        :boxShadow="boxShadow"
         class="readStyle"/>
 </template>
 <script>
@@ -15,6 +16,10 @@ import api from '../../api/index.js'
 import {mapState} from 'vuex'
 export default {
     props:{
+        boxShadow: {
+            type: Boolean,
+            default: false
+        },
         getValue: {
             type: Function
         },
@@ -141,18 +146,31 @@ export default {
             this.value = this.articles[this.$route.params.article_id]
             return
         }
-        if (this.status === 'readArticle' || this.status === 'read' ) {
+        if (this.status === 'readArticle') {
             api.getArticleById({article_id: this.$route.params.article_id})
                 .then(res => {
                     if (res.code) {
                         this.value = res.data
                         this.articles[this.$route.params.article_id] = res.data
                     }
-                    
                 })
                 .catch(e => {
                     console.log(e)
                 })
+        }
+        if (this.status === 'read') {
+            api.getArticleById({article_id: this.$route.params.article_id})
+                .then(res => {
+                    if (res.code) {
+                        let val = res.data.replace(/#.+\n/, '')
+                        this.value = val
+                        this.articles[this.$route.params.article_id] = val
+                        this.$emit('getArticle', res.info)
+                    }
+                })
+                .catch(e => {
+                    console.log(e)
+                })            
         }
     },
 

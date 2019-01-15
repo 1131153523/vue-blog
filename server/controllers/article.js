@@ -221,15 +221,17 @@ class ArticleController {
     }
     static async getArticleById (ctx) {
         try {
-            let data = await Model.getArticleById(ctx.request.query.article_id)
+            let data = JSON.parse(JSON.stringify(await Model.getArticleById(ctx.request.query.article_id)))
             if (data.length === 1) {  
                 let path = data[0].article_path
                 try {
                     let content = fs.readFileSync(path)
+                    delete data[0].article_path
                     ctx.body = {
                         code: 1,
                         isShow: false,
-                        data: content + ''
+                        data: content + '',
+                        info: data[0]
                     }
                 } catch (e) {
                     console.log(e)

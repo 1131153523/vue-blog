@@ -69,6 +69,9 @@ export default {
     },
     setSearch ({commit}, value) {
         commit(types.SET_SEARCH, value)
+    },
+    setList({commit}, value) {
+        commit(types.SET_LIST, value)
     }
 }
 

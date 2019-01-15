@@ -57,19 +57,17 @@ ${article_id}, ${article_title}, ${article_author}, ${article_path}, ${article_a
         return p.query(sql)
     }
     static getArticleList (value) {
-        
-        
         if (!value['limit'] || !value['offset']) {
 
-            let sql = escape`select * from articles,tags where articles.tags_id=tags.tags_id`
+            let sql = escape`select article_id, article_title, article_pass, article_author, article_assist, article_read, article_img, article_time, tags.tags_id, tags.tags_name from articles,tags where articles.tags_id=tags.tags_id`
             return p.query(sql)
         } else {
             let {limit, offset, tags_name} = value
             let sql = ''
             if (tags_name === 'home') {
-                sql = escape`select * from articles,tags where articles.tags_id=tags.tags_id  limit ${parseInt(limit)} offset ${parseInt(offset)}`
+                sql = escape`select article_id, article_title, article_pass, article_author, article_assist, article_read, article_img, article_time, tags.tags_id, tags.tags_name from articles,tags where articles.tags_id=tags.tags_id  limit ${parseInt(limit)} offset ${parseInt(offset)}`
             } else {
-                sql = escape`select * from articles,tags where articles.tags_id=tags.tags_id and tags_name=${tags_name} limit ${parseInt(limit)} offset ${parseInt(offset)}`
+                sql = escape`select article_id, article_title, article_pass, article_author, article_assist, article_read, article_img, article_time, tags.tags_id, tags.tags_name from articles,tags where articles.tags_id=tags.tags_id and tags_name=${tags_name} limit ${parseInt(limit)} offset ${parseInt(offset)}`
             }
             return p.query(sql)
         }
@@ -79,7 +77,7 @@ ${article_id}, ${article_title}, ${article_author}, ${article_path}, ${article_a
         return p.query(sql)
     }
     static getArticleById(article_id) {
-        let sql = escape`select * from articles where article_id=${article_id}`
+        let sql = escape`select * from articles,tags where articles.tags_id=tags.tags_id and article_id=${article_id}`
         return p.query(sql)
     }
     static uploadArticleTumbImg (article_id, article_img) {

@@ -272,6 +272,9 @@ const mutations = {
     },
     [types.SET_SEARCH]: (state, value) => {
         state.search = value
+    },
+    [types.SET_LIST]: (state, value) => {
+        state.list = value
     }
 }
 

@@ -2,21 +2,27 @@
     <div class="home">
         <div class="Info">
             <div>
-                <i class="fa fa-file" :style="{color: headColor}"></i>
+                <svg class="icon" aria-hidden="true"  :style="{color: headColor}">
+                    <use xlink:href="#icon-wenzhang"></use>
+                </svg>     
                 <div>
                     <h3>文章数量</h3>
                     <span>20</span>
                 </div>
             </div>
             <div>
-                <i class="fa fa-comments" :style="{color: headColor}" ></i>
+                <svg class="icon" aria-hidden="true"   :style="{color: headColor}">
+                    <use xlink:href="#icon-pinglun"></use>
+                </svg>                     
                 <div>
                     <h3>评论</h3>
                     <span>20</span>
                 </div>
             </div>
             <div>
-                <i class="fa fa-user" :style="{color: headColor}" ></i>
+                <svg class="icon" aria-hidden="true" :style="{color: headColor}">
+                    <use xlink:href="#icon-peoples"></use>
+                </svg>                
                 <div>
                     <h3>访问量</h3>
                     <span>20</span>
@@ -57,15 +63,15 @@
         align-items: center;
         cursor: pointer;
     }
-    .home .Info  > div i {
+    .home .Info  > div svg {
         opacity: 0.8;
         transition: all 0.2s ease-out;
     }
-    .home .Info  > div:hover  i {
+    .home .Info  > div:hover  svg {
         transform: translateY(-5px);
         opacity: 1;
     }
-    .home .Info  > div i {
+    .home .Info  > div svg {
         font-size: 45px;
     }
 
@@ -81,7 +87,7 @@
 
 
     @media screen and (min-width: 640px) and (max-width: 960px){
-        .home .Info  > div i {
+        .home .Info  > div svg {
             font-size: 45px;
         }
         .home .Info  > div span {
@@ -100,7 +106,7 @@
             margin-top: 20px;
             align-items: center;
         }
-        .home .Info  > div i {
+        .home .Info  > div svg {
             font-size: 45px;
         }
         .home .Info  > div span {

@@ -5,7 +5,14 @@
             <ul class="tag-list">
                 <el-row :gutter="4">
                     <el-col :span="12" v-for="e in tags" :key="e.tags_id">
-                        <li class="hvr-buzz-out"><router-link :to="{ path:'/home', query: { tags_name:  e.tags_name} }"><img :src="src(e.tags_name)"><span>{{e.tags_name}}</span></router-link></li>
+                        <li class="hvr-pulse-shrink">
+                            <router-link :to="{ path:'/home', query: { tags_name:  e.tags_name} }">
+                                <svg class="icon" aria-hidden="true">
+                                    <use :xlink:href="tagIcon(e.tags_name)"></use>
+                                </svg>
+                                <span>{{e.tags_name}}</span>
+                            </router-link>
+                        </li>
                     </el-col>
                 </el-row>
             </ul>
@@ -14,6 +21,7 @@
 </template>
 <script>
     import api from '../../api/index.js'
+    import { rejects } from 'assert';
     export default {
         data () {
             return {
@@ -33,17 +41,31 @@
                 })
         },
         methods: {
-            src (tags_name) {
-                tags_name = tags_name.toLowerCase()
-                switch(tags_name) {
+            tagIcon (val) {
+                switch(val.toLowerCase()) {
                     case 'javascript':
-                        return 'http://127.0.0.1:3000/images/javascript.png'
+                        return '#icon-JavaScript'
+                    case 'python':
+                        return '#icon-python'
                     case 'vue':
-                        return 'http://127.0.0.1:3000/images/vue.js.png'
-                    default: 
-                        return ''
-                }
+                        return '#icon-Vue'
+                    case 'html':
+                        return '#icon-HTML'
+                    case 'css':
+                        return '#icon-CSS-outline'
+                    case '算法': 
+                        return '#icon-jiyinsuanfa'
+                    case '数据库':
+                        return '#icon-database'
+                    case 'nodejs':
+                        return '#icon-node-jsNodejsxingnengpingtai'
+                    case 'webpack':
+                        return '#icon-webpack'
+                }   
             }
+        },
+        computed: {
+
         }
     }   
 </script>
@@ -62,7 +84,7 @@
         }
         .tag-area {
             height: 100%;
-            width: 100%;
+            width: 20rem;
             padding: 5px;
             box-sizing: border-box;
             .tag-list {
@@ -70,7 +92,7 @@
                 width: 100%;
                 li {
                     a {
-                        display: flex;
+                        display: flex;      
                         height: 100%;
                         width: 100%;
                         text-decoration: none;
@@ -85,13 +107,16 @@
                         margin-top: 6px;
                         align-items: center;
                         &:hover {
-                            background: rgba(107, 222, 50, 0.89);
+                            background: #2098D1;
                             color: #fff;
+                            i {
+                                color: yellow;
+                            }
                         }
-                        img {
-                            width: 20px;
-                            height: 20px;
-                            margin-right: 5px;
+                        svg {
+                            font-size: 19px;
+                            margin-left: 3px;
+                            margin-right: 7px;
                         }
                     }
                 }
@@ -103,106 +128,36 @@
 
 
 
-    @-webkit-keyframes hvr-buzz-out {
-    10% {
-        -webkit-transform: translateX(3px) rotate(2deg);
-        transform: translateX(3px) rotate(2deg);
-    }
-    20% {
-        -webkit-transform: translateX(-3px) rotate(-2deg);
-        transform: translateX(-3px) rotate(-2deg);
-    }
-    30% {
-        -webkit-transform: translateX(3px) rotate(2deg);
-        transform: translateX(3px) rotate(2deg);
-    }
-    40% {
-        -webkit-transform: translateX(-3px) rotate(-2deg);
-        transform: translateX(-3px) rotate(-2deg);
-    }
-    50% {
-        -webkit-transform: translateX(2px) rotate(1deg);
-        transform: translateX(2px) rotate(1deg);
-    }
-    60% {
-        -webkit-transform: translateX(-2px) rotate(-1deg);
-        transform: translateX(-2px) rotate(-1deg);
-    }
-    70% {
-        -webkit-transform: translateX(2px) rotate(1deg);
-        transform: translateX(2px) rotate(1deg);
-    }
-    80% {
-        -webkit-transform: translateX(-2px) rotate(-1deg);
-        transform: translateX(-2px) rotate(-1deg);
-    }
-    90% {
-        -webkit-transform: translateX(1px) rotate(0);
-        transform: translateX(1px) rotate(0);
-    }
-    100% {
-        -webkit-transform: translateX(-1px) rotate(0);
-        transform: translateX(-1px) rotate(0);
-    }
-    }
-    @keyframes hvr-buzz-out {
-    10% {
-        -webkit-transform: translateX(3px) rotate(2deg);
-        transform: translateX(3px) rotate(2deg);
-    }
-    20% {
-        -webkit-transform: translateX(-3px) rotate(-2deg);
-        transform: translateX(-3px) rotate(-2deg);
-    }
-    30% {
-        -webkit-transform: translateX(3px) rotate(2deg);
-        transform: translateX(3px) rotate(2deg);
-    }
-    40% {
-        -webkit-transform: translateX(-3px) rotate(-2deg);
-        transform: translateX(-3px) rotate(-2deg);
-    }
-    50% {
-        -webkit-transform: translateX(2px) rotate(1deg);
-        transform: translateX(2px) rotate(1deg);
-    }
-    60% {
-        -webkit-transform: translateX(-2px) rotate(-1deg);
-        transform: translateX(-2px) rotate(-1deg);
-    }
-    70% {
-        -webkit-transform: translateX(2px) rotate(1deg);
-        transform: translateX(2px) rotate(1deg);
-    }
-    80% {
-        -webkit-transform: translateX(-2px) rotate(-1deg);
-        transform: translateX(-2px) rotate(-1deg);
-    }
-    90% {
-        -webkit-transform: translateX(1px) rotate(0);
-        transform: translateX(1px) rotate(0);
-    }
-    100% {
-        -webkit-transform: translateX(-1px) rotate(0);
-        transform: translateX(-1px) rotate(0);
-    }
-    }
-    .hvr-buzz-out {
-        vertical-align: middle;
-        -webkit-transform: perspective(1px) translateZ(0);
-        transform: perspective(1px) translateZ(0);
-        box-shadow: 0 0 1px rgba(0, 0, 0, 0);
-    }
-    .hvr-buzz-out:hover, .hvr-buzz-out:focus, .hvr-buzz-out:active {
-        -webkit-animation-name: hvr-buzz-out;
-        animation-name: hvr-buzz-out;
-        -webkit-animation-duration: 0.75s;
-        animation-duration: 0.75s;
-        -webkit-animation-timing-function: linear;
-        animation-timing-function: linear;
-        -webkit-animation-iteration-count: 1;
-        animation-iteration-count: 1;
-    }
+@-webkit-keyframes hvr-pulse-shrink {
+  to {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+}
+@keyframes hvr-pulse-shrink {
+  to {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+}
+.hvr-pulse-shrink {
+  vertical-align: middle;
+  -webkit-transform: perspective(1px) translateZ(0);
+  transform: perspective(1px) translateZ(0);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+}
+.hvr-pulse-shrink:hover, .hvr-pulse-shrink:focus, .hvr-pulse-shrink:active {
+  -webkit-animation-name: hvr-pulse-shrink;
+  animation-name: hvr-pulse-shrink;
+  -webkit-animation-duration: 0.3s;
+  animation-duration: 0.3s;
+  -webkit-animation-timing-function: linear;
+  animation-timing-function: linear;
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+  -webkit-animation-direction: alternate;
+  animation-direction: alternate;
+}
 
 
     

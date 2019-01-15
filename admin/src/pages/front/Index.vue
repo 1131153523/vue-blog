@@ -2,14 +2,20 @@
     <div class="wrapper">
         <Header /> 
         <div class="main">
-            <transition name="slide-fade">
-                <keep-alive>
-                    <router-view></router-view> 
-                </keep-alive>
-            </transition>
+            <el-row type="flex" class="row-bg" justify="center">
+                <el-col :xs="24" :sm="24" :md="20" :lg="20" :xl="20" >
+                <transition name="slide-fade">
+                    <keep-alive>
+                        <router-view></router-view> 
+                    </keep-alive>
+                </transition>
+                </el-col> 
+            </el-row> 
         </div>
         <div class="toTop">
-            <span class="fa fa-angle-up" @click.stop="toTop"></span>
+            <svg class="icon" aria-hidden="true"  @click.stop="toTop">
+                <use xlink:href="#icon-fanhuidingbu1"></use>
+            </svg>            
         </div>   
     </div>
 </template>
@@ -28,21 +34,16 @@
 </script>
     
 <style lang="less">
+
     .wrapper {
         padding-top: 4rem;
         .toTop {
             position: fixed;
             right: 20px;
             bottom: 4.375rem;
-            > span {
-                font-size: 1.875rem;
+            > svg {
+                font-size: 32px;
                 border-radius: 50%;
-                background-color: #fff;
-                width: 3.125rem;
-                height: 3.125rem;
-                text-align: center;
-                line-height: 3.125rem;
-                box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1), 0 1px rgba(0,0,0,0.1);
                 color: #2098D1;
                 cursor: pointer;
             }
@@ -92,18 +93,17 @@
         -o-transition: all .5s ease;
     }
     .slide-fade-enter{
-        transform: translate3d(40px, 0, 0);
-        -webkit-transform: translate3d(40px, 0, 0);
-        -moz-transform: translate3d(40px, 0, 0);
-        -ms-transform: translate3d(40px, 0, 0);
-        -o-transform: translate3d(40px, 0, 0);
+        transform: translate3d(60px, 0, 0);
+        -webkit-transform: translate3d(60px,0, 0);
+        -moz-transform: translate3d(60px, 0, 0);
+        -ms-transform: translate3d(60px, 0, 0);
+        -o-transform: translate3d(60px, 0, 0);
         opacity: 0;
         -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
     }
     .slide-fade-leave-active {
         opacity: 0;
         -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-        display: none;
-
+        position: absolute;
     }
 </style>

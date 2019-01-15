@@ -1,0 +1,17 @@
+#!/usr/bin/env xdg-open
+
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+X-Created-By=Deepin WINE Team
+Categories=chat;
+Icon=deepin.com.qq.office
+Exec="/opt/deepinwine/apps/Deepin-TIM/run.sh" -u %u
+Name=TIM
+Name[zh_CN]=TIM
+Comment=Tencent TIM Client on Deepin Wine
+StartupWMClass=TIM.exe
+MimeType=
+X-Deepin-CreatedBy=com.deepin.dde.daemon.Launcher
+X-Deepin-AppID=deepin.com.qq.office
+
