@@ -29,6 +29,9 @@
             toTop () {
                 window.scrollTo(0, 0)
             }
+        },
+        mounted() {
+            
         }
     }   
 </script>
@@ -76,14 +79,13 @@
     }
 
 
-
-
     .slide-fade-enter-active {
         transition: all .5s ease;
         -webkit-transition: all .5s ease;
         -moz-transition: all .5s ease;
         -ms-transition: all .5s ease;
         -o-transition: all .5s ease;
+
     }
     .slide-fade-leave-active {
         transition: all .5s ease;
@@ -100,6 +102,7 @@
         -o-transform: translate3d(60px, 0, 0);
         opacity: 0;
         -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+        position: absolute;
     }
     .slide-fade-leave-active {
         opacity: 0;

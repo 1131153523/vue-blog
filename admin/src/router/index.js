@@ -12,6 +12,7 @@ import Read from '../components/common/Read.vue'
 import Index from '../pages/front/Index.vue'
 import Main from '../pages/front/Home.vue'
 import Article from '../pages/front/Article.vue'
+import { log } from 'util';
 Vue.use(Router)
 const router = new Router({
     routes: [
@@ -100,7 +101,24 @@ const router = new Router({
             redirect: '/404',
             hidden: true
         }
-    ]
+    ],
+    scrollBehavior(to, from,savedPosition) {
+        console.log(document.querySelector('.wrapper').scrollHeight);
+        
+        if (to.fullPath.indexOf('/article/') > -1 && !to.fullPath.includes('-comment')) {
+            return {
+                x: 0,
+                y: 0
+            }
+        } else if (to.fullPath.includes('-comment') && to.fullPath.includes('/article/')){
+            return {
+                x: 0,
+                y: document.querySelector('.wrapper').scrollHeight
+            }
+        } else {
+            return savedPosition
+        }
+    }
 })
 router.beforeEach((to, from, next) => {
     if (to.meta.requireAuth) {

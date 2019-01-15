@@ -159,7 +159,7 @@ export default {
                 })
         }
         if (this.status === 'read') {
-            api.getArticleById({article_id: this.$route.params.article_id})
+            api.getArticleById({article_id: this.$route.params.article_id.replace('-comment', '')})
                 .then(res => {
                     if (res.code) {
                         let val = res.data.replace(/#.+\n/, '')

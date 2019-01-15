@@ -10,7 +10,7 @@
                         </p>
                     </router-link>
                     <div class="article-hot">
-                        <span class="assist">
+                        <span class="assist" @click.stop="toComment(item.article_id)">
                             <svg class="icon" aria-hidden="true">
                                 <use xlink:href="#icon-comment"></use>
                             </svg>
@@ -155,7 +155,9 @@ import { setTimeout } from 'timers';
                             console.log(e)
                         })
             },
-
+            toComment (id) {
+                this.$router.push({ name: 'Article', params: { article_id: id + '-comment' }})
+            }
         },
         
         filters: {
