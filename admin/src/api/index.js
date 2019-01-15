@@ -48,7 +48,10 @@ export default {
     toComment (value) {
         return ajax('/toComment', value, 'POST')
     },
-    getCommentsByIｄ (value) {
-        return ajax('/getCommentsByIｄ', value, 'POST')
+    getCommentsById (value) {
+        return ajax('/getCommentsById', value, 'POST')
+    },
+    toReply (value) {
+        return ajax('/toReply', value, 'POST')
     }
 }

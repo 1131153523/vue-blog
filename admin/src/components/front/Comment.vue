@@ -22,7 +22,7 @@
         </div> 
         <el-button type="primary" plain style="margin-bottom: 20px;" @click.stop="toComment">评论</el-button>
         <div class="comments-all">
-            <div class="comments-item">
+            <div class="comments-item" v-for="e in Comment" :key="e.id">
                 <div class="item-main">
                     <div class="item-left">
                         <svg class="icon" aria-hidden="true">
@@ -30,12 +30,12 @@
                         </svg> 
                     </div>
                     <div class="item-right">
-                        <span class="item-name">Admin</span>
+                        <span class="item-name">{{e.comment_name}}</span>
 <pre class="item-content">
-{{content}}
+{{e.comment_content}}
 </pre>
                         <div class="item-bottom">
-                            <span class="item-time">10分钟前</span>
+                            <span class="item-time">{{e.comment_create_time | formatDate}}</span>
                             <span class="item-reply" @click.stop="reply">
                                 <svg class="icon" aria-hidden="true">
                                     <use xlink:href="#icon-huifu"></use>
@@ -45,11 +45,11 @@
                                 <svg class="icon" aria-hidden="true">
                                     <use xlink:href="#icon-dianzan"></use>
                                 </svg>                                
-                                <span class="agree-num">10</span>                               
+                                <span class="agree-num">{{e.comment_agree}}</span>                               
                             </span>
                         </div>
 
-                        <div class="reply">
+                        <div class="reply" v-if="e.parent_id !== ''">
                             <div class="reply-left">
                                 <svg class="icon" aria-hidden="true">
                                     <use xlink:href="#icon-icon-test8"></use>
@@ -90,6 +90,8 @@
 <script>
     import Read from '../common/Read.vue'
     import getRandomId from '../../utils/getRandomId.js'
+    import {mapState} from 'vuex'
+    import api from '../../api/index.js'
     export default {
         data () {
             return {
@@ -97,11 +99,53 @@
                 name: '',
                 email: '',
                 recontent: '',
-                reedit: false
+                reedit: false,
+                comments: {},
+                comment: []
             }
         },
         mounted (){
-            this.$store.dispatch('getCommentsByIｄ', this.$route.params.article_id)
+            let article_id = this.$route.params.article_id
+
+            if (this.comments[article_id]) {
+                this.comment = this.comments[article_id]
+            } else {
+                api.getCommentsById({article_id: article_id})
+                    .then (res => {
+                        if (res.code) {
+                            this.comments[article_id] = res.data
+                            this.comment = res.data
+                        }
+                    })
+                    .catch (e => {
+                        console.log(e)
+                    }) 
+            }
+        },
+        activated () {
+            let article_id = this.$route.params.article_id
+            if (this.comments[article_id]) {
+                this.comment = this.comments[article_id]
+            } else {
+                api.getCommentsById({article_id: article_id})
+                    .then (res => {
+                        if (res.code) {
+                            this.comments[article_id] = res.data
+                            this.comment = res.data
+                        }
+                    })
+                    .catch (e => {
+                        console.log(e)
+                    }) 
+            }
+
+            
+        },
+        computed: {
+            Comment () {
+                this.comment.sort((a, b) => b.comment_create_time - a.comment_create_time)
+                return this.comment
+            }
         },
         methods: {
             reply () {
@@ -115,11 +159,11 @@
 
             },
             toComment () {
-                if (this.name > 20) {
+                if (this.name.length > 30) {
                     alert('昵称太长了！')
                     return
                 }
-                if (this.content > 530) {
+                if (this.content.length > 530) {
                     alert('内容太长了！')
                     return
                 }
@@ -134,11 +178,42 @@
                         comment_email: this.email,
                         comment_create_time: +new Date()
                     }
-                    this.$store.dispatch('toComment', comment)
+                api.toComment(comment)
+                    .then(res => {
+                        if (res.code) {
+                            this.comment.unshift({...comment, parent_id: ''})
+                            this.comments[this.$route.params.article_id] = this.comment
+                        } else {
+                            alert(res.msg)
+                        }
+                    })
+                    .catch(e => {
+                        console.log(e)
+                    })
                 }
             },
             toReply () {
-                
+                // api.toReply()
+            }
+        },
+        filters: {
+            formatDate (date) {
+                let now = +new Date()
+                let milliseconds = now - parseInt(date)
+                let timeSpanStr = ''
+                if (milliseconds <= 1000 * 60 * 1) {
+                    timeSpanStr = '刚刚';
+                }
+                else if (1000 * 60 * 1 < milliseconds && milliseconds <= 1000 * 60 * 60) {
+                    timeSpanStr = Math.round((milliseconds / (1000 * 60))) + '分钟前';
+                }
+                else if (1000 * 60 * 60 * 1 < milliseconds && milliseconds <= 1000 * 60 * 60 * 24) {
+                    timeSpanStr = Math.round(milliseconds / (1000 * 60 * 60)) + '小时前';
+                }
+                else if (1000 * 60 * 60 * 24 < milliseconds && milliseconds <= 1000 * 60 * 60 * 24 * 100) {
+                    timeSpanStr = Math.round(milliseconds / (1000 * 60 * 60 * 24)) + '天前';
+                }
+                return timeSpanStr
             }
         }
     }
@@ -194,6 +269,9 @@
             padding-left: 30px;
             box-sizing: border-box;
             .comments-item {
+                margin-top: 20px;
+                border-bottom: 1px solid #e6e4e4;
+                padding-bottom: 10px;
                 .item-main {
                     display: flex;
                     justify-content: space-between;

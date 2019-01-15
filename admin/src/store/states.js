@@ -27,6 +27,5 @@ const state = {
     articleTree: [],
     search: '',
     list: [],
-    comments: []
 };
 export default state;

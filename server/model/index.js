@@ -97,7 +97,7 @@ ${article_id}, ${article_title}, ${article_author}, ${article_path}, ${article_a
         values(${id}, ${article_id}, ${comment_name}, ${comment_content}, ${comment_email}, ${comment_create_time})`
         return p.query(sql)
     }
-    static getCommentsByIｄ (article_id) {
+    static getCommentsById (article_id) {
         let sql = escape`select * from comments where  article_id=${article_id}`
         return p.query(sql)
     }

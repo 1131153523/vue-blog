@@ -22,7 +22,7 @@ router.post('/admin/uploadArticleTumbImg',checkToken, Article.uploadArticleTumbI
 router.post('/admin/deleteArticle',checkToken, Article.deleteArticle)
 router.post('/admin/updateArticle',checkToken, Article.updateArticle)
 router.post('/toComment', Comment.toComment)
-router.post('/getCommentsByIｄ', Comment.getCommentsByIｄ)
+router.post('/getCommentsById', Comment.getCommentsById)
 
 
 module.exports = router
