@@ -15,7 +15,12 @@
         <div class="toTop">
             <svg class="icon" aria-hidden="true"  @click.stop="toTop">
                 <use xlink:href="#icon-fanhuidingbu1"></use>
-            </svg>            
+            </svg>
+            <div>
+            <svg class="icon" aria-hidden="true"  >
+                <use xlink:href="#icon-tableshare"></use>
+            </svg>  
+            </div>           
         </div>   
     </div>
 </template>
@@ -42,13 +47,20 @@
         padding-top: 4rem;
         .toTop {
             position: fixed;
-            right: 20px;
-            bottom: 4.375rem;
-            > svg {
-                font-size: 32px;
-                border-radius: 50%;
+            right: 60px;
+            bottom: 60px;
+            z-index: 111111111;
+            height: 50px;
+            svg {
                 color: #2098D1;
                 cursor: pointer;
+                &:first-child {
+                    font-size: 32px;
+                }
+                &:last-child {
+                    font-size: 22px;
+                    margin-top: 10px;
+                }
             }
         }
         .main {
@@ -56,6 +68,12 @@
             margin-top: 20px;
             padding: 10px;
             box-sizing: border-box;
+        }
+    }
+    @media screen and (max-width: 800px){
+        .toTop {
+            right: 25px!important;
+            bottom: 50px!important;
         }
     }
     ::selection {

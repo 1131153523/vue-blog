@@ -48,9 +48,7 @@
                 <i class="el-icon-upload"></i>
                 <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em>(只能上传md文件)</div>
             </el-upload>
-
         </div>
-        <hr style="margin-top: 20px;"/>  
         <h1 style="font-size: 30px;font-weight: 200;margin-bottom: 10px">直接发布</h1>
         <el-input
             type="textarea"
@@ -281,7 +279,6 @@ import { clearInterval } from 'timers';
             },20000)
         },
         deactivated () {
-            clearInterval(this.timer)
         },
         beforeDestroy(){
             clearInterval(this.timer)

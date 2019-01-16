@@ -15,7 +15,6 @@
                                 <li class="hvr-underline-reveal hvr-underline-reveal-active"><router-link to="/">首页</router-link></li>
                                 <li class="hvr-underline-reveal"><router-link to="/article/asdasd">作品</router-link></li>
                                 <li class="hvr-underline-reveal"><router-link to="/article">生活</router-link></li>
-                                <li class="hvr-underline-reveal"><router-link to="/article">归档</router-link></li>
                                 <li class="hvr-underline-reveal"><router-link to="/article">留言</router-link></li>
                                 <li class="hvr-underline-reveal"><router-link to="/article">关于我</router-link></li>
                             </ul>
