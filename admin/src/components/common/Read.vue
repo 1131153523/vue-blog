@@ -88,7 +88,8 @@ export default {
     data () {
         return {
             value: '',
-            articles: {}
+            articles: {},
+            info: {}
         }
     },
     watch: {
@@ -144,6 +145,7 @@ export default {
         this.value = ''
         if (this.articles[this.$route.params.article_id] && this.articles[this.$route.params.article_id].length > 0) {
             this.value = this.articles[this.$route.params.article_id]
+            this.$emit('getArticle', this.info[this.$route.params.article_id])
             return
         }
         if (this.status === 'readArticle') {
@@ -165,6 +167,7 @@ export default {
                         let val = res.data.replace(/#.+\n/, '')
                         this.value = val
                         this.articles[this.$route.params.article_id] = val
+                        this.info[this.$route.params.article_id] = res.info
                         this.$emit('getArticle', res.info)
                     }
                 })

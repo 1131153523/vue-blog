@@ -190,14 +190,15 @@ const mutations = {
     //通过标签或作者筛选文章列表
     [types.SCREEN_TAGS_AUTHOR]: (state, value) => {
         if (state.articleList.length < state.articleList1.length) {
-            state.articleList = state.articleList.filter(e => e.tags_name === value || e.article_author === value)
+            state.articleList = state.articleList.filter(e => e.tags_id === value || e.article_author === value)
         } else if (state.articleList.length === state.articleList1.length){
-            state.articleList = state.articleList1.filter(e => e.tags_name === value || e.article_author === value)
+            state.articleList = state.articleList1.filter(e => e.tags_id === value || e.article_author === value)
         }
     },
     //清除筛选
     [types.CLEAR_SCREEN]: (state) => {
         state.articleList = state.articleList1
+        
     },
     //搜索筛选
     [types.SCREEN_SEARCH]: (state, value) => {
@@ -225,7 +226,7 @@ const mutations = {
         api.deleteArticle({token: state.token, article_id: value})
             .then(res => {
                 if (res.code) {
-                    let index = state.articleList1.findIndex(e => e.article_id === value)
+                    let index = state.articleList.findIndex(e => e.article_id === value)
                     state.articleList1 = [...state.articleList1.slice(0, index), ...state.articleList1.slice(index+1)]
                     state.articleList = [...state.articleList.slice(0, index), ...state.articleList.slice(index+1)]
                 }   

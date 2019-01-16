@@ -26,6 +26,13 @@
                     style="width: 90%;"
             >
             </el-input>
+            <el-input
+                type="textarea"
+                :rows="5"
+                style="margin-top: 10px;width: 90%;"
+                placeholder="文章简介"
+                v-model="content2">
+            </el-input>            
             <el-upload
                     ref="upload"
                     class="upload-demo"
@@ -37,14 +44,21 @@
                     :on-success="fileSuccess"
                     :data="extraData"
                     :before-upload="beforeUpload"
-
             >
                 <i class="el-icon-upload"></i>
                 <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em>(只能上传md文件)</div>
             </el-upload>
 
         </div>
+        <hr style="margin-top: 20px;"/>  
         <h1 style="font-size: 30px;font-weight: 200;margin-bottom: 10px">直接发布</h1>
+        <el-input
+            type="textarea"
+            :rows="5"
+            style="width: 50%;margin-bottom: 20px;"
+            placeholder="文章简介"
+            v-model="content1">
+        </el-input>
         <mavon-editor
                 v-model="articleValue"
                 style="height: 100%"
@@ -90,6 +104,7 @@
     import {mapState} from 'vuex'
     import getRandomId from '../../utils/getRandomId'
     import api from '../../api/index'
+import { clearInterval } from 'timers';
     export default {
         props:{
             toolbars: {
@@ -145,8 +160,11 @@
                     article_author: this.$store.state.username,
                     article_title: '',
                     article_time: new Date().toLocaleString().replace(/\//g, '-'),
-                    tags_id: ''
+                    tags_id: '',
+                    article_introduce: this.content2
                 },
+                content1: '',
+                content2: ''
             }
         },
         mounted(){
@@ -200,6 +218,7 @@
                     article_author: this.username,
                     article_assist: 0,
                     article_read: 0,
+                    article_introduce: this.content1,
                     article_time: new Date().toLocaleString().replace(/\//g, '-'),
                 }
                 this.dialogVisible = true
@@ -220,6 +239,8 @@
             },
             submitUpload () {
                 this.$refs.upload.submit()
+                this.extraData.article_introduce = this.content2
+                this.extraData.article_id = getRandomId()
             },
             beforeUpload(file){
 

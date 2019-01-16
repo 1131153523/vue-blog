@@ -6,7 +6,7 @@
                     <router-link :to="'/article/' + item.article_id" ><h3 class="article-title">{{item.article_title}}</h3></router-link>
                     <router-link :to="'/article/' + item.article_id" >                                    
                         <p class="article-intro">
-                            经过半年的沉淀，加上对MySQL，redis和分布式这块的补齐，终于开始重拾信心去投了两家之前心水已久的公司。
+                            {{item.article_introduce === 'undefined' ? '' : item.article_introduce}}
                         </p>
                     </router-link>
                     <div class="article-hot">
@@ -14,7 +14,7 @@
                             <svg class="icon" aria-hidden="true">
                                 <use xlink:href="#icon-comment"></use>
                             </svg>
-                            <span class="comment-num">{{item.article_assist}}</span>&nbsp;<span class="dot">·</span>评论数
+                            <span class="comment-num">{{Math.ceil(item.article_assist / 2)}}</span>&nbsp;<span class="dot">·</span>评论数
                         </span>  
                         <span class="author">{{item.article_author}}</span><span class="dot">·</span>
                         <span class="time">{{item.article_time | formatDate}}</span><span class="dot">·</span>
@@ -49,14 +49,16 @@ import { setTimeout } from 'timers';
         mounted () {
             this.getData()
             window.onscroll = () => {
-                let html = document.documentElement
-                let scheight = html.scrollHeight
-                let top = html.scrollTop
-                let height = html.offsetHeight
-                if (scheight <= top + height) {
-                    this.page ++
-                    this.loadMore()
-                }           
+                if (this.$route.path.indexOf('/home') > -1) {
+                    let html = document.documentElement
+                    let scheight = html.scrollHeight
+                    let top = html.scrollTop
+                    let height = html.offsetHeight
+                    if (scheight <= top + height) {
+                        this.page ++
+                        this.loadMore()
+                    }  
+                }
             }
         },
         watch: {

@@ -203,6 +203,13 @@
                 placeholder="标题"
                 v-model="inputTitle">
             </el-input>
+            <h4 style="margin-bottom: 5px;margin-top: 10px;">文章简介</h4>
+            <el-input
+                type="textarea"
+                :rows="5"
+                style="margin-bottom: 20px;"
+                placeholder="文章简介"
+                v-model="introduce"/>            
             <h4 style="margin-bottom: 5px;margin-top: 10px;">作者或标签</h4>
             <el-select v-model="inputTag" placeholder="作者或标签" style="z-index: 2" >
                 <el-option-group
@@ -219,6 +226,7 @@
                     </el-option>
                 </el-option-group>
             </el-select><br>
+
             <h4 style="margin-bottom: 5px;margin-top: 10px;">文章内容</h4>
             <Read 
                 :navigation="false" 
@@ -289,7 +297,8 @@
                     /* 2.2.1 */
                     subfield: true, // 单双栏模式
                     preview: true, // 预览
-                }
+                },
+                introduce: ''
             }
         },
         mounted(){
@@ -341,8 +350,9 @@
             handleUpdate(index, row, flag) {
                 if (flag === -1) {
                     this.dialogFormVisible = true
-                    let articleInfo = this.$store.state.articleList1.find(e => e.article_id === row.article_id)
+                    let articleInfo = this.$store.state.articleList.find(e => e.article_id === row.article_id)
                     this.inputTitle = articleInfo.article_title
+                    this.introduce = articleInfo.article_introduce
                     this.clickRow = row
                 }
                 if (flag === 0) {
@@ -358,7 +368,7 @@
                         article_author: options2.find(e => e.value === this.inputTag) !== undefined ?  options2.find(e => e.value === this.inputTag).value : this.clickRow.article_author,
                         tags_id: options1.find(e => e.tags_id === this.inputTag) !== undefined ? options1.find(e => e.tags_id === this.inputTag).tags_id : this.clickRow.tags_id,
                         article_content: this.value3,
-                        article_path: this.clickRow.article_path,
+                        article_introduce: this.introduce,
                         token: this.$store.state.token
                     }
                     this.$store.dispatch('updateArticle', article)

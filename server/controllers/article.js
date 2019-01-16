@@ -44,8 +44,7 @@ class ArticleController {
         }
     }
     static async writeArticle (ctx) {
-        let {article_content,article_title} = ctx.request.body
-        console.log(article_title);
+        let {article_content,article_title, article_introduce} = ctx.request.body
         let path = `${base_dir}static/articles/${article_title.trim()}.md`
         try {
             if (!fs.existsSync(path)) {
@@ -129,8 +128,7 @@ class ArticleController {
         }
     }
     static async uploadArticle (ctx) {
-        let {article_title, tags_id} = ctx.request.body
-        console.log(ctx.request.body);
+        let {article_title, tags_id, article_introduce} = ctx.request.body
         let prePath = ctx.request.files.file.path
         let {type} = ctx.request.files.file
         if (!article_title || !tags_id) {
@@ -355,8 +353,10 @@ class ArticleController {
     }
     static async updateArticle (ctx) {
         try {
-            let {article_path, article_content} = ctx.request.body
+            let {article_content, article_id} = ctx.request.body
             await Model.updateArticle(ctx.request.body)
+            let data = JSON.parse(JSON.stringify(await Model.getArticleById(article_id)))
+            let article_path = data[0].article_path
             if (fs.existsSync(article_path)) {
                 let file = fs.readFileSync(article_path)
                 file = file.toString()

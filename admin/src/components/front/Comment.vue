@@ -13,20 +13,21 @@
             </el-input>
         </div>
         <div class="comments-input">
-            <el-input v-model="name" placeholder="昵称" class="comments-name"></el-input>
             <el-input
                 placeholder="请输入你的邮箱"
                 class="comments-email"
                 v-model="email">
-            </el-input>&nbsp;&nbsp;&nbsp;*选填    
+            </el-input>&nbsp;&nbsp;&nbsp;*选填                
+            <el-input v-model="name" placeholder="昵称" class="comments-name"></el-input>
+
         </div> 
         <el-button type="primary" plain style="margin-bottom: 20px;" @click.stop="toComment">评论</el-button>
         <div class="comments-all">
-            <div class="comments-item" v-for="e in Comment" :key="e.id">
+            <div class="comments-item" v-for="e in Comment" :key="e.id" :data-id="e.id">
                 <div class="item-main">
                     <div class="item-left">
                         <svg class="icon" aria-hidden="true">
-                            <use xlink:href="#icon-icon-test2"></use>
+                            <use :xlink:href="e.comment_touxiang"></use>
                         </svg> 
                     </div>
                     <div class="item-right">
@@ -36,7 +37,7 @@
 </pre>
                         <div class="item-bottom">
                             <span class="item-time">{{e.comment_create_time | formatDate}}</span>
-                            <span class="item-reply" @click.stop="reply">
+                            <span class="item-reply" @click.stop="reply(e.id)" >
                                 <svg class="icon" aria-hidden="true">
                                     <use xlink:href="#icon-huifu"></use>
                                 </svg>  
@@ -57,17 +58,16 @@
                             </div>
                             <div class="reply-right">
                                 <span class="reply-name">Admin</span>
-                                回复　<span style="color: #406599;">技术狗</span> ：
+                                回复　<span style="color: #406599;">{{e.comment_name}}</span> ：
 <pre class="reply-content">
 </pre>                      
                             <el-input
                                 type="textarea"
                                 :rows="2"
                                 placeholder="请输入内容"
-                                v-if="reedit"
                                 v-model="recontent">
                             </el-input>
-                            <div class="reply-btn" v-if="reedit">
+                            <div class="reply-btn" >
                                 <el-button type="primary"  size="mini" >评论</el-button>
                             </div>
                             <div class="reply-bottom">
@@ -92,14 +92,14 @@
     import getRandomId from '../../utils/getRandomId.js'
     import {mapState} from 'vuex'
     import api from '../../api/index.js'
+import { setTimeout } from 'timers';
     export default {
         data () {
             return {
-                content: '',
+                content: ``,
                 name: '',
                 email: '',
                 recontent: '',
-                reedit: false,
                 comments: {},
                 comment: []
             }
@@ -115,6 +115,9 @@
                         if (res.code) {
                             this.comments[article_id] = res.data
                             this.comment = res.data
+                            this.comment.forEach(e => {
+                                e.icon = this.Icon()
+                            })
                         }
                     })
                     .catch (e => {
@@ -132,6 +135,7 @@
                         if (res.code) {
                             this.comments[article_id] = res.data
                             this.comment = res.data
+
                         }
                     })
                     .catch (e => {
@@ -145,15 +149,43 @@
             Comment () {
                 this.comment.sort((a, b) => b.comment_create_time - a.comment_create_time)
                 return this.comment
-            }
+            },
+
         },
         methods: {
-            reply () {
-                if (this.reedit) {
-                    this.reedit = false
-                } else {
-                    this.reedit = true
-                }
+            Icon () {
+                let arr = [
+                    '#icon-default14', 
+                    '#icon-default13', 
+                    '#icon-default12', 
+                    '#icon-default11', 
+                    '#icon-default10', 
+                    '#icon-default9', 
+                    '#icon-default8', 
+                    '#icon-default7', 
+                    '#icon-default6', 
+                    '#icon-default5', 
+                    '#icon-default4', 
+                    '#icon-default3', 
+                    '#icon-default2', 
+                    '#icon-default1', 
+                    '#icon-default', 
+                    '#icon-icon-test9', 
+                    '#icon-icon-test5', 
+                    '#icon-icon-test2', 
+                    '#icon-icon-test3', 
+                    '#icon-icon-test4', 
+                    ]
+                return arr[Math.round(Math.random()*(arr.length - 1))]
+            },
+            reply (id) {
+                for (let e of this.comment) {
+                    if (e.id === id && e.parent_id === '') {
+                        e.parent_id = id
+                    } else {
+                        e.parent_id = ''
+                    }
+                }                
             },
             agree () {
 
@@ -167,22 +199,36 @@
                     alert('内容太长了！')
                     return
                 }
+                if (this.email !== '' && !/^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/.test(this.email)) {
+                    alert('邮箱格式不正确')
+                    this.email = ''
+                    return 
+                }
                 if (this.name === '' && this.content === '') {
                     alert('昵称和内容不能为空')
                 } else {
                     let comment = {
                         id: getRandomId(),
-                        article_id: this.$route.params.article_id,
+                        article_id: this.$route.params.article_id.replace('-comment', ''),
                         comment_name: this.name,
                         comment_content: this.content,
                         comment_email: this.email,
-                        comment_create_time: +new Date()
+                        comment_create_time: +new Date(),
+                        comment_touxiang: this.Icon()
                     }
                 api.toComment(comment)
                     .then(res => {
                         if (res.code) {
-                            this.comment.unshift({...comment, parent_id: ''})
+                            this.comment.unshift({...comment, parent_id: '', comment_agree: 0})
                             this.comments[this.$route.params.article_id] = this.comment
+                            this.content = ''
+                            setTimeout(() => {
+                                Array.prototype.forEach.call(document.querySelectorAll('.comments-item'), (item => {
+                                    if (item.dataset.id === comment.id) {
+                                        item.style.borderBottom = '3px solid #2098D1'
+                                    }
+                                }))
+                            }, 0)
                         } else {
                             alert(res.msg)
                         }
@@ -241,6 +287,7 @@
                 margin-top: 10px;
                 width: 38%;
                 margin-right: 10px;
+                display: block;
 
             }
             .comments-email {
