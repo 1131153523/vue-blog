@@ -53,5 +53,6 @@ export default {
     },
     toReply (value) {
         return ajax('/toReply', value, 'POST')
-    }
+    },
+
 }

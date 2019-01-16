@@ -91,7 +91,7 @@ ${article_id}, ${article_title}, ${article_introduce}, ${article_author}, ${arti
         let sql = escape`update articles set article_title=${article_title}, article_introduce=${article_introduce}, article_author=${article_author},tags_id=${tags_id} where article_id=${article_id}`
         return p.query(sql)
     }
-    static updateArticleRead(article_id) {
+    static updateArticleComment(article_id) {
         let sql = escape`update articles set article_assist=article_assist + 1 where article_id=${article_id}`
         return p.query(sql)
     }

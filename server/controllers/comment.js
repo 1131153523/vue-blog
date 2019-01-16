@@ -5,7 +5,7 @@ class CommentController {
             let {comment_content, article_id} = ctx.request.body
             comment_content = comment_content.replace('<', '&lt;').replace('>', '&gt;')
             let data = await Model.toComment({...ctx.request.body, comment_content})
-            await Model.updateArticleRead(article_id)
+            await Model.updateArticleComment(article_id)
             if (data.affectedRows > 0) {
                 ctx.body = {
                     code: 1,

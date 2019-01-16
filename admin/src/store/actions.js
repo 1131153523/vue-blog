@@ -74,6 +74,5 @@ export default {
         commit(types.SET_LIST, value)
     },
 
-
 }
 

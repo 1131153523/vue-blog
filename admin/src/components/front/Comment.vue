@@ -23,7 +23,7 @@
         </div> 
         <el-button type="primary" plain style="margin-bottom: 20px;" @click.stop="toComment">评论</el-button>
         <div class="comments-all">
-            <div class="comments-item" v-for="e in Comment" :key="e.id" :data-id="e.id">
+            <div class="comments-item" v-for="e in Comment" :key="e.id" :data-id="e.id" v-if="e.parent_id === ''">
                 <div class="item-main">
                     <div class="item-left">
                         <svg class="icon" aria-hidden="true">
@@ -49,34 +49,37 @@
                                 <span class="agree-num">{{e.comment_agree}}</span>                               
                             </span>
                         </div>
-
-                        <div class="reply" v-if="e.parent_id !== ''">
+                        <el-input
+                            type="textarea"
+                            :rows="2"
+                            placeholder="请输入内容"
+                            v-if="e.id === index"
+                            style="margin: 10px 0;"
+                            v-model="recontent">
+                        </el-input>
+                        <div class="reply-btn"   v-if="e.id === index">
+                            <el-button type="primary"  size="mini" @click.stop="toReply(e.id)">评论</el-button>
+                        </div>
+                        <div class="reply" v-for="item in comment" :key="item.id + Math.random()" v-if="item.parent_id !== '' && item.parent_id === e.id">
                             <div class="reply-left">
                                 <svg class="icon" aria-hidden="true">
                                     <use xlink:href="#icon-icon-test8"></use>
                                 </svg>                                 
                             </div>
                             <div class="reply-right">
-                                <span class="reply-name">Admin</span>
-                                回复　<span style="color: #406599;">{{e.comment_name}}</span> ：
+                                <span class="reply-name" style="color: red;">{{item.comment_name}}</span>
+                                回复　<span style="color: #2098D1;">{{e.comment_name}}</span> ：
 <pre class="reply-content">
+{{item.comment_content}}
 </pre>                      
-                            <el-input
-                                type="textarea"
-                                :rows="2"
-                                placeholder="请输入内容"
-                                v-model="recontent">
-                            </el-input>
-                            <div class="reply-btn" >
-                                <el-button type="primary"  size="mini" >评论</el-button>
-                            </div>
+
                             <div class="reply-bottom">
-                                <span class="reply-time">10分钟前</span>
+                                <span class="reply-time">{{item.comment_create_time | formatDate}}</span>
                                 <span class="reply-agree" @click.stop="agree">
                                     <svg class="icon" aria-hidden="true">
                                         <use xlink:href="#icon-dianzan"></use>
                                     </svg>
-                                    <span class="agree-num">10</span>                               
+                                    <span class="agree-num">{{item.comment_agree}}</span>                               
                                 </span>
                             </div>  
                             </div>
@@ -92,7 +95,7 @@
     import getRandomId from '../../utils/getRandomId.js'
     import {mapState} from 'vuex'
     import api from '../../api/index.js'
-import { setTimeout } from 'timers';
+    import { setTimeout } from 'timers';
     export default {
         data () {
             return {
@@ -101,7 +104,9 @@ import { setTimeout } from 'timers';
                 email: '',
                 recontent: '',
                 comments: {},
-                comment: []
+                comment: [],
+                isShow: false,
+                index: ''
             }
         },
         mounted (){
@@ -113,6 +118,8 @@ import { setTimeout } from 'timers';
                 api.getCommentsById({article_id: article_id})
                     .then (res => {
                         if (res.code) {
+                            console.log(res.data);
+                            
                             this.comments[article_id] = res.data
                             this.comment = res.data
                             this.comment.forEach(e => {
@@ -179,13 +186,16 @@ import { setTimeout } from 'timers';
                 return arr[Math.round(Math.random()*(arr.length - 1))]
             },
             reply (id) {
-                for (let e of this.comment) {
-                    if (e.id === id && e.parent_id === '') {
-                        e.parent_id = id
+                if (!this.$store.state.token || !window.sessionStorage.getItem('token') || this.$store.state.token !== window.sessionStorage.getItem('token')) {
+                    alert('只有管理员有权限回复!请登录')
+                } else {
+                    if (this.index) {
+                        this.index = ''
                     } else {
-                        e.parent_id = ''
+                        this.index = id
                     }
-                }                
+                    
+                }
             },
             agree () {
 
@@ -204,7 +214,7 @@ import { setTimeout } from 'timers';
                     this.email = ''
                     return 
                 }
-                if (this.name === '' && this.content === '') {
+                if (this.name === '' || this.content === '') {
                     alert('昵称和内容不能为空')
                 } else {
                     let comment = {
@@ -238,9 +248,41 @@ import { setTimeout } from 'timers';
                     })
                 }
             },
-            toReply () {
-                // api.toReply()
-            }
+            toReply (parent_id) {
+                if (this.recontent === '') {
+                    alert('回复内容不能为空')
+                    return 
+                }
+                let comment = {
+                    id: getRandomId(),
+                    parent_id: parent_id,
+                    article_id: this.$route.params.article_id.replace('-comment', ''),
+                    comment_name: this.$store.state.username,
+                    comment_content: this.recontent,
+                    comment_email: '',
+                    comment_create_time: +new Date(),
+                    comment_touxiang: '#icon-default'
+                }
+                api.toComment(comment)
+                    .then(res => {
+                        if (res.code) {
+                            this.comment = [comment, ...this.comment]
+                            this.index = ''
+                        } else {
+                            this.comment = this.comment.map(e => {
+                                if (e.id === comment.id) {
+                                    e.parent_id = ''
+                                    return e
+                                } else {
+                                    return e
+                                }
+                            })
+                        }
+                    })
+                    .catch(e => {
+                        console.log(e)
+                    })
+            }                
         },
         filters: {
             formatDate (date) {
