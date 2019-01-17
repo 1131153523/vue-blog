@@ -119,6 +119,7 @@ const router = new Router({
     }
 })
 router.beforeEach((to, from, next) => {
+
     if (to.meta.requireAuth) {
         if (store.state.token) {
             return next()

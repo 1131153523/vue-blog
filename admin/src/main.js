@@ -8,7 +8,6 @@ import 'mavon-editor/dist/css/index.css'
 Vue.use(mavonEditor)
 Vue.config.productionTip = false
 Vue.use(ElementUI, { size: 'small', zIndex: 3000 })
-
 new Vue({
     el: '#app',
     router,

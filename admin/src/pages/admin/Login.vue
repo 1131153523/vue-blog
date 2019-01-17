@@ -70,7 +70,7 @@
                     ]
 
                 },
-                labelPosition: 'top'
+                labelPosition: 'top',
             };
         },
         mounted () {
@@ -118,8 +118,8 @@
                                 }
                             })
                             .catch(err => {
-                            console.log(err)
-                        })
+                                console.log(err)
+                            })
                     } else {
                         console.log('error submit!!')
                         return false;
@@ -921,6 +921,7 @@
 
                 init();
             },
+ 
         },
         beforeRouteLeave (to, from, next) {
             document.querySelector('html').style.backgroundImage = ''

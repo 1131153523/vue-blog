@@ -88,22 +88,22 @@
         }
     }
     ::selection {
-        background: yellowgreen;
+        background: #2098D1;
         color: #ffffff;
     }
 
     ::-moz-selection {
-        background: yellowgreen;
+        background: #2098D1;
         color: #ffffff;
     }
 
     ::selection {
-        background: yellowgreen;
+        background: #2098D1;
         color: #ffffff;
     }
 
     ::-moz-selection {
-        background: yellowgreen;
+        background: #2098D1;
         color: #ffffff;
     }
 

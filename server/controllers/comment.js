@@ -78,7 +78,6 @@ class CommentController {
     static async deleteComment (ctx) {
         try {
             let data = await Model.deleteComment(ctx.request.body)
-            await Model.deleteSubComment(ctx.request.body)
             if (data.affectedRows > 0) {
                 ctx.body = {
                     code: 1,

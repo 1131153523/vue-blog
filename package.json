@@ -27,6 +27,7 @@
     "koa-logger": "^2.0.1",
     "koa-onerror": "^1.2.1",
     "koa-router": "^7.1.1",
+    "koa-session": "^5.10.1",
     "koa-static": "^3.0.0",
     "koa-views": "^5.2.1",
     "koa2-cors": "^2.0.6",
@@ -35,6 +36,7 @@
     "mavon-editor": "^2.6.17",
     "mysql": "^2.16.0",
     "vue": "^2.5.2",
+    "vue-monoplasty-slide-verify": "^1.0.1",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1",
     "webpack-dev-server": "^2.9.7"

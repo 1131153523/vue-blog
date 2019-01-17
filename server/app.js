@@ -10,7 +10,6 @@ const checkToken = require('./token/checkToken')
 var cors = require('koa2-cors');
 // error handler
 onerror(app)
-
 app.use(cors({
     origin: function(ctx) {
         return '*';

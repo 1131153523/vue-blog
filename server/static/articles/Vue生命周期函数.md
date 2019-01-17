@@ -1,7 +1,12 @@
 # Vue生命周期函数
 
 
-![](/images/articleUploadImg/1541319266214-lifecycle.png)
+::: hljs-center
+
+![vue生命周期](https://cn.vuejs.org/images/lifecycle.png)
+
+:::
+
 ```html
   <div id="app">
     <input type="button" value="按钮" @click="msg = 'no'">

@@ -109,11 +109,7 @@ ${article_id}, ${article_title}, ${article_introduce}, ${article_author}, ${arti
         return p.query(sql)
     }
     static deleteComment ({id}) {
-        let sql = escape`delete from comments where id=${id}`
-        return p.query(sql)
-    }
-    static deleteSubComment ({id}) {
-        let sql = escape`delete from comments where parent_id=${id}`
+        let sql = escape`delete from comments where id=${id} or parent_id=${id}`
         return p.query(sql)
     }
 }

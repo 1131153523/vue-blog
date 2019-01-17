@@ -8,7 +8,11 @@
             </el-carousel>
             <div class="banner-right">
                 <el-tabs v-model="activeName"  @tab-click="tabClick" type="border-card" style="width: 100%;height: 100%;box-shadow: none;">
-                    <el-tab-pane label="推荐文章" name="first">推荐文章</el-tab-pane>
+                    <el-tab-pane label="推荐文章" name="first">
+                        <ul class="banner-recommend">
+                            <li v-for="e in list" :key="e.article_id"><router-link :to="'/article/' + e.article_id">{{e.article_title}}</router-link></li>
+                        </ul>
+                    </el-tab-pane>
                     <el-tab-pane label="关于本站" name="second">关于本站</el-tab-pane>
                 </el-tabs>
             </div>
@@ -44,7 +48,7 @@
                             </el-dropdown-menu>
                         </el-dropdown>   
                     </h3>
-                    <ArticleList />
+                    <ArticleList @getArticleList="getArticleList"/>
                 </div>
             </div>
             <div class="home-right">
@@ -62,7 +66,8 @@
             return {
                 activeName: 'first',
                 banner: ['http://127.0.0.1:3000/images/bpic8127.jpg', 'http://127.0.0.1:3000/images/bpic9202.jpg','http://127.0.0.1:3000/images/zzpic14973.jpg'],
-                tags: []
+                tags: [],
+                list: []
             }
         },
         components: {
@@ -104,7 +109,10 @@
             },
             Refrash () {
                 this.$store.dispatch('setSearch', '')
-            }          
+            },
+            getArticleList (list) {
+                this.list = list.slice(0, 6)
+            }         
         },
 
     }   
@@ -125,6 +133,22 @@
             margin-bottom: 10px;
             box-sizing: border-box;
             box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1), 0 1px rgba(0,0,0,0.1);
+            .banner-recommend {
+                list-style: none;
+                li {
+                    overflow: hidden;
+                    text-overflow:ellipsis;
+                    white-space: nowrap;
+                    a {
+                        font-size: 15px;
+                        line-height: 24px;
+ 
+                        &:hover {
+                            color: #2098D1;
+                        }
+                    }
+                }
+            }
         }
     }
     .home {

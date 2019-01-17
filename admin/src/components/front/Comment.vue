@@ -5,13 +5,14 @@
             <el-input
                 class="textarea"
                 type="textarea"
-                :autosize="{ minRows: 4, maxRows: 7}"
+                :autosize="{ minRows: 3, maxRows: 7}"
                 placeholder="请输入评论"
                 resize="none"
                 :clearable="true"
                 v-model="content">
             </el-input>
         </div>
+
         <div class="comments-input">
             <el-input
                 placeholder="请输入你的邮箱"
@@ -20,6 +21,7 @@
             </el-input>&nbsp;&nbsp;&nbsp;*选填                
             <el-input v-model="name" placeholder="昵称" class="comments-name"></el-input>
         </div> 
+
         <el-button type="primary" plain style="margin-bottom: 20px;" @click.stop="toComment">评论</el-button>
         <div class="comments-all">
             <div class="comments-item" v-for="e in Comment" :key="e.id" :data-id="e.id" v-if="e.parent_id === ''">
@@ -108,7 +110,7 @@
                 comment: [],
                 isShow: false,
                 index: '',
-                token: sessionStorage.getItem('token')
+                token: sessionStorage.getItem('token'),
             }
         },
         mounted (){
@@ -224,9 +226,12 @@
                     return
                 }
                 if (this.email !== '' && !/^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/.test(this.email)) {
-                    alert('邮箱格式不正确')
+                    alert('邮箱格式不正确!')
                     this.email = ''
                     return 
+                }
+                if (!this.verify) {
+                    alert('请验证成功后评论!')
                 }
                 if (this.name === '' || this.content === '') {
                     alert('昵称和内容不能为空')
@@ -302,7 +307,8 @@
                             console.log(ｅ)
                         })
                 }           
-            }
+            },
+
 
         },
         filters: {
@@ -361,7 +367,7 @@
         .comments-content {
             display: flex;
             .textarea {
-                width: 493px;
+                width: 400px;
                 background-color: #fff;
                 border-radius: 3px;
                 box-sizing: border-box;
@@ -506,4 +512,5 @@
             margin-right: 0;
         }
     }
+
 </style>

@@ -143,6 +143,7 @@ import { setTimeout } from 'timers';
                             })
                             if (res.code) {
                                 data.sort((a, b) => b.article_time - a.article_time)
+                                this.$emit('getArticleList', data)
                                 let tags_name = this.$route.query.tags_name
                                 this.articles = this.removeDup(this.articles.concat(data), 'article_id')
                                 this.$store.dispatch('setList', this.removeDup(this.articles.concat(data), 'article_id'))
