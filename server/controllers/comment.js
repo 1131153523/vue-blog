@@ -49,6 +49,59 @@ class CommentController {
             }
         }
     }
+    static async toAgree (ctx) {
+        try {
+            let data = await Model.toAgree(ctx.request.body)
+            if (data.changedRows > 0) {
+                ctx.body = {
+                    code: 1,
+                    msg: '点赞成功',
+                    isShow: false
+                }
+            } else {
+                ctx.body = {
+                    code: 0,
+                    msg: '点赞失败',
+                    isShow: false
+                }
+            }            
+        } catch(e) {
+            console.log(e)
+            console.log('服务器错误，点赞失败');
+            ctx.body = {
+                code: 0,
+                msg: '服务器错误，点赞失败',
+                isShow: false
+            }
+        }
+    }
+    static async deleteComment (ctx) {
+        try {
+            let data = await Model.deleteComment(ctx.request.body)
+            await Model.deleteSubComment(ctx.request.body)
+            if (data.affectedRows > 0) {
+                ctx.body = {
+                    code: 1,
+                    msg: '删除成功',
+                    isShow: false
+                }                
+            }  else {
+                ctx.body = {
+                    code: 0,
+                    msg: '删除失败，该评论不存在',
+                    isShow: false
+                }
+            }           
+        } catch(e) {
+            console.log(e)
+            console.log('服务器错误，删除失败');
+            ctx.body = {
+                code: 0,
+                msg: '服务器错误，删除失败',
+                isShow: false
+            }
+        }
+    }
 }   
 
 module.exports = CommentController

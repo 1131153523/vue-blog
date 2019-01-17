@@ -100,8 +100,20 @@ ${article_id}, ${article_title}, ${article_introduce}, ${article_author}, ${arti
         values(${id}, ${article_id}, ${parent_id}, ${comment_name}, ${comment_touxiang}, ${comment_content}, ${comment_email}, ${comment_create_time})`
         return p.query(sql)
     }
+    static toAgree ({id}) {
+        let sql = escape`update comments set comment_agree=comment_agree+1 where id=${id}`
+        return p.query(sql)
+    }
     static getCommentsById (article_id) {
         let sql = escape`select * from comments where  article_id=${article_id}`
+        return p.query(sql)
+    }
+    static deleteComment ({id}) {
+        let sql = escape`delete from comments where id=${id}`
+        return p.query(sql)
+    }
+    static deleteSubComment ({id}) {
+        let sql = escape`delete from comments where parent_id=${id}`
         return p.query(sql)
     }
 }

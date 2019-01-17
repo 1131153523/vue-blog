@@ -1,5 +1,5 @@
 <template>
-    <div class="comments">
+    <div class="comments" >
         <h3 class="comments-title">评论</h3>
         <div class="comments-content">
             <el-input
@@ -19,7 +19,6 @@
                 v-model="email">
             </el-input>&nbsp;&nbsp;&nbsp;*选填                
             <el-input v-model="name" placeholder="昵称" class="comments-name"></el-input>
-
         </div> 
         <el-button type="primary" plain style="margin-bottom: 20px;" @click.stop="toComment">评论</el-button>
         <div class="comments-all">
@@ -32,6 +31,7 @@
                     </div>
                     <div class="item-right">
                         <span class="item-name">{{e.comment_name}}</span>
+                        &nbsp;&nbsp;&nbsp;<el-button type="text" @click.stop="deleteComment(e.id)" v-if="token && $store.state.token === token">删除评论</el-button>
 <pre class="item-content">
 {{e.comment_content}}
 </pre>
@@ -42,7 +42,7 @@
                                     <use xlink:href="#icon-huifu"></use>
                                 </svg>  
                             </span>
-                            <span class="item-agree" @click.stop="agree">
+                            <span class="item-agree" @click.stop.once="agree(e.id)">
                                 <svg class="icon" aria-hidden="true">
                                     <use xlink:href="#icon-dianzan"></use>
                                 </svg>                                
@@ -54,7 +54,7 @@
                             :rows="2"
                             placeholder="请输入内容"
                             v-if="e.id === index"
-                            style="margin: 10px 0;"
+                            style="margin: 10px 0;width:80%;"
                             v-model="recontent">
                         </el-input>
                         <div class="reply-btn"   v-if="e.id === index">
@@ -72,13 +72,14 @@
 <pre class="reply-content">
 {{item.comment_content}}
 </pre>                      
-
                             <div class="reply-bottom">
                                 <span class="reply-time">{{item.comment_create_time | formatDate}}</span>
-                                <span class="reply-agree" @click.stop="agree">
+                                <el-button type="text" @click.stop="deleteComment(item.id)" v-if="token && $store.state.token === token">删除评论</el-button>
+                                <span class="reply-agree" v-on:click.once.stop="agree(item.id)">
                                     <svg class="icon" aria-hidden="true">
                                         <use xlink:href="#icon-dianzan"></use>
                                     </svg>
+
                                     <span class="agree-num">{{item.comment_agree}}</span>                               
                                 </span>
                             </div>  
@@ -106,7 +107,8 @@
                 comments: {},
                 comment: [],
                 isShow: false,
-                index: ''
+                index: '',
+                token: sessionStorage.getItem('token')
             }
         },
         mounted (){
@@ -118,8 +120,6 @@
                 api.getCommentsById({article_id: article_id})
                     .then (res => {
                         if (res.code) {
-                            console.log(res.data);
-                            
                             this.comments[article_id] = res.data
                             this.comment = res.data
                             this.comment.forEach(e => {
@@ -142,22 +142,18 @@
                         if (res.code) {
                             this.comments[article_id] = res.data
                             this.comment = res.data
-
                         }
                     })
                     .catch (e => {
                         console.log(e)
                     }) 
             }
-
-            
         },
         computed: {
             Comment () {
                 this.comment.sort((a, b) => b.comment_create_time - a.comment_create_time)
                 return this.comment
             },
-
         },
         methods: {
             Icon () {
@@ -187,7 +183,7 @@
             },
             reply (id) {
                 if (!this.$store.state.token || !window.sessionStorage.getItem('token') || this.$store.state.token !== window.sessionStorage.getItem('token')) {
-                    alert('只有管理员有权限回复!请登录')
+                    alert('只有管理员有权限回复!')
                 } else {
                     if (this.index) {
                         this.index = ''
@@ -197,8 +193,26 @@
                     
                 }
             },
-            agree () {
-
+            agree (id) {
+                let timeout;
+                let previous = 0; 
+                if (!timeout) {
+                    timeout = setTimeout(() => {
+                        timeout = null;
+                        api.toAgree({id: id})
+                            .then(res => {
+                                if (res.code) {
+                                    this.comment[this.comment.findIndex(e => e.id === id)].comment_agree ++
+                                } else {
+                                    alert('点赞失败')
+                                }
+                                
+                            })
+                            .catch(e => {
+                                console.log(e)
+                            })
+                    }, 1500)
+                }
             },
             toComment () {
                 if (this.name.length > 30) {
@@ -219,7 +233,7 @@
                 } else {
                     let comment = {
                         id: getRandomId(),
-                        article_id: this.$route.params.article_id.replace('-comment', ''),
+                        article_id: this.$route.params.article_id,
                         comment_name: this.name,
                         comment_content: this.content,
                         comment_email: this.email,
@@ -256,7 +270,7 @@
                 let comment = {
                     id: getRandomId(),
                     parent_id: parent_id,
-                    article_id: this.$route.params.article_id.replace('-comment', ''),
+                    article_id: this.$route.params.article_id,
                     comment_name: this.$store.state.username,
                     comment_content: this.recontent,
                     comment_email: '',
@@ -266,23 +280,30 @@
                 api.toComment(comment)
                     .then(res => {
                         if (res.code) {
-                            this.comment = [comment, ...this.comment]
+                            this.comment = [{...comment, comment_agree: 0}, ...this.comment]
                             this.index = ''
-                        } else {
-                            this.comment = this.comment.map(e => {
-                                if (e.id === comment.id) {
-                                    e.parent_id = ''
-                                    return e
-                                } else {
-                                    return e
-                                }
-                            })
                         }
                     })
                     .catch(e => {
                         console.log(e)
                     })
-            }                
+            },
+            deleteComment (id) {
+                if (confirm('确认删除？')) {
+                    api.deleteComment({id})
+                        .then(res => {
+                            if (res.code) {
+                                this.comment.splice(this.comment.findIndex(e => e.id === id), 1)
+                            } else {
+                                alert(res.msg)
+                            }
+                        }) 
+                        .catch(e => {
+                            console.log(ｅ)
+                        })
+                }           
+            }
+
         },
         filters: {
             formatDate (date) {

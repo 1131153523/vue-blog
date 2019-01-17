@@ -17,9 +17,13 @@
                 <use xlink:href="#icon-fanhuidingbu1"></use>
             </svg>
             <div>
+            <svg class="icon" aria-hidden="true" v-if="$route.fullPath.indexOf('/article') > -1" @click="toBottom">
+                <use xlink:href="#icon-pinglun1"></use>
+            </svg> 
             <svg class="icon" aria-hidden="true" v-if="$route.fullPath.indexOf('/article') > -1" >
                 <use xlink:href="#icon-tableshare"></use>
             </svg>  
+
             </div>           
         </div>   
     </div>
@@ -33,6 +37,9 @@
         methods: {
             toTop () {
                 window.scrollTo(0, 0)
+            },
+            toBottom () {
+                document.querySelector(".comments").scrollIntoView();
             }
         },
         mounted() {
@@ -54,11 +61,15 @@
             svg {
                 color: #2098D1;
                 cursor: pointer;
+                display: block;
                 &:first-child {
                     font-size: 32px;
                 }
+                &:nth-child(2) {
+                    font-size: 32px;
+                }
                 &:last-child {
-                    font-size: 22px;
+                    font-size: 25px;
                     margin-top: 10px;
                 }
             }

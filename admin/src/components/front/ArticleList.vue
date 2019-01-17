@@ -158,7 +158,7 @@ import { setTimeout } from 'timers';
                         })
             },
             toComment (id) {
-                this.$router.push({ name: 'Article', params: { article_id: id + '-comment' }})
+                this.$router.push({ name: 'Article', params: { article_id: id }})
             }
         },
         

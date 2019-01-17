@@ -54,5 +54,10 @@ export default {
     toReply (value) {
         return ajax('/toReply', value, 'POST')
     },
-
+    toAgree (value) {
+        return ajax('/toAgree', value, 'POST')
+    },
+    deleteComment (value) {
+        return ajax('/deleteComment', value, 'POST')
+    }
 }
