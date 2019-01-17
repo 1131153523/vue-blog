@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50721
 File Encoding         : 65001
 
-Date: 2019-01-06 17:25:00
+Date: 2019-01-17 14:01:59
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -31,7 +31,7 @@ CREATE TABLE `admin` (
 -- ----------------------------
 -- Records of admin
 -- ----------------------------
-INSERT INTO `admin` VALUES ('1', 'admin', '123', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYWRtaW4iLCJpYXQiOjE1NDY3NjUxMTIsImV4cCI6MTU0Njc3NTkxMn0.uFhFM9UPYkP4PmifV3MoIRtWKzxsQh9wHi4Q1MPmfsA', '2019-1-6 下午4:58:32');
+INSERT INTO `admin` VALUES ('1', 'admin', '123', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYWRtaW4iLCJpYXQiOjE1NDc3MDE2OTUsImV4cCI6MTU0NzcxMjQ5NX0.dzRwuT8skQ2M44He4myMNIDKW_GDCjSgAxbJpMgRT7o', '2019-1-17 下午1:08:15');
 
 -- ----------------------------
 -- Table structure for articles
@@ -40,12 +40,13 @@ DROP TABLE IF EXISTS `articles`;
 CREATE TABLE `articles` (
   `article_id` varchar(10) CHARACTER SET utf8 NOT NULL,
   `article_title` varchar(30) CHARACTER SET utf8 DEFAULT NULL,
+  `article_introduce` varchar(400) CHARACTER SET utf8 DEFAULT '',
   `article_pass` tinyint(4) NOT NULL DEFAULT '0',
   `article_author` varchar(20) CHARACTER SET utf8 DEFAULT NULL,
   `article_path` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
-  `article_assist` int(11) NOT NULL DEFAULT '0',
+  `article_assist` tinyint(10) NOT NULL DEFAULT '0',
   `article_read` int(11) NOT NULL DEFAULT '0',
-  `article_img` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `article_img` varchar(255) CHARACTER SET utf8 DEFAULT '',
   `article_time` varchar(40) CHARACTER SET utf8 DEFAULT NULL,
   `tags_id` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`article_id`),
@@ -56,15 +57,50 @@ CREATE TABLE `articles` (
 -- ----------------------------
 -- Records of articles
 -- ----------------------------
-INSERT INTO `articles` VALUES ('1498c1846a', 'sasdadasasd', '0', 'admin', '/home/fanyihui/Desktop/web-demo/server/static/articles/sasdadasasd.md', '0', '0', null, '2019-1-1 下午1:05:46', '6df93151c8');
-INSERT INTO `articles` VALUES ('1ca72989dc', 'asdasdas', '0', 'admin', '/home/fanyihui/Desktop/web-demo/server/static/articles/asdasdas.md', '0', '0', '/uploads/articleTumbImg/1546745702445-深度截图_选择区域_20190105213624.png', '2019-1-1 下午1:21:52', '6df93151c8');
-INSERT INTO `articles` VALUES ('63a67e7376', ' JS防抖', '0', 'admin', '/home/fanyihui/Desktop/web-demo/server/static/articles/JS防抖.md', '0', '0', '/uploads/articleTumbImg/1546755341894-深度截图_选择区域_20190105213624.png', '2019-1-6 下午2:05:52', '8bb9eea07c');
-INSERT INTO `articles` VALUES ('767b7adc0f', ' 爬虫1', '0', 'admin', '/home/fanyihui/Desktop/web-demo/server/static/articles/爬虫1.md', '0', '0', '/uploads/articleTumbImg/1546745674719-深度截图_选择区域_20190105213624.png', '2019-1-1 下午3:08:34', '324ac48b35');
-INSERT INTO `articles` VALUES ('9b450f229e', ' JS节流函数', '0', 'admin', '/home/fanyihui/Desktop/web-demo/server/static/articles/JS节流函数.md', '0', '0', '', '2019-1-5 下午7:07:12', '8bb9eea07c');
-INSERT INTO `articles` VALUES ('aed1c3d1c5', ' JS防抖函数', '0', 'admin', '/home/fanyihui/Desktop/web-demo/server/static/articles/JS防抖函数.md', '0', '0', '', '2019-1-5 下午7:08:17', '8bb9eea07c');
-INSERT INTO `articles` VALUES ('c24ab6c8c0', 'xscdsfdsfdfs', '0', 'admin', '/home/fanyihui/Desktop/web-demo/server/static/articles/xscdsfdsfdfs.md', '0', '0', '/uploads/articleTumbImg/1546745839039-深度截图_选择区域_20190105213624.png', '2019-1-3 下午2:39:28', '6df93151c8');
-INSERT INTO `articles` VALUES ('deb1a93216', ' 爬虫', '0', 'admin', '/home/fanyihui/Desktop/web-demo/server/static/articles/爬虫.md', '0', '0', '/uploads/articleTumbImg/1546745966743-深度截图_选择区域_20190105213624.png', '2019-1-1 下午2:39:35', '324ac48b35');
-INSERT INTO `articles` VALUES ('eea31b9ea3', 'sadfdgrrthrh', '0', 'admin', '/home/fanyihui/Desktop/web-demo/server/static/articles/sadfdgrrthrh.md', '0', '0', '/uploads/articleTumbImg/1546746530101-深度截图_选择区域_20190105213624.png', '2019-1-1 下午4:06:47', '8bb9eea07c');
+INSERT INTO `articles` VALUES ('0652309127', '清除浮动的六种方式', '', '1', 'admin', '/home/fanyihui/Desktop/web-demo/server/static/articles/清除浮动的六种方式.md', '23', '0', '', '2019-1-16 下午6:19:54', 'f11d873b99');
+INSERT INTO `articles` VALUES ('06b49d8513', 'js实现插入排序', '3333', '1', 'admin', '/home/fanyihui/Desktop/web-demo/server/static/articles/js实现插入排序.md', '0', '0', '', '2019-1-16 下午6:19:54', '3a868d8e6b');
+INSERT INTO `articles` VALUES ('6ad6bf1cb4', '动手实现一个简单的Promise', '44444', '1', 'admin', '/home/fanyihui/Desktop/web-demo/server/static/articles/动手实现一个简单的Promise.md', '0', '0', '', '2019-1-16 下午6:19:54', '15f50360a3');
+INSERT INTO `articles` VALUES ('95e00e13fa', 'Vue生命周期函数', '', '1', 'admin', '/home/fanyihui/Desktop/web-demo/server/static/articles/Vue生命周期函数.md', '5', '0', '', '2019-1-16 下午6:19:54', '6df93151c8');
+INSERT INTO `articles` VALUES ('d04eac5996', 'JS类型判断', '22222', '1', 'admin', '/home/fanyihui/Desktop/web-demo/server/static/articles/JS类型判断.md', '0', '0', '', '2019-1-16 下午6:19:54', '8bb9eea07c');
+INSERT INTO `articles` VALUES ('e01622ffe5', 'BFS求图的最短路径', '1111111', '1', 'admin', '/home/fanyihui/Desktop/web-demo/server/static/articles/BFS求图的最短路径.md', '0', '0', '', '2019-1-16 下午6:19:54', '3a868d8e6b');
+
+-- ----------------------------
+-- Table structure for comments
+-- ----------------------------
+DROP TABLE IF EXISTS `comments`;
+CREATE TABLE `comments` (
+  `id` varchar(10) NOT NULL,
+  `parent_id` varchar(10) DEFAULT '',
+  `article_id` varchar(10) DEFAULT '',
+  `comment_name` varchar(255) DEFAULT NULL,
+  `comment_touxiang` varchar(40) DEFAULT NULL,
+  `comment_content` varchar(600) DEFAULT '',
+  `comment_email` varchar(50) DEFAULT '',
+  `comment_agree` int(10) unsigned DEFAULT '0',
+  `comment_create_time` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of comments
+-- ----------------------------
+INSERT INTO `comments` VALUES ('0d9252bfa8', '660c4ddcc0', '0652309127', 'admin', '#icon-default', '11', '', '0', '1547653147656');
+INSERT INTO `comments` VALUES ('12c23865cb', 'b613a33277', '95e00e13fa', 'admin', '#icon-default', '你好啊，嘿嘿', '', '10', '1547693241467');
+INSERT INTO `comments` VALUES ('1c4d91deb2', '', '95e00e13fa', 'emm', '#icon-default13', '牛逼', '', '6', '1547693494039');
+INSERT INTO `comments` VALUES ('1cd84387e1', '65cb082b26', '0652309127', 'admin', '#icon-default', 'sdasadasd', '', '0', '1547652904008');
+INSERT INTO `comments` VALUES ('2a29fe882c', '', '0652309127', 'ad', '#icon-default11', '456688587', '1131153523@qq.com', '0', '1547651197323');
+INSERT INTO `comments` VALUES ('3f96186c92', '660c4ddcc0', '0652309127', 'admin', '#icon-default', '2', '', '0', '1547653296129');
+INSERT INTO `comments` VALUES ('65cb082b26', '', '0652309127', 'ad', '#icon-default14', '14235235', '1131153523@qq.com', '0', '1547651195846');
+INSERT INTO `comments` VALUES ('660c4ddcc0', '', '0652309127', 'ad', '#icon-default14', 'sadasdasd', '1131153523@qq.com', '1', '1547651192602');
+INSERT INTO `comments` VALUES ('72a5dcad7e', 'cd7b30269a', '0652309127', 'admin', '#icon-default', 'asdasd', '', '0', '1547653037546');
+INSERT INTO `comments` VALUES ('837c4dc439', '2a29fe882c', '0652309127', 'admin', '#icon-default', 'asdasd', '', '0', '1547652991687');
+INSERT INTO `comments` VALUES ('96782eb994', 'b613a33277', '95e00e13fa', 'admin', '#icon-default', '哈哈哈哈', '', '73', '1547693446949');
+INSERT INTO `comments` VALUES ('9709f39458', '1c4d91deb2', '95e00e13fa', 'admin', '#icon-default', '6666', '', '1', '1547696101371');
+INSERT INTO `comments` VALUES ('a7dc59462b', 'cd7b30269a', '0652309127', 'admin', '#icon-default', 'sadasdasd', '', '0', '1547652930354');
+INSERT INTO `comments` VALUES ('b613a33277', '', '95e00e13fa', '123456', '#icon-default9', 'hello', '', '9', '1547693211116');
+INSERT INTO `comments` VALUES ('c0fd181a31', '2a29fe882c', '0652309127', 'admin', '#icon-default', 'sadasdasd', '', '0', '1547652851920');
+INSERT INTO `comments` VALUES ('cd7b30269a', '', '0652309127', 'ad', '#icon-default10', 'asdasd', '1131153523@qq.com', '0', '1547651194291');
+INSERT INTO `comments` VALUES ('d3f52423e4', '660c4ddcc0', '0652309127', 'admin', '#icon-default', '3333', '', '2', '1547653380420');
 
 -- ----------------------------
 -- Table structure for draft
@@ -77,7 +113,7 @@ CREATE TABLE `draft` (
 -- ----------------------------
 -- Records of draft
 -- ----------------------------
-INSERT INTO `draft` VALUES ('# JS防抖\n\n\n```javascript\nfunction debounce(func, wait, immediate) {\n    var timeout, result;\n    var debounced = function () {\n        var context = this;            //保存this，否则在回调函数中访问的将会是window\n        var args = arguments;　　//获取事件对象\n        if (timeout) clearTimeout(timeout);　　//只要没有停止触发实践，就会不断清除定时器\n        if (immediate) {            //判断是否立即执行\n            // 如果已经执行过，不再执行\n            var callNow = !timeout;　//　false\n            timeout = setTimeout(function(){\n                timeout = null;        //清除定时器\n            }, wait)\n            if (callNow) result = func.apply(context, args)    //如果执行过就不会进行这一步\n        }　else {\n            timeout = setTimeout(function(){\n                func.apply(context, args)　　//调用回调函数，并改变this指向，传入事件对象\n            }, wait);\n        }\n        return result;\n    };\n    debounced.cancel = function() {\n        clearTimeout(timeout);\n        timeout = null;\n    };\n    return debounced;\n}\n```\n![深度截图_选择区域_20190105213624.png](http://127.0.0.1:3000/uploads/articleImg/深度截图_选择区域_20190105213624.png)\n\n\n\n\n\n\n\n');
+INSERT INTO `draft` VALUES ('# EventUtil——跨浏览器的事件对象6\ndsadasdss\nsddasdsaasdsadasd');
 
 -- ----------------------------
 -- Table structure for tags
@@ -92,6 +128,13 @@ CREATE TABLE `tags` (
 -- ----------------------------
 -- Records of tags
 -- ----------------------------
+INSERT INTO `tags` VALUES ('15f50360a3', 'ES6');
 INSERT INTO `tags` VALUES ('324ac48b35', 'Python');
+INSERT INTO `tags` VALUES ('3a868d8e6b', '算法');
+INSERT INTO `tags` VALUES ('5cc303136b', 'Webpack');
 INSERT INTO `tags` VALUES ('6df93151c8', 'Vue');
-INSERT INTO `tags` VALUES ('8bb9eea07c', 'JS');
+INSERT INTO `tags` VALUES ('7148d4c1b2', 'HTML');
+INSERT INTO `tags` VALUES ('8bb9eea07c', 'Javascript');
+INSERT INTO `tags` VALUES ('cdaa231199', 'NodeJS');
+INSERT INTO `tags` VALUES ('d8f4816c34', '数据库');
+INSERT INTO `tags` VALUES ('f11d873b99', 'CSS');
