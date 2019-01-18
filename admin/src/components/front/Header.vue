@@ -12,8 +12,8 @@
                         </svg>
                         <nav>
                             <ul class="nav-list">
-                                <li class="hvr-underline-reveal hvr-underline-reveal-active"><router-link to="/">首页</router-link></li>
-                                <li class="hvr-underline-reveal"><router-link to="/article/asdasd">作品</router-link></li>
+                                <li class="hvr-underline-reveal" :class="{'hvr-underline-reveal-active': $route.fullPath.indexOf('/home') > -1}"><router-link to="/home">首页</router-link></li>
+                                <li class="hvr-underline-reveal" :class="{'hvr-underline-reveal-active': $route.fullPath.indexOf('/project') > -1}"><router-link to="/project">项目</router-link></li>
                                 <li class="hvr-underline-reveal"><router-link to="/article">生活</router-link></li>
                                 <li class="hvr-underline-reveal"><router-link to="/article">留言</router-link></li>
                                 <li class="hvr-underline-reveal"><router-link to="/article">关于我</router-link></li>

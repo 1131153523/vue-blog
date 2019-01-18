@@ -153,7 +153,7 @@ import { clearInterval } from 'timers';
                 drafts_id: '',
                 uploadDisabled: false,
                 extraData: {
-                    token: this.$store.state.token,
+                    token: window.sessionStorage.getItem('token'),
                     article_id: getRandomId(),
                     article_author: this.$store.state.username,
                     article_title: '',
@@ -162,7 +162,8 @@ import { clearInterval } from 'timers';
                     article_introduce: this.content2
                 },
                 content1: '',
-                content2: ''
+                content2: '',
+                token: window.sessionStorage.getItem('token')
             }
         },
         mounted(){
@@ -171,7 +172,7 @@ import { clearInterval } from 'timers';
 
         },
         computed: {
-            ...mapState(['tags', 'username', 'articleInfo', 'draft','articleValue', 'token']),
+            ...mapState(['tags', 'username', 'articleInfo', 'draft','articleValue']),
             articleValue:{
                 get(){
                     return this.$store.state.articleValue

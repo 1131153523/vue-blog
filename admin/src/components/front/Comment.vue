@@ -115,7 +115,6 @@
         },
         mounted (){
             let article_id = this.$route.params.article_id
-
             if (this.comments[article_id]) {
                 this.comment = this.comments[article_id]
             } else {
@@ -230,9 +229,7 @@
                     this.email = ''
                     return 
                 }
-                if (!this.verify) {
-                    alert('请验证成功后评论!')
-                }
+
                 if (this.name === '' || this.content === '') {
                     alert('昵称和内容不能为空')
                 } else {

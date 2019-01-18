@@ -12,6 +12,7 @@ import Read from '../components/common/Read.vue'
 import Index from '../pages/front/Index.vue'
 import Main from '../pages/front/Home.vue'
 import Article from '../pages/front/Article.vue'
+import Project from '../pages/front/Project.vue'
 import { log } from 'util';
 Vue.use(Router)
 const router = new Router({
@@ -32,6 +33,11 @@ const router = new Router({
                     name: 'Home',
                     component: Main
                 },
+                {
+                    path: '/project',
+                    name: 'Project',
+                    component: Project 
+                }
             ]
         },
 
@@ -119,7 +125,6 @@ const router = new Router({
     }
 })
 router.beforeEach((to, from, next) => {
-
     if (to.meta.requireAuth) {
         if (store.state.token) {
             return next()

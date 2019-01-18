@@ -4,6 +4,8 @@ const Tags = require('../controllers/tags')
 const Article = require('../controllers/article')
 const Comment = require('../controllers/comment')
 const checkToken = require('../token/checkToken')
+router.get('/login/github', User.loginGithub)
+router.get('/login', User.loginCallback)
 router.post('/admin/login', User.loginPost)
 router.post('/admin/checkPrepass', checkToken, User.checkPrepass)
 router.post('/admin/changePass', checkToken, User.changePass)
@@ -25,6 +27,4 @@ router.post('/toComment', Comment.toComment)
 router.post('/toAgree', Comment.toAgree)
 router.post('/getCommentsById', Comment.getCommentsById)
 router.post('/deleteComment', Comment.deleteComment)
-
-
 module.exports = router

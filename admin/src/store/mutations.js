@@ -63,7 +63,7 @@ const mutations = {
     },
     //删除文章标签
     [types.REMOVE_TAG]: (state, value) => {
-        api.removeTag({token: state.token, ...value})
+        api.removeTag({token: window.sessionStorage.getItem('token'), ...value})
             .then(res => {
                 if (res.code) {
                     state.tags.splice(value.index, 1)
@@ -81,7 +81,7 @@ const mutations = {
             tags_id: getRandomId(),
             tags_name: value,
             color: color[Math.floor(Math.random()*4)],
-            token: state.token
+            token: window.sessionStorage.getItem('token')
         }
         api.addTag(obj)
             .then(res => {
@@ -109,7 +109,7 @@ const mutations = {
     },
     //保存草稿内容
     [types.SAVE_DRAFT]:(state, value) => {
-        api.saveDraft({draft_content: value, token: state.token})
+        api.saveDraft({draft_content: value, token: window.sessionStorage.getItem('token')})
             .then(res => {
                 if (!res.code) {
                     console.log(res)
@@ -122,7 +122,7 @@ const mutations = {
     },
     //通过直接发布上传文章
     [types.WRITE_ARTICLE]:(state, info) => {
-        api.writeArticle({...info, token: state.token})
+        api.writeArticle({...info, token: window.sessionStorage.getItem('token')})
             .then(res => {
                 if (res.code) {
                     store.dispatch('getArticleList')
@@ -206,7 +206,7 @@ const mutations = {
     },
     //更新文章审核状态
     [types.UPDATE_ARTICLE_VERIFY]: (state, value) => {
-        api.updateArticleVerify({article_id: value, token: state.token})
+        api.updateArticleVerify({article_id: value, token: window.sessionStorage.getItem('token')})
             .then(res => {
                 if (res.code) {
                     state.articleList[state.articleList.findIndex(e => e.article_id === value)].article_pass = 1
@@ -223,7 +223,7 @@ const mutations = {
         state.articleList1[state.articleList1.findIndex(e => e.article_id === value.article_id)].article_img = value.article_img
     },
     [types.DELETE_ARTICLE]: (state, value) => {
-        api.deleteArticle({token: state.token, article_id: value})
+        api.deleteArticle({token: window.sessionStorage.getItem('token'), article_id: value})
             .then(res => {
                 if (res.code) {
                     let index = state.articleList.findIndex(e => e.article_id === value)
@@ -274,10 +274,17 @@ const mutations = {
     [types.SET_SEARCH]: (state, value) => {
         state.search = value
     },
-    [types.SET_LIST]: (state, value) => {
-        state.list = value
+    [types.LOGIN_GITHUB]: (state) => {
+        api.loginGithub()
+            .then(res => {
+                state.user = res
+                console.log(res)
+            })
+            .catch(e => {
+                console.log(e)
+            })
     },
-
+    
 }
 
 export default mutations

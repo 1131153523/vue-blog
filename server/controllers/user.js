@@ -1,5 +1,7 @@
 const createToken = require('../token/createToken')
 const Model = require('../model/index')
+const github = require('../config/github')
+const fetch = require('node-fetch');
 class UserController {
     static async loginPost (ctx) {
         const {username, password} = ctx.request.body
@@ -96,6 +98,49 @@ class UserController {
             console.log(e)
             console.log('服务器出错, 更新密码失败')
         }
+    }
+    static async loginGithub (ctx) {
+        let data = (+new Date()).toString()
+        let path = `https://github.com/login/oauth/authorize?client_id=${github.client_id}&scope=${github.scope}&state=${data}`
+        ctx.redirect(path)
+    }
+    static async loginCallback (ctx) {
+        const code = ctx.query.code
+        let path = 'https://github.com/login/oauth/access_token'
+        const params = {
+            client_id: github.client_id,
+            client_secret: github.client_secret,
+            code: code
+        }
+        await fetch(path, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(params)
+        })
+        .then(res => {
+            return res.text()
+        })
+        .then(body => {
+            const args = body.split('&');
+            let arg = args[0].split('=');
+            const access_token = arg[1];
+            console.log(body);
+            console.log(access_token);
+            return access_token;
+        })
+        .then(async(token) => {
+            const url = 'https://api.github.com/user?access_token=' + token;
+            console.log(url);
+            await fetch(url)
+                .then(res => {
+                    return res.json();
+                })
+                .then(res => {
+                    ctx.body = res;
+                })
+        })
     }
 }
 

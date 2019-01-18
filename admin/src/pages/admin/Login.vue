@@ -18,7 +18,12 @@
                                     <el-form-item label="密码" prop="password">
                                         <el-input type="password" v-model="ruleForm2.password" autocomplete="off" @keyup.enter.native="submitForm('ruleForm2')"></el-input>
                                     </el-form-item>
-                                    <el-form-item>
+                                    <a href="javascript:void(0);" class="login-github" @click.stop="loginGithub">
+                                        <svg class="icon" aria-hidden="true" >
+                                            <use xlink:href="#icon-github"></use>
+                                        </svg> 
+                                    </a>                                   
+                                    <el-form-item style="margin-top:10px;">
                                         <el-button type="primary" @click="submitForm('ruleForm2')" >提交</el-button>
                                         <el-button @click="resetForm('ruleForm2')">重置</el-button>
                                     </el-form-item>
@@ -75,7 +80,7 @@
         },
         mounted () {
             let num = Math.round(Math.random()*4) + 1      
-            switch (2) {
+            switch (num) {
                 case 1:
                     this.animate1()
                     break
@@ -921,7 +926,9 @@
 
                 init();
             },
- 
+            loginGithub () {
+                this.$store.dispatch('loginGithub')
+            }
         },
         beforeRouteLeave (to, from, next) {
             document.querySelector('html').style.backgroundImage = ''
@@ -929,7 +936,7 @@
         },
     }
 </script>
-<style scoped>
+<style scoped lang="less">
     #login {
         margin-top: 180px;
     }
@@ -956,6 +963,13 @@
         width: 100%;
         height: 100%;
         z-index: -11111;  
+    }
+    .login-github {
+        svg {
+            font-size: 30px;
+            color: #fff;
+        }
+
     }
 
 </style>

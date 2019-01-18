@@ -1,9 +1,9 @@
 <template>
     <div class="project">
+        asdasd
     </div>
 </template>
 <script>
-
     export default {
 
     }   

@@ -143,7 +143,7 @@
                                 multiple
                                 :limit="1"
                                 :show-file-list="false"
-                                :data="{article_id: scope.row.article_id, token: $store.state.token}"
+                                :data="{article_id: scope.row.article_id, token: token}"
                                 :on-success="fileSuccess"
                         >
                             <el-button type="success">{{scope.row.article_img ? '重新上传' : '上传'}}<i class="el-icon-upload el-icon--right"></i></el-button>
@@ -298,7 +298,8 @@
                     subfield: true, // 单双栏模式
                     preview: true, // 预览
                 },
-                introduce: ''
+                introduce: '',
+                token: window.sessionStorage.getItem('token')
             }
         },
         mounted(){
@@ -314,7 +315,7 @@
                     this.$store.dispatch('screenSearch', val)
                 }
             },
-            ...mapState(['articleList','options2', 'options1','token'])
+            ...mapState(['articleList','options2', 'options1'])
         },
         watch: {
             inputTag (val){
@@ -369,7 +370,7 @@
                         tags_id: options1.find(e => e.tags_id === this.inputTag) !== undefined ? options1.find(e => e.tags_id === this.inputTag).tags_id : this.clickRow.tags_id,
                         article_content: this.value3,
                         article_introduce: this.introduce,
-                        token: this.$store.state.token
+                        token: this.token
                     }
                     this.$store.dispatch('updateArticle', article)
                 }

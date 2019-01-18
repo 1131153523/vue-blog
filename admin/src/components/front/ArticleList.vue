@@ -115,7 +115,8 @@ import { setTimeout } from 'timers';
             getData(value={}, tags_name='') {
                     api.getArticleList({...value, tags_name})
                         .then(res => {
-                            let data = res.data.map(e => {
+                            let re = res.data.filter(e => e.tags_name !== '项目')
+                            let data = re.map(e => {
                                 if (e.article_time.indexOf('下午') > -1) {
                                     let t = e.article_time.replace('下午', '')
                                     let h = t.split(' ')

@@ -89,7 +89,8 @@ export default {
         return {
             value: '',
             articles: {},
-            info: {}
+            info: {},
+            token: window.sessionStorage.getItem('token')
         }
     },
     watch: {
@@ -105,7 +106,6 @@ export default {
                         console.log(e)
                     })           
             }
-            
         },
         value (val) {
             this.getValue ? this.getValue (val) : null
@@ -126,11 +126,10 @@ export default {
 
     },
     computed: {
-        ...mapState(['token'])
     },
     methods: {
         $imgAdd(pos, $file){
-            api.uploadArticleImg({...$file, token:this.$store.state.token})
+            api.uploadArticleImg({...$file, token:this.token})
                 .then(res => {
                     if (res.code) {
                         this.value = this.value.replace(`![${$file._name}](${pos})`,`![${$file._name}](${res.data})`)
