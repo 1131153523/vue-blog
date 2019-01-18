@@ -73,6 +73,8 @@ export default {
     setList({commit}, value) {
         commit(types.SET_LIST, value)
     },
-
+    loginGithub({commit}) {
+        commit(types.LOGIN_GITHUB)
+    }
 }
 
