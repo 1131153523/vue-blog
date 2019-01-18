@@ -1,26 +1,30 @@
 <template>
     <div class="comments" >
         <h3 class="comments-title">评论</h3>
-        <div class="comments-content">
-            <el-input
-                class="textarea"
-                type="textarea"
-                :autosize="{ minRows: 3, maxRows: 7}"
-                placeholder="请输入评论"
-                resize="none"
-                :clearable="true"
-                v-model="content">
-            </el-input>
-        </div>
+        <div class="comment-input-all">
+            <div class="comments-input">
+                <el-input v-model="name" placeholder="昵称" class="comments-name"></el-input>
 
-        <div class="comments-input">
-            <el-input
-                placeholder="请输入你的邮箱"
-                class="comments-email"
-                v-model="email">
-            </el-input>&nbsp;&nbsp;&nbsp;*选填                
-            <el-input v-model="name" placeholder="昵称" class="comments-name"></el-input>
-        </div> 
+                <el-input
+                    placeholder="请输入你的邮箱"
+                    class="comments-email"
+                    v-model="email">
+                </el-input>              
+            </div> 
+            <div class="comments-content">
+                <el-input
+                    class="textarea"
+                    type="textarea"
+                    :autosize="{ minRows: 3, maxRows: 7}"
+                    placeholder="请输入评论"
+                    resize="none"
+                    :clearable="true"
+                    v-model="content">
+                </el-input>
+            </div>
+
+
+        </div>
 
         <el-button type="primary" plain style="margin-bottom: 20px;" @click.stop="toComment">评论</el-button>
         <div class="comments-all">
@@ -346,36 +350,48 @@
             font-weight: 200;
             color: #999;
         }
-        .comments-input {
-            width: 100%;
-            margin-bottom: 10px;
-            .comments-name {
-                margin-top: 10px;
-                width: 38%;
-                margin-right: 10px;
-                display: block;
-
+        .comment-input-all {
+            .comments-input {
+                width: 100%;
+                margin-bottom: 10px;
+                display: flex;
+                justify-content: space-between;
+                .comments-name {
+                    margin-top: 10px;
+                    margin-right: 10px;
+                    display: block;
+                }
+                .comments-email {
+                    margin-top: 10px;
+                    position: relative;
+                    box-sizing: border-box;
+                    &::after {
+                        content: "选填";
+                        position: absolute;
+                        z-index: 11;
+                        white-space: nowrap;
+                        right: 10px;
+                        top: 6px;
+                    }
+                }
             }
-            .comments-email {
-                margin-top: 10px;
-                width: 38%;
-            }
-        }
-        .comments-content {
-            display: flex;
-            .textarea {
-                width: 400px;
-                background-color: #fff;
-                border-radius: 3px;
-                box-sizing: border-box;
-                font-size: 16px;
-                outline: none;
-                &:focus {
-                    outline: 1px solid #ccc;
-                    box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1), 0 1px rgba(0,0,0,0.1);
+            .comments-content {
+                display: flex;
+                .textarea {
+                    background-color: #fff;
+                    border-radius: 3px;
+                    box-sizing: border-box;
+                    font-size: 16px;
+                    outline: none;
+                    margin-bottom: 10px;
+                    &:focus {
+                        outline: 1px solid #ccc;
+                        box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1), 0 1px rgba(0,0,0,0.1);
+                    }
                 }
             }
         }
+
         .comments-all {
             width: 100%;
             padding-top: 20px;
