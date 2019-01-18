@@ -130,17 +130,17 @@ class UserController {
             console.log(access_token);
             ctx.body
         })
-        // .then(async(token) => {
-        //     const url = 'https://api.github.com/user?access_token=' + token;
-        //     console.log(url);
-        //     await fetch(url)
-        //         .then(res => {
-        //             return res.json();
-        //         })
-        //         .then(res => {
-        //             ctx.body = res;
-        //         })
-        // })
+        .then(async(token) => {
+            const url = 'https://api.github.com/user?access_token=' + token
+            console.log(url)
+            await fetch(url)
+                .then(res => {
+                    return res.json()
+                })
+                .then(res => {
+                    ctx.body = res
+                })
+        })
     }
 }
 
