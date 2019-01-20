@@ -1,5 +1,6 @@
 <template>
     <div class="tool">
+
         <el-table
             :data="tools"
             border
@@ -19,7 +20,7 @@
                 prop="tool_url"
                 label="链接地址">
             <template slot-scope="scope">
-                <el-tag v-if="index !== scope.row.tool_id">{{scope.row.tool_url}}</el-tag>
+                <el-tag v-if="index !== scope.row.tool_id" type="success">{{scope.row.tool_url}}</el-tag>
                 <el-input v-model="inputUrl" placeholder="请输入链接地址" v-if="index === scope.row.tool_id">
                     <i slot="suffix" class="el-input__icon el-icon-edit" @click.stop="save(scope.row)" style="cursor:pointer;color: #409EFF;"></i>
                 </el-input>
@@ -29,7 +30,7 @@
                 prop="tool_type"
                 label="链接分类">
                 <template slot-scope="scope">
-                    <el-tag v-if="index !== scope.row.tool_id">{{scope.row.tool_type}}</el-tag>
+                    <el-tag v-if="index !== scope.row.tool_id" type="warning">{{scope.row.tool_type}}</el-tag>
                     <el-input v-model="inputType" placeholder="请输入链接分类" v-if="index === scope.row.tool_id">
                         <i slot="suffix" class="el-input__icon el-icon-edit" @click.stop="save(scope.row)" style="cursor:pointer;color: #409EFF;"></i>
                     </el-input>
@@ -46,18 +47,43 @@
             </template>
             </el-table-column>
         </el-table>
+        <div class="inputTool">
+            <el-input
+                placeholder="请输入链接名"
+                v-model="name"
+                class="input"
+                clearable>
+            </el-input>
+            <el-input
+                placeholder="请输入链接地址"
+                v-model="url"
+                class="input"
+                clearable>
+            </el-input>
+            <el-input
+                placeholder="请输入链接分类"
+                v-model="type"
+                class="input"
+                clearable>
+            </el-input>
+            <el-button type="primary" plain style="margin-left: 5px;" @click="addTool">添加</el-button>
+        </div>
     </div>
 </template>
 <script>
     import {mapState} from 'vuex'
-import index from '../../api';
+    import getRandomId from '../../utils/getRandomId.js'
+    import index from '../../api';
     export default {
         data () {
             return {
                 inputName: '',
                 inputUrl: '',
                 index: '',
-                inputType: ''
+                inputType: '',
+                name: '',
+                url: '',
+                type: ''
             }
         },
         created () {
@@ -88,6 +114,25 @@ import index from '../../api';
                 if (confirm('确认删除？')) {
                     this.$store.dispatch('setTool', {...row, type: 'delete'})
                 }
+            },
+            addTool () {
+                if (!this.name || !this.url || !this.type) {
+                    this.$message.warning({
+                        message: '不能为空'
+                    })
+                    return 
+                }
+                this.$store.dispatch('setTool', {
+                    tool_id: getRandomId(),
+                    tool_name: this.name,
+                    tool_url: this.url,
+                    tool_type: this.type,
+                    type: 'insert'
+                })
+                this.name = ''
+                this.url = ''
+                this.type = ''
+
             }
         }
     }
@@ -96,5 +141,25 @@ import index from '../../api';
     .tool {
         padding: 10px;
         box-sizing: border-box;
+        .inputTool {
+            display: flex;
+            justify-content: flex-start;
+            width: 70%;
+            margin-top: 5px;
+            .input {
+                &:nth-child(2) {
+                    margin: 0 5px;
+                }
+
+            }
+        }
+    }
+    @media screen and (max-width: 800px){
+        .inputTool {
+            display: block!important;
+        }
+        .input {
+            margin: 5px 0!important;
+        }
     }
 </style>

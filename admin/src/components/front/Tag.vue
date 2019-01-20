@@ -32,7 +32,7 @@
             api.getTags()
                 .then(res => {
                     if (res.code) {
-                        this.tags = res.data
+                        this.tags = res.data.filter(e => e.tags_name !== '项目')
                         this.$emit('getTags', res.data)
                     }
                 })
@@ -43,6 +43,8 @@
         methods: {
             tagIcon (val) {
                 switch(val.toLowerCase()) {
+                    case  'es6': 
+                        return '#icon-JavaScript'
                     case 'javascript':
                         return '#icon-JavaScript'
                     case 'python':

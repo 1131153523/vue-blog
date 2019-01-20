@@ -146,6 +146,11 @@ export default {
                     commit(types.SET_TOOL, value)
                 }
                 break
+            case 'insert':
+                let res2 = await api.addTool(value)
+                if (res2.code) {
+                    commit(types.SET_TOOL, value)
+                }
                 
         }
     },

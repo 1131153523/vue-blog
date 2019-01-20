@@ -184,6 +184,13 @@ const mutations = {
                 state.tools[index].tool_url = value.tool_url
                 state.tools[index].tool_type = value.tool_type
                 break
+            case 'insert':
+                state.tools.push({
+                    tool_id: value.tool_id,
+                    tool_name: value.tool_name,
+                    tool_url: value.tool_url,
+                    tool_type: value.tool_type
+                })
         }
     },
     [types.SET_SEARCH]: (state, value) => {

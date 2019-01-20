@@ -55,7 +55,22 @@ class ToolController {
                 msg: '服务器错误，工具更新失败'
             }
         }
-        
+    }
+    static async addTool (ctx) {
+        try {
+            await Model.addTool(ctx.request.body)
+            ctx.body = {
+                code: 1,
+                msg: '添加成功'
+            }                 
+        } catch (e) {
+            console.log(e);
+            console.log('服务器错误，工具添加失败')
+            ctx.body = {
+                code: 0,
+                msg: '服务器错误，工具添加失败'
+            }            
+        }
     }
 }   
 

@@ -54,6 +54,9 @@ export default {
     updateTool (value) {
         return ajax('/admin/updateTool', value, 'POST')
     },
+    addTool (value) {
+        return ajax('/admin/addTool', value, 'POST')
+    },
     toComment (value) {
         return ajax('/toComment', value, 'POST')
     },
