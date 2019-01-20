@@ -4,8 +4,8 @@
             <div class="header-left">
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <div class="switch">
-                    <i class="el-icon-arrow-left" @click="changeCollapse" v-if="isCollapse"></i>
-                    <i class="el-icon-arrow-right" @click="changeCollapse" v-else="!isCollapse"></i>
+                    <i class="el-icon-arrow-left" @click="CHANGE_COLLAPSE" v-if="isCollapse"></i>
+                    <i class="el-icon-arrow-right" @click="CHANGE_COLLAPSE" v-else="!isCollapse"></i>
                 </div>
                 <div class="logo">
                     VueAdmin
@@ -44,7 +44,7 @@
 </template>
 <script>
     import ChangePwd from './ChangePwd.vue'
-    import {mapState, mapActions} from 'vuex'
+    import {mapState, mapActions, mapMutations} from 'vuex'
     export default {
         data() {
             return {
@@ -63,13 +63,12 @@
                     return this.$store.state.headColor
                 },
                 set(val){
-                    console.log(val);
-                    this.$store.dispatch('changeHeadColor', val)
+                    this.$store.commit('CHANGE_HEAD_COLOR', val)
                 }
             }
         },
         methods:{
-            ...mapActions(['changeCollapse']),
+            ...mapMutations(['CHANGE_COLLAPSE']),
             isVisible(v){
                 this.dialogVisible = v
             }

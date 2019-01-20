@@ -178,7 +178,7 @@ import { clearInterval } from 'timers';
                     return this.$store.state.articleValue
                 },
                 set(val){
-                    return this.$store.dispatch('setArticleValue', val)
+                    return this.$store.commit('SET_ARTICLE_VALUE', val)
                 }
             }
         },
@@ -187,7 +187,7 @@ import { clearInterval } from 'timers';
                 api.uploadArticleImg({...$file, token:this.token})
                     .then(res => {
                         if (res.code) {
-                            this.$store.dispatch('setArticleValue', this.articleValue.replace(`![${$file._name}](${pos})`,`![${$file._name}](${res.data})`))
+                            this.$store.commit('SET_ARTICLE_VALUE', this.articleValue.replace(`![${$file._name}](${pos})`,`![${$file._name}](${res.data})`))
                         }
                     })
                     .catch(e => {

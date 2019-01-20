@@ -64,7 +64,7 @@
                 }
             },
             Search () {
-                this.$store.dispatch('setSearch', this.search)
+                this.$store.commit('SET_SEARCH', this.search)
                 this.search = ''
             }
         }

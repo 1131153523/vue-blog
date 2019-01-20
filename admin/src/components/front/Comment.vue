@@ -337,7 +337,7 @@
 <style scoped lang="less">
     .comments {
         box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1), 0 1px rgba(0,0,0,0.1);
-        margin-top: 5px;
+        margin-top: -15px;
         margin-right: 10px;
         padding: 0 20px;
         box-sizing: border-box;

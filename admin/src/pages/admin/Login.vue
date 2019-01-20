@@ -106,7 +106,7 @@
                             .then(res => {
                                 if (res.code === 1) {
                                     this.ruleForm2.username = res.data.username
-                                    this.$store.dispatch('UserLogin', res.data)
+                                    this.$store.commit('LOGIN', res.data)
                                     this.$notify({
                                         title: '成功',
                                         message: res.msg,

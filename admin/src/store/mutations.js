@@ -39,149 +39,75 @@ const mutations = {
     [types.CHANGE_PATH]: (state, pathInfo) => {
         let {path, tag} = pathInfo
         router.push(path)
-        store.dispatch('addTagsView', {tag: tag, path: path})
+        store.commit('ADD_TAGS_VIEW', {tag: tag, path: path})
     },
     //删除标签导航
     [types.REMOVE_TAGS_VIEW]: (state, index) => {
         state.tagsView.splice(index, 1)
     },
     //获取文章标签
-    [types.GET_TAGS]: (state) => {
-        api.getTags()
-            .then(res => {
-                let color = ['success', 'info', 'warning', 'danger']
-                if (res.code) {
-                    state.tags = res.data.map(item => {
-                        return {...item, color: color[Math.floor(Math.random()*4)]}
-                    })
-                }
-            })
-            .catch(err => {
-                console.log(err)
-                console.log('GET_TAGS出现错误')
-            })
+    [types.GET_TAGS]: (state, value) => {
+        let color = ['success', 'info', 'warning', 'danger']
+        state.tags = value.map(item => {
+            return {...item, color: color[Math.floor(Math.random()*4)]}
+        })
     },
     //删除文章标签
     [types.REMOVE_TAG]: (state, value) => {
-        api.removeTag({token: window.sessionStorage.getItem('token'), ...value})
-            .then(res => {
-                if (res.code) {
-                    state.tags.splice(value.index, 1)
-                }
-            })
-            .catch(e => {
-                console.log(e);
-                console.log('REMOVE_TAG出现错误')
-            })
+        state.tags.splice(value.index, 1)
     },
     //添加文章标签
     [types.ADD_TAG]: (state, value) => {
-        let color = ['success', 'info', 'warning', 'danger']
-        let obj = {
-            tags_id: getRandomId(),
-            tags_name: value,
-            color: color[Math.floor(Math.random()*4)],
-            token: window.sessionStorage.getItem('token')
-        }
-        api.addTag(obj)
-            .then(res => {
-                if (res.code) {
-                    state.tags.push(obj)
-                }
-            })
-            .catch(e => {
-                console.log(e);
-                console.log('ADD_TAG出现错误')
-            })
+        state.tags.push(value)
     },
     //获取草稿内容
-    [types.GET_DRAFT]:(state) => {
-        api.getDraft()
-            .then((res) => {
-                if (res.code) {
-                    state.articleValue = res.data
-                }
-            })
-            .catch(e => {
-                console.log(e)
-                console.log('GET_DRAFT出现错误')
-            })
+    [types.GET_DRAFT]:(state, value) => {
+        state.articleValue = value
+
     },
     //保存草稿内容
     [types.SAVE_DRAFT]:(state, value) => {
-        api.saveDraft({draft_content: value, token: window.sessionStorage.getItem('token')})
-            .then(res => {
-                if (!res.code) {
-                    console.log(res)
-                }
-            })
-            .catch(e => {
-                console.log(e)
-                console.log('SAVE_DRAFT出现错误')
-            })
-    },
-    //通过直接发布上传文章
-    [types.WRITE_ARTICLE]:(state, info) => {
-        api.writeArticle({...info, token: window.sessionStorage.getItem('token')})
-            .then(res => {
-                if (res.code) {
-                    store.dispatch('getArticleList')
-                }
-            })
-            .catch(e => {
-                console.log(e);
-                console.log('WRITE_ARTICLE出现错误')
-            })
+        console.log(value)
     },
     //设置直接发布的文章内容
     [types.SET_ARTICLE_VALUE]:(state, value) => {
         state.articleValue = value
     },
     //获取文章列表信息
-    [types.GET_ARTICLE_LIST]: (state) => {
-        api.getArticleList()
-            .then(res => {
-                if (res.code) {
-                    let tags = {}
-                    let data = []
-                    res.data.forEach(item => {
-                        tags[item.tags_name] = []
-                    })
-                    res.data.forEach(item => {
-                        tags[item.tags_name].push(item.article_title)
-                    })
-                    for (let tag in tags) {
-                        data.push({
-                            label: tag,
-                            children: [
-                                ...tags[tag].map(item => ({label: item}))
-                            ]
-                        })
-                    }
-                    state.articleList = res.data
-                    state.articleList1 = res.data
-                    state.articleTree = data
-                    state.options1[0] = {
-                        label: '标签',
-                        options: state.tags.map(e => ({value: e.tags_id, label: e.tags_name}))
-                    }
-                    state.options1[1] = {
-                        label: '作者',
-                        options: [...new Set([...res.data.map(e => e.article_author)])].map(e => ({value: e, label: e}))
-                    }
-
-                    let times = [...new Set([...res.data.map(e => e.article_time.slice(0, 10))])]
-                    times.sort((a,b) => a > b? -1 : 1)
-                    state.options2[0] = {
-                        label: '日期',
-                        options: times.map(e => ({value: e, label: e}))
-                    }
-                }
+    [types.GET_ARTICLE_LIST]: (state, value) => {
+        let tags = {}
+        let data = []
+        value.forEach(item => {
+            tags[item.tags_name] = []
+        })
+        value.forEach(item => {
+            tags[item.tags_name].push(item.article_title)
+        })
+        for (let tag in tags) {
+            data.push({
+                label: tag,
+                children: [
+                    ...tags[tag].map(item => ({label: item}))
+                ]
             })
-            .catch(e => {
-                console.log(e)
-                console.log('GET_ARTICLE_LIST出现错误')
-            })
+        }
+        state.articleList = value
+        state.articleList1 = value
+        state.articleTree = data
+        state.options1[0] = {
+            label: '标签',
+            options: state.tags.map(e => ({value: e.tags_id, label: e.tags_name}))
+        }
+        state.options1[1] = {
+            label: '作者',
+            options: [...new Set([...value.map(e => e.article_author)])].map(e => ({value: e, label: e}))
+        }
+        let times = [...new Set([...value.map(e => e.article_time.slice(0, 10))])]
+        times.sort((a,b) => a > b? -1 : 1)
+        state.options2[0] = {
+            label: '日期',
+            options: times.map(e => ({value: e, label: e}))
+        }
     },
     //日期筛选文章列表
     [types.SCREEN_DATE]: (state, value) => {
@@ -206,73 +132,49 @@ const mutations = {
     },
     //更新文章审核状态
     [types.UPDATE_ARTICLE_VERIFY]: (state, value) => {
-        api.updateArticleVerify({article_id: value, token: window.sessionStorage.getItem('token')})
-            .then(res => {
-                if (res.code) {
-                    state.articleList[state.articleList.findIndex(e => e.article_id === value)].article_pass = 1
-                    state.articleList1[state.articleList1.findIndex(e => e.article_id === value)].article_pass = 1
-                }
-            })
-            .catch(e => {
-                console.log(e)
-                console.log('UPDATE_ARTICLE_VERIFY出现错误')
-            })
+        state.articleList[state.articleList.findIndex(e => e.article_id === value)].article_pass = 1
+        state.articleList1[state.articleList1.findIndex(e => e.article_id === value)].article_pass = 1
     },
     [types.UPDATE_ARTICLE_IMG]: (state, value) => {
         state.articleList[state.articleList.findIndex(e => e.article_id === value.article_id)].article_img = value.article_img
         state.articleList1[state.articleList1.findIndex(e => e.article_id === value.article_id)].article_img = value.article_img
     },
     [types.DELETE_ARTICLE]: (state, value) => {
-        api.deleteArticle({token: window.sessionStorage.getItem('token'), article_id: value})
-            .then(res => {
-                if (res.code) {
-                    let index = state.articleList.findIndex(e => e.article_id === value)
-                    state.articleList1 = [...state.articleList1.slice(0, index), ...state.articleList1.slice(index+1)]
-                    state.articleList = [...state.articleList.slice(0, index), ...state.articleList.slice(index+1)]
-                }   
-            })
-            .catch(e => {
-                console.log(e)
-                console.log('UPDATE_ARTICLE_VERIFY出现错误')
-            })
+        let index = state.articleList.findIndex(e => e.article_id === value)
+        state.articleList1 = [...state.articleList1.slice(0, index), ...state.articleList1.slice(index+1)]
+        state.articleList = [...state.articleList.slice(0, index), ...state.articleList.slice(index+1)]
     },
     [types.UPDATE_ARTICLE]: (state, value) => {
-        api.updateArticle(value)
-            .then(res => {
-                if (res.code) {
-                    state.articleList1 = state.articleList1.map(e => {
-                        let item = JSON.parse(JSON.stringify(e))
-                        if (item.article_id === value.article_id) {
-                            item.tags_id = value.tags_id
-                            item.tags_name = state.tags.find(tag => tag.tags_id === value.tags_id).tags_name
-                            item.article_title = value.article_title
-                            item.article_author = value.article_author
-                            return item
-                        } else {
-                            return e
-                        }
-                    })
-                    state.articleList = state.articleList.map(e => {
-                        let item = JSON.parse(JSON.stringify(e))
-                        if (item.article_id === value.article_id) {
-                            item.tags_id = value.tags_id
-                            item.tags_name = state.tags.find(tag => tag.tags_id === value.tags_id).tags_name
-                            item.article_title = value.article_title
-                            item.article_author = value.article_author
-                            return item
-                        } else {
-                            return e
-                        }
-                    })
-                }
-            })
-            .catch(e => {
-                console.log(e)
-                console.log('UPDATE_ARTICLE出现错误')
-            })
+        state.articleList1 = state.articleList1.map(e => {
+            let item = JSON.parse(JSON.stringify(e))
+            if (item.article_id === value.article_id) {
+                item.tags_id = value.tags_id
+                item.tags_name = state.tags.find(tag => tag.tags_id === value.tags_id).tags_name
+                item.article_title = value.article_title
+                item.article_author = value.article_author
+                return item
+            } else {
+                return e
+            }
+        })
+        state.articleList = state.articleList.map(e => {
+            let item = JSON.parse(JSON.stringify(e))
+            if (item.article_id === value.article_id) {
+                item.tags_id = value.tags_id
+                item.tags_name = state.tags.find(tag => tag.tags_id === value.tags_id).tags_name
+                item.article_title = value.article_title
+                item.article_author = value.article_author
+                return item
+            } else {
+                return e
+            }
+        })
     },
     [types.SET_SEARCH]: (state, value) => {
         state.search = value
+    },
+    [types.SET_LIST]: (state, value) => {
+        state.list = value
     },
     [types.LOGIN_GITHUB]: (state) => {
         api.loginGithub()

@@ -312,7 +312,7 @@
 
                 },
                 set(val){
-                    this.$store.dispatch('screenSearch', val)
+                    this.$store.commit('SCREEN_TAGS_AUTHOR', val)
                 }
             },
             ...mapState(['articleList','options2', 'options1'])
@@ -322,10 +322,10 @@
                 
             },
             value2 (val) {
-                this.$store.dispatch('screenDate', val)
+                this.$store.commit('SCREEN_DATE', val)
             },
             value1 (val) {
-                this.$store.dispatch('screenTagsAuthor', val)
+                this.$store.commit('SCREEN_TAGS_AUTHOR', val)
             }
         },
         methods: {
@@ -379,7 +379,7 @@
                 this.value3 = val
             },
             clearScreen(){
-                this.$store.dispatch('clearScreen')
+                this.$store.commit('SCREEN_DATE')
             },
 
             handleSelectionChange(val) {
@@ -405,7 +405,7 @@
             },
             fileSuccess(response, file, fileList) {
                 if (response.code) {
-                    this.$store.dispatch('updateArticleImg', response.data)
+                    this.$store.commit('UPDATE_ARTICLE_IMG', response.data)
                     this.$message.success({
                         message:response.msg,
                         offset: 150

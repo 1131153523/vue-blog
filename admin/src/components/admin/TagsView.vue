@@ -6,12 +6,12 @@
                     v-for="(item, index) in tagsView"
                     :key="item.tag"
                     :class="{now: $route.name === item.tag ? true : false}"
-                    @click.stop="$store.dispatch('changePath', {path: item.path, tag: item.tag})"
+                    @click.stop="$store.commit('CHANGE_PATH', {path: item.path, tag: item.tag})"
             >
                 <span>{{item.tag}}</span>
                 <i
                         class="el-icon-close"
-                        @click.stop="$store.dispatch('removeTagsView', index)"
+                        @click.stop="$store.commit('REMOVE_TAGS_VIEW', index)"
                 ></i>
             </li>
         </ul>

@@ -31,7 +31,7 @@
 </template>
 <script>
     import api from '../../api/index.js'
-import { setTimeout } from 'timers';
+    import { setTimeout } from 'timers';
     export default {
         props: {
             size: {
@@ -147,7 +147,7 @@ import { setTimeout } from 'timers';
                                 this.$emit('getArticleList', data)
                                 let tags_name = this.$route.query.tags_name
                                 this.articles = this.removeDup(this.articles.concat(data), 'article_id')
-                                this.$store.dispatch('setList', this.removeDup(this.articles.concat(data), 'article_id'))
+                                this.$store.commit('SET_LIST', this.removeDup(this.articles.concat(data), 'article_id'))
                                 if (tags_name === undefined) {
                                     this.list = this.articles.slice((this.page - 1) * this.size, (this.page - 1) * this.size + this.size + 1)
                                 } else {

@@ -1,77 +1,133 @@
 import * as types from './types'
-
+import store from './index'
+import router from '../router/index'
+import api from '../api/index'
+import getRandomId from '../utils/getRandomId'
 export default {
-    UserLogin({commit}, data) {
-        commit(types.LOGIN, data)
-    },
-    changeCollapse({commit}){
-        commit(types.CHANGE_COLLAPSE)
-    },
-    changeHeadColor({commit}, val) {
-        commit(types.CHANGE_HEAD_COLOR, val)
-    },
-    addTagsView({commit}, tag) {
-        commit(types.ADD_TAGS_VIEW, tag)
-    },
-    changePath({commit}, pathInfo) {
-        commit(types.CHANGE_PATH, pathInfo)
-    },
-    removeTagsView({commit}, index) {
-        commit(types.REMOVE_TAGS_VIEW, index)
-    },
-    getTags({commit}) {
-        commit(types.GET_TAGS)
+    async getTags({commit}) {
+        try {
+            let res = await api.getTags()
+            if (res.code) {
+                commit(types.GET_TAGS, res.data)
+            }
+        } catch(e) {
+            console.log(e)
+            console.log('GET_TAGS出现错误')
+        }
     },
     removeTag({commit}, value){
-        commit(types.REMOVE_TAG, value)
+        api.removeTag({token: window.sessionStorage.getItem('token'), ...value})
+            .then(res => {
+                if (res.code) {
+                    commit(types.REMOVE_TAG, value)
+                }
+            })
+            .catch(e => {
+                console.log(e);
+                console.log('REMOVE_TAG出现错误')
+            })
     },
-    addTag({commit}, value) {
-        commit(types.ADD_TAG, value)
+    async addTag({commit}, value) {
+        try {
+            let color = ['success', 'info', 'warning', 'danger']
+            let obj = {
+                tags_id: getRandomId(),
+                tags_name: value,
+                color: color[Math.floor(Math.random()*4)],
+                token: window.sessionStorage.getItem('token')
+            }
+            let res = await api.addTag(obj)
+            if (res.code) {
+                commit(types.ADD_TAG, obj)
+            }
+        } catch(e) {
+            console.log(e)
+            console.log('ADD_TAG出现错误')
+        }
     },
     getDraft({commit}, value){
-        commit(types.GET_DRAFT, value)
+        api.getDraft()
+            .then((res) => {
+                if (res.code) {
+                    commit(types.GET_DRAFT, res.data)
+                }
+            })
+            .catch(e => {
+                console.log(e)
+                console.log('GET_DRAFT出现错误')
+            })
     },
     saveDraft({commit}, value) {
-        commit(types.SAVE_DRAFT, value)
-    },
-    setArticleValue({commit}, value) {
-        commit(types.SET_ARTICLE_VALUE, value)
+        api.saveDraft({draft_content: value, token: window.sessionStorage.getItem('token')})
+            .then(res => {
+                if (!res.code) {
+                    commit(types.SAVE_DRAFT, value)
+                }
+            })
+            .catch(e => {
+                console.log(e)
+                console.log('SAVE_DRAFT出现错误')
+            })
     },
     writeArticle({commit}, info) {
-        commit(types.WRITE_ARTICLE, info)
+        api.writeArticle({...info, token: window.sessionStorage.getItem('token')})
+            .then(res => {
+                if (res.code) {
+                    store.dispatch('getArticleList')
+                }
+            })
+            .catch(e => {
+                console.log(e);
+                console.log('WRITE_ARTICLE出现错误')
+            })        
     },
     getArticleList({commit}) {
-        commit(types.GET_ARTICLE_LIST)
-    },
-    screenDate ({commit}, value) {
-        commit(types.SCREEN_DATE, value)
-    },
-    screenTagsAuthor({commit}, value) {
-        commit(types.SCREEN_TAGS_AUTHOR, value)
-    },
-    clearScreen ({commit}) {
-        commit(types.CLEAR_SCREEN)
-    },
-    screenSearch({commit}, value) {
-        commit(types.SCREEN_SEARCH, value)
+        api.getArticleList()
+            .then(res => {
+                if (res.code) {
+                    commit(types.GET_ARTICLE_LIST, res.data)
+                }
+            })
+            .catch(e => {
+                console.log(e)
+                console.log('GET_ARTICLE_LIST出现错误')
+            })
     },
     updateArticleVerify({commit}, value) {
-        commit(types.UPDATE_ARTICLE_VERIFY, value)
-    },
-    updateArticleImg ({commit}, value) {
-        commit(types.UPDATE_ARTICLE_IMG, value)
+        api.updateArticleVerify({article_id: value, token: window.sessionStorage.getItem('token')})
+            .then(res => {
+                if (res.code) {
+                    commit(types.UPDATE_ARTICLE_VERIFY, value)
+                }
+            })
+            .catch(e => {
+                console.log(e)
+                console.log('UPDATE_ARTICLE_VERIFY出现错误')
+            })
     },
     deleteArticle ({commit}, value) {
-        commit(types.DELETE_ARTICLE, value)
+        api.deleteArticle({token: window.sessionStorage.getItem('token'), article_id: value})
+            .then(res => {
+                if (res.code) {
+                    commit(types.DELETE_ARTICLE, value)
+                }   
+            })
+            .catch(e => {
+                console.log(e)
+                console.log('UPDATE_ARTICLE_VERIFY出现错误')
+            })
     },
     updateArticle ({commit}, value) {
-        commit(types.UPDATE_ARTICLE, value)
-    },
-    setSearch ({commit}, value) {
-        commit(types.SET_SEARCH, value)
-    },
-    setList({commit}, value) {
-        commit(types.SET_LIST, value)
+        api.updateArticle(value)
+            .then(res => {
+                if (res.code) {
+                    commit(types.UPDATE_ARTICLE, value)
+                }
+            })
+            .catch(e => {
+                console.log(e)
+                console.log('UPDATE_ARTICLE出现错误')
+            })
     },
     loginGithub({commit}) {
         commit(types.LOGIN_GITHUB)
