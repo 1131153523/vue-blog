@@ -170,6 +170,22 @@ const mutations = {
             }
         })
     },
+    [types.GET_TOOLS]: (state, value) => {
+        state.tools = value
+    },
+    [types.SET_TOOL]: (state, value) => {
+        switch(value.type) {
+            case 'delete':
+                state.tools.splice(state.tools.findIndex(e => e.tool_id === value.tool_id), 1)
+                break
+            case 'update':
+                let index = state.tools.findIndex(e => e.tool_id === value.tool_id)
+                state.tools[index].tool_name = value.tool_name
+                state.tools[index].tool_url = value.tool_url
+                state.tools[index].tool_type = value.tool_type
+                break
+        }
+    },
     [types.SET_SEARCH]: (state, value) => {
         state.search = value
     },

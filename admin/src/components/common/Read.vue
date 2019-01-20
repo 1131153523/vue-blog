@@ -90,7 +90,6 @@ export default {
             value: '',
             articles: {},
             info: {},
-            token: window.sessionStorage.getItem('token')
         }
     },
     watch: {
@@ -129,7 +128,7 @@ export default {
     },
     methods: {
         $imgAdd(pos, $file){
-            api.uploadArticleImg({...$file, token:this.token})
+            api.uploadArticleImg({...$file})
                 .then(res => {
                     if (res.code) {
                         this.value = this.value.replace(`![${$file._name}](${pos})`,`![${$file._name}](${res.data})`)

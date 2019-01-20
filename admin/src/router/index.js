@@ -5,6 +5,7 @@ import Admin from '../pages/admin/Admin.vue'
 import Home from '../components/admin/Home.vue'
 import store from '../store/index'
 import _404 from '../pages/admin/404.vue'
+import Tool from '../components/admin/Tool.vue'
 import Tags from '../components/admin/Tags.vue'
 import Write from '../components/admin/Write.vue'
 import VerifyArticle from '../components/admin/VerifyArticle.vue'
@@ -93,6 +94,14 @@ const router = new Router({
                         requireAuth: true
                     },
                     component: Read
+                },
+                {
+                    path: '/admin/tool',
+                    name: '工具箱',
+                    meta: {
+                        requireAuth: true
+                    },
+                    component: Tool
                 }
             ],
             redirect: '/admin/home'

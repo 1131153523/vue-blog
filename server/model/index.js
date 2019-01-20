@@ -91,6 +91,21 @@ ${article_id}, ${article_title}, ${article_introduce}, ${article_author}, ${arti
         let sql = escape`update articles set article_title=${article_title}, article_introduce=${article_introduce}, article_author=${article_author},tags_id=${tags_id} where article_id=${article_id}`
         return p.query(sql)
     }
+
+    static getTools () {
+        let sql = escape`select * from tools`
+        return p.query(sql)
+    }
+    static deleteTool ({tool_id}) {
+        let sql = escape`delete from tools where tool_id=${tool_id}`
+        return p.query(sql)
+    }
+
+    static updateTool ({tool_id, tool_name, tool_url, tool_type}) {
+        let sql = escape`update tools set tool_name=${tool_name}, tool_url=${tool_url}, tool_type=${tool_type} where tool_id=${tool_id}`
+        return p.query(sql)
+    }
+
     static updateArticleComment(article_id) {
         let sql = escape`update articles set article_assist=article_assist + 1 where article_id=${article_id}`
         return p.query(sql)

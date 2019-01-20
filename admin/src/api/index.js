@@ -45,6 +45,15 @@ export default {
     updateArticle (value) {
         return ajax('/admin/updateArticle', value, 'POST')
     },
+    getTools () {
+        return ajax('/admin/getTools')
+    },
+    deleteTool (value) {
+        return ajax('/admin/deleteTool', value, 'POST')
+    },
+    updateTool (value) {
+        return ajax('/admin/updateTool', value, 'POST')
+    },
     toComment (value) {
         return ajax('/toComment', value, 'POST')
     },

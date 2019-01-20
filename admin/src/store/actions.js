@@ -17,7 +17,7 @@ export default {
     },
     async removeTag({commit}, value){
         try {
-            let res = await api.removeTag({token: window.sessionStorage.getItem('token'), ...value})
+            let res = await api.removeTag(value)
             if (res.code) {
                 commit(types.REMOVE_TAG, value)
             }
@@ -33,7 +33,6 @@ export default {
                 tags_id: getRandomId(),
                 tags_name: value,
                 color: color[Math.floor(Math.random()*4)],
-                token: window.sessionStorage.getItem('token')
             }
             let res = await api.addTag(obj)
             if (res.code) {
@@ -58,7 +57,7 @@ export default {
     },
     async saveDraft({commit}, value) {
         try {
-            let res = await api.saveDraft({draft_content: value, token: window.sessionStorage.getItem('token')})
+            let res = await api.saveDraft({draft_content: value})
             if (!res.code) {
                 commit(types.SAVE_DRAFT, value)
             }
@@ -69,7 +68,7 @@ export default {
     },
     async writeArticle({commit}, info) {
         try {
-            let res = await api.writeArticle({...info, token: window.sessionStorage.getItem('token')})
+            let res = await api.writeArticle(info)
             if (res.code) {
                 store.dispatch('getArticleList')
             }
@@ -91,7 +90,7 @@ export default {
     },
     async updateArticleVerify({commit}, value) {
         try {
-            let res = await api.updateArticleVerify({article_id: value, token: window.sessionStorage.getItem('token')})
+            let res = await api.updateArticleVerify({article_id: value})
             if (res.code) {
                 commit(types.UPDATE_ARTICLE_VERIFY, value)
             }
@@ -102,7 +101,7 @@ export default {
     },
     async deleteArticle ({commit}, value) {
         try {
-            let res = await api.deleteArticle({token: window.sessionStorage.getItem('token'), article_id: value})
+            let res = await api.deleteArticle({article_id: value})
             if (res.code) {
                 commit(types.DELETE_ARTICLE, value)
             }   
@@ -120,6 +119,34 @@ export default {
         } catch (e) {
             console.log(e)
             console.log('UPDATE_ARTICLE出现错误')
+        }
+    },
+    async getTools ({commit}) {
+        try {
+            let res = await api.getTools()
+            if (res.code) {
+                commit(types.GET_TOOLS, res.data)
+            }
+        } catch (e) {
+            console.log(e)
+            console.log('GET_TOOLS出现错误')
+        }
+    },
+    async setTool({commit}, value) {
+        switch(value.type) {
+            case 'delete':
+                let res = await api.deleteTool(value)
+                if (res.code) {
+                    commit(types.SET_TOOL, value)
+                }
+                break
+            case 'update':
+                let res1 = await api.updateTool(value)
+                if (res1.code) {
+                    commit(types.SET_TOOL, value)
+                }
+                break
+                
         }
     },
     loginGithub({commit}) {

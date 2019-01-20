@@ -370,7 +370,6 @@
                         tags_id: options1.find(e => e.tags_id === this.inputTag) !== undefined ? options1.find(e => e.tags_id === this.inputTag).tags_id : this.clickRow.tags_id,
                         article_content: this.value3,
                         article_introduce: this.introduce,
-                        token: this.token
                     }
                     this.$store.dispatch('updateArticle', article)
                 }

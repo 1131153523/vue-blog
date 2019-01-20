@@ -14,7 +14,7 @@ export default function (url, data={}, type='GET') {
             }
             promise = axios.get(url)
         } else {
-            promise = axios.post(url, data)
+            promise = axios.post(url, {...data, token: window.sessionStorage.getItem('token')})
         }
         promise.then(function (response) {
             resolve(response.data)

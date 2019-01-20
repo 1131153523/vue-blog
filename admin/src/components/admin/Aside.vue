@@ -42,6 +42,12 @@
                     </svg>&nbsp;&nbsp;&nbsp;                    
                 <span slot="title">标签管理</span>
             </el-menu-item>
+            <el-menu-item index="4" @click="$store.commit('CHANGE_PATH', {path: '/admin/tool', tag: '工具箱'})" >
+                    <svg class="icon" aria-hidden="true" style="font-size: 20px;" >
+                        <use xlink:href="#icon-gongjuxiangx"></use>
+                    </svg>&nbsp;&nbsp;&nbsp;                    
+                <span slot="title">工具箱</span>
+            </el-menu-item>
         </el-menu>
     </div>
 

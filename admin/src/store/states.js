@@ -25,8 +25,10 @@ const state = {
     options2: [],
     options1: [],
     articleTree: [],
+    tools: [],
     search: '',
     list: [],
-    user: {}
+    user: {},
+
 };
 export default state;

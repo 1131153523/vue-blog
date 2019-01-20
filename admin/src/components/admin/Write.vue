@@ -184,7 +184,7 @@ import { clearInterval } from 'timers';
         },
         methods: {
             $imgAdd(pos, $file){
-                api.uploadArticleImg({...$file, token:this.token})
+                api.uploadArticleImg({...$file})
                     .then(res => {
                         if (res.code) {
                             this.$store.commit('SET_ARTICLE_VALUE', this.articleValue.replace(`![${$file._name}](${pos})`,`![${$file._name}](${res.data})`))

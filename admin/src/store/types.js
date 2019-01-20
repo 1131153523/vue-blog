@@ -26,3 +26,6 @@ export const SET_SEARCH = 'SET_SEARCH'
 export const SET_LIST = 'SET_LIST'
 export const VERIFY_ADMIN = 'VERIFY_ADMIN'
 export const LOGIN_GITHUB = 'LOGIN_GITHUB'
+export const GET_TOOLS = 'GET_TOOLS'
+export const SET_TOOL = 'SET_TOOL'
+
