@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="articles" v-if=" list.length !== 0">
-            <article v-for="item in list" :key="item.article_id" v-if="item.article_pass" class="hvr-backward">
+            <article v-for="item in list" :key="item.article_id" v-if="item.article_pass" class="hvr-overline-reveal">
                 <div class="article-info">
                     <router-link :to="'/article/' + item.article_id" ><h3 class="article-title">{{item.article_title}}</h3></router-link>
                     <router-link :to="'/article/' + item.article_id" >                                    
@@ -21,7 +21,7 @@
                         <span class="article_tag">{{item.tags_name}}</span>
                     </div>
                 </div>
-                <div class="article-screen">
+                <div class="article-screen" v-if="item.article_img">
                     <router-link :to="'/article/' + item.article_id" ><img :src="item.article_img" v-if="item.article_img.length > 0" alt=""></router-link>
                 </div>
             </article>
@@ -65,20 +65,20 @@
             '$route.query.tags_name': function (newVal, oldVal) {
                 this.page = 1
                 if (newVal === undefined) {
-                    this.list = this.articles.slice((this.page - 1) * this.size, (this.page - 1) * this.size + this.size + 1)
+                    this.list = this.articles.slice((this.page - 1) * this.size, (this.page - 1) * this.size + this.size)
                 } else {
-                    this.list = this.articles.filter(e => e.tags_name === newVal).slice((this.page - 1) * this.size, (this.page - 1) * this.size + this.size + 1)
+                    this.list = this.articles.filter(e => e.tags_name === newVal).slice((this.page - 1) * this.size, (this.page - 1) * this.size + this.size)
                 }
             },
             '$store.state.search': function (newVal, oldVal) {
                 this.page = 1
                 if (newVal === '') {
-                    this.list = this.articles.filter(e => e.article_title.indexOf(newVal) > -1 || e.article_author.indexOf(newVal) > -1).slice((this.page - 1) * this.size, (this.page - 1) * this.size + this.size + 1)              
+                    this.list = this.articles.filter(e => e.article_title.indexOf(newVal) > -1 || e.article_author.indexOf(newVal) > -1).slice((this.page - 1) * this.size, (this.page - 1) * this.size + this.size)              
                 }
                 if (this.$route.query.tags_name === undefined) {
-                    this.list = this.articles.filter(e => e.article_title.indexOf(newVal) > -1 || e.article_author.indexOf(newVal) > -1).slice((this.page - 1) * this.size, (this.page - 1) * this.size + this.size + 1)              
+                    this.list = this.articles.filter(e => e.article_title.indexOf(newVal) > -1 || e.article_author.indexOf(newVal) > -1).slice((this.page - 1) * this.size, (this.page - 1) * this.size + this.size)              
                 } else {
-                    this.list = this.articles.filter(e => e.article_title.indexOf(newVal) > -1 && e.tags_name === this.$route.query.tags_name || e.article_author.indexOf(newVal) > -1).slice((this.page - 1) * this.size, (this.page - 1) * this.size + this.size + 1)             
+                    this.list = this.articles.filter(e => e.article_title.indexOf(newVal) > -1 && e.tags_name === this.$route.query.tags_name || e.article_author.indexOf(newVal) > -1).slice((this.page - 1) * this.size, (this.page - 1) * this.size + this.size)             
                 }
             }
         },
@@ -89,12 +89,12 @@
                     let search = this.$store.state.search
                     let prelist = []
                     if (tags_name === undefined) {
-                        prelist = this.removeDup(this.list.concat(this.articles.slice((this.page - 1) * this.size, (this.page - 1) * this.size + this.size + 1)), 'article_id')
+                        prelist = this.removeDup(this.list.concat(this.articles.slice((this.page - 1) * this.size, (this.page - 1) * this.size + this.size)), 'article_id')
                         if (search === '' || search) {
                             this.list = prelist.filter(e => e.article_title.indexOf(search) > -1 || e.article_author.indexOf(search) > -1)
                         }
                     } else {
-                        prelist = this.removeDup(this.list.concat(this.articles.filter(e => e.tags_name === tags_name).slice((this.page - 1) * this.size, (this.page - 1) * this.size + this.size + 1)), 'article_id')
+                        prelist = this.removeDup(this.list.concat(this.articles.filter(e => e.tags_name === tags_name).slice((this.page - 1) * this.size, (this.page - 1) * this.size + this.size)), 'article_id')
                         if (search === '' || search) {
                             this.list = prelist.filter(e => e.article_title.indexOf(search) > -1 || e.article_author.indexOf(search) > -1)
                         }
@@ -149,9 +149,9 @@
                                 this.articles = this.removeDup(this.articles.concat(data), 'article_id')
                                 this.$store.commit('SET_LIST', this.removeDup(this.articles.concat(data), 'article_id'))
                                 if (tags_name === undefined) {
-                                    this.list = this.articles.slice((this.page - 1) * this.size, (this.page - 1) * this.size + this.size + 1)
+                                    this.list = this.articles.slice((this.page - 1) * this.size, (this.page - 1) * this.size + this.size)
                                 } else {
-                                    this.list = this.articles.filter(e => e.tags_name === tags_name).slice((this.page - 1) * this.size, (this.page - 1) * this.size + this.size + 1)
+                                    this.list = this.articles.filter(e => e.tags_name === tags_name).slice((this.page - 1) * this.size, (this.page - 1) * this.size + this.size)
                                 }
                             }
                         })
@@ -305,38 +305,36 @@
         }
     }
 
-@-webkit-keyframes hvr-ripple-in {
-  100% {
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    opacity: 1;
-  }
-}
-@keyframes hvr-ripple-in {
-  100% {
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    opacity: 1;
-  }
-}
-.hvr-backward {
+.hvr-overline-reveal {
   display: inline-block;
   vertical-align: middle;
   -webkit-transform: perspective(1px) translateZ(0);
   transform: perspective(1px) translateZ(0);
   box-shadow: 0 0 1px rgba(0, 0, 0, 0);
-  -webkit-transition-duration: 0.3s;
-  transition-duration: 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.hvr-overline-reveal:before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  right: 0;
+  top: 0;
+  background: #2098D1;
+  height: 4px;
+  -webkit-transform: translateY(-4px);
+  transform: translateY(-4px);
   -webkit-transition-property: transform;
   transition-property: transform;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-timing-function: ease-out;
+  transition-timing-function: ease-out;
 }
-.hvr-backward:hover, .hvr-backward:focus, .hvr-backward:active {
-  -webkit-transform: translateX(-8px);
-  transform: translateX(-8px);
+.hvr-overline-reveal:hover:before, .hvr-overline-reveal:focus:before, .hvr-overline-reveal:active:before {
+  -webkit-transform: translateY(0);
+  transform: translateY(0);
 }
 
 </style>

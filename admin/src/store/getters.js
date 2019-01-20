@@ -1,8 +1,5 @@
 export default {
-    checkToken(state){
-        return {
-            token: state.token,
-            username: state.username
-        }
+    toolType (state) {
+        return [...new Set(state.tools.map(e => e.tool_type))]
     }
 }

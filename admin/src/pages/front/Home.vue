@@ -53,11 +53,13 @@
             </div>
             <div class="home-right">
                 <Tag @getTags="getTags"/>
+                <Tools />
             </div>
         </div>  
     </div>
 </template>
 <script>
+    import Tools from '../../components/front/Tools.vue'
     import Tag from '../../components/front/Tag.vue'
     import ArticleList from '../../components/front/ArticleList.vue'
     import api from '../../api/index.js'
@@ -67,16 +69,17 @@
                 activeName: 'first',
                 banner: ['http://127.0.0.1:3000/images/bpic8127.jpg', 'http://127.0.0.1:3000/images/bpic9202.jpg','http://127.0.0.1:3000/images/zzpic14973.jpg'],
                 tags: [],
-                list: []
+                list: [],
             }
         },
         components: {
             Tag,
-            ArticleList
+            ArticleList,
+            Tools
         },
         mounted () {
- 
 
+            
         },
         methods: {
             tabClick (tab, event) {
