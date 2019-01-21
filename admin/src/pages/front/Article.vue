@@ -24,7 +24,10 @@
                 </div> 
                 <Comment />                
             </div>
-            <Tag class="tag"/>
+            <div class="article-right">
+                <Tag class="tag"/>
+                <Tools />
+            </div>
         </div>
 
     </div>
@@ -32,6 +35,7 @@
 <script>
     import Read from '../../components/common/Read.vue'
     import Tag from '../../components/front/Tag.vue'
+    import Tools from '../../components/front/Tools.vue'
     import Comment from '../../components/front/Comment.vue'
     export default {
         data () {
@@ -42,7 +46,8 @@
         components: {
             Read,
             Tag,
-            Comment
+            Comment,
+            Tools
         },
         mounted () {
 

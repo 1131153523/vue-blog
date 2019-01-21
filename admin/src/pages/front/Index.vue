@@ -23,7 +23,6 @@
             <svg class="icon" aria-hidden="true" v-if="$route.fullPath.indexOf('/article') > -1" >
                 <use xlink:href="#icon-tableshare"></use>
             </svg>  
-
             </div>           
         </div>   
     </div>
@@ -55,7 +54,7 @@
         .toTop {
             position: fixed;
             right: 60px;
-            bottom: 60px;
+            bottom: 100px;
             z-index: 111111111;
             height: 50px;
             svg {
@@ -84,7 +83,7 @@
     @media screen and (max-width: 800px){
         .toTop {
             right: 25px!important;
-            bottom: 50px!important;
+            bottom: 100px!important;
         }
     }
     ::selection {

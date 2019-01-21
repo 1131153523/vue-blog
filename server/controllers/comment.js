@@ -67,7 +67,7 @@ class CommentController {
             }            
         } catch(e) {
             console.log(e)
-            console.log('服务器错误，点赞失败');
+            console.log('服务器错误，点赞失败')
             ctx.body = {
                 code: 0,
                 msg: '服务器错误，点赞失败',
@@ -77,23 +77,15 @@ class CommentController {
     }
     static async deleteComment (ctx) {
         try {
-            let data = await Model.deleteComment(ctx.request.body)
-            if (data.affectedRows > 0) {
-                ctx.body = {
-                    code: 1,
-                    msg: '删除成功',
-                    isShow: false
-                }                
-            }  else {
-                ctx.body = {
-                    code: 0,
-                    msg: '删除失败，该评论不存在',
-                    isShow: false
-                }
-            }           
+            await Model.deleteComment(ctx.request.body)
+            ctx.body = {
+                code: 1,
+                msg: '删除成功',
+                isShow: false
+            }                
         } catch(e) {
             console.log(e)
-            console.log('服务器错误，删除失败');
+            console.log('服务器错误，删除失败')
             ctx.body = {
                 code: 0,
                 msg: '服务器错误，删除失败',

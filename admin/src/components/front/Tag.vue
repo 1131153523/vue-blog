@@ -1,6 +1,11 @@
 <template>
     <div class="tag">
-        <h3 class="hvr-underline-from-left"></i>&nbsp;&nbsp;热门标签</h3>
+        <h3 class="hvr-underline-from-left">
+            <svg class="icon" aria-hidden="true">
+                <use xlink:href="#icon-biaoqian2"></use>
+            </svg>            
+            &nbsp;&nbsp;热门标签
+        </h3>
         <div class="tag-area">
             <ul class="tag-list">
                 <el-row :gutter="4">
@@ -84,6 +89,9 @@
             font-weight: 200;
             border-bottom: 1px solid #f6f6f6;
             width: 100%;
+            svg {
+                font-size: 22px;
+            }
         }
         .tag-area {
             height: 100%;

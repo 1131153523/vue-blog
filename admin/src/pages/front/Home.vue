@@ -10,7 +10,14 @@
                 <el-tabs v-model="activeName"  @tab-click="tabClick" type="border-card" style="width: 100%;height: 100%;box-shadow: none;">
                     <el-tab-pane label="推荐文章" name="first">
                         <ul class="banner-recommend">
-                            <li v-for="e in list" :key="e.article_id"><router-link :to="'/article/' + e.article_id">{{e.article_title}}</router-link></li>
+                            <li v-for="e in list" :key="e.article_id">
+                                <router-link :to="'/article/' + e.article_id">
+                                    <svg class="icon refrash" aria-hidden="true" style="font-size: 13px;">
+                                        <use xlink:href="#icon-jiantou"></use>
+                                    </svg>                                      
+                                    {{e.article_title}}
+                                </router-link>
+                            </li>
                         </ul>
                     </el-tab-pane>
                     <el-tab-pane label="关于本站" name="second">关于本站</el-tab-pane>
@@ -111,7 +118,7 @@
                 }   
             },
             Refrash () {
-                this.$store.dispatch('setSearch', '')
+                this.$store.commit('SET_SEARCH', '')
             },
             getArticleList (list) {
                 this.list = list.slice(0, 6)

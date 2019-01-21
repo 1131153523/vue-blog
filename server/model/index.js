@@ -113,6 +113,10 @@ ${article_id}, ${article_title}, ${article_introduce}, ${article_author}, ${arti
         let sql = escape`update articles set article_assist=article_assist + 1 where article_id=${article_id}`
         return p.query(sql)
     }
+    static updateArticleCommentSub (article_id) {
+        let sql = escape`update articles set article_assist=article_assist - 1 where article_id=${article_id}`
+        return p.query(sql)
+    }
     static toComment ({id, article_id,  comment_name, comment_touxiang ,comment_content, comment_email, comment_create_time, parent_id=''}) {
         let sql = escape`insert into comments(id, article_id, parent_id, comment_name, comment_touxiang, comment_content, comment_email, comment_create_time)
         values(${id}, ${article_id}, ${parent_id}, ${comment_name}, ${comment_touxiang}, ${comment_content}, ${comment_email}, ${comment_create_time})`

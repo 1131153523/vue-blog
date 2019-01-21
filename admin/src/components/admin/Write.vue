@@ -166,10 +166,12 @@ import { clearInterval } from 'timers';
                 token: window.sessionStorage.getItem('token')
             }
         },
-        mounted(){
+        created (){
             this.$store.dispatch('getTags')
             this.$store.dispatch('getDraft')
-
+            this.timer = setInterval(() => {
+                this.$store.dispatch('saveDraft', this.articleValue)
+            },20000)
         },
         computed: {
             ...mapState(['tags', 'username', 'articleInfo', 'draft','articleValue']),
@@ -275,9 +277,7 @@ import { clearInterval } from 'timers';
             }
         },
         activated () {
-            this.timer = setInterval(() => {
-                this.$store.dispatch('saveDraft', this.articleValue)
-            },20000)
+
         },
         deactivated () {
         },

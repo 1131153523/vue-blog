@@ -1,6 +1,11 @@
 <template>
     <div class="tools">
-        <h3 class="hvr-underline-from-left"><i class="fa fa-tags"></i>&nbsp;&nbsp;工具箱</h3>
+        <h3 class="hvr-underline-from-left">
+            <svg class="icon" aria-hidden="true" >
+                <use xlink:href="#icon-ziyuan"></use>
+            </svg>            
+            &nbsp;&nbsp;工具箱
+        </h3>
         <el-collapse v-model="activeNames"  accordion  class="tools-wrapper">
             <el-collapse-item :title="item" :name="item" v-for="item in $store.getters.toolType" :key="item" >
                 <ul>
@@ -35,8 +40,8 @@
 </script>
 <style scoped lang="less">
     .tools {
-        height: 400px;
         width: 20rem;
+        padding-bottom: 20px;
         background-color: #fff;
         box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1), 0 1px rgba(0,0,0,0.1);
         margin-top: 10px;
@@ -46,6 +51,9 @@
             font-weight: 200;
             border-bottom: 1px solid #f6f6f6;
             width: 100%;
+            svg {
+                font-size: 20px;
+            }
         }
         .tools-wrapper {
             padding: 10px;
