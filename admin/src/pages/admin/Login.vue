@@ -18,11 +18,6 @@
                                     <el-form-item label="密码" prop="password">
                                         <el-input type="password" v-model="ruleForm2.password" autocomplete="off" @keyup.enter.native="submitForm('ruleForm2')"></el-input>
                                     </el-form-item>
-                                    <a href="javascript:void(0);" class="login-github" @click.stop="loginGithub">
-                                        <svg class="icon" aria-hidden="true" >
-                                            <use xlink:href="#icon-github"></use>
-                                        </svg> 
-                                    </a>                                   
                                     <el-form-item style="margin-top:10px;">
                                         <el-button type="primary" @click="submitForm('ruleForm2')" >提交</el-button>
                                         <el-button @click="resetForm('ruleForm2')">重置</el-button>

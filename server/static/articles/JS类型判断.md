@@ -1,5 +1,5 @@
 # JS类型判断
-```
+```javascript
 function type(obj) {
 	var class2type = {};
 	// 生成class2type映射

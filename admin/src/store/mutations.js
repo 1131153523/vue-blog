@@ -124,7 +124,6 @@ const mutations = {
     //清除筛选
     [types.CLEAR_SCREEN]: (state) => {
         state.articleList = state.articleList1
-        
     },
     //搜索筛选
     [types.SCREEN_SEARCH]: (state, value) => {

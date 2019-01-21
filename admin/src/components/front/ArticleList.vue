@@ -21,7 +21,7 @@
                         <span class="article_tag">{{item.tags_name}}</span>
                     </div>
                 </div>
-                <div class="article-screen" v-if="item.article_img">
+                <div class="article-screen" v-if="item.article_img !== ''">
                     <router-link :to="'/article/' + item.article_id" ><img :src="item.article_img" v-if="item.article_img.length > 0" alt=""></router-link>
                 </div>
             </article>

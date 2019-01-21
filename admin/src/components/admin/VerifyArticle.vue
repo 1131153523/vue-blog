@@ -346,7 +346,7 @@
                 }
             },
             handleRead(index, row) {
-                this.$store.dispatch('changePath', {path: `/admin/readArticle/${row.article_id}`, tag: '查看文章'})
+                this.$store.commit('CHANGE_PATH', {path: `/admin/readArticle/${row.article_id}`, tag: '查看文章'})
             },
             handleUpdate(index, row, flag) {
                 if (flag === -1) {
@@ -378,7 +378,7 @@
                 this.value3 = val
             },
             clearScreen(){
-                this.$store.commit('SCREEN_DATE')
+                this.$store.commit('CLEAR_SCREEN')
             },
 
             handleSelectionChange(val) {
