@@ -131,6 +131,8 @@ export default {
             api.uploadArticleImg({...$file})
                 .then(res => {
                     if (res.code) {
+                        console.log(res.data)
+                        
                         this.value = this.value.replace(`![${$file._name}](${pos})`,`![${$file._name}](${res.data})`)
                     }
                 })

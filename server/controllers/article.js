@@ -82,10 +82,11 @@ class ArticleController {
     }
     static async uploadArticleImg (ctx) {
         let {_name, miniurl} = ctx.request.body
-        let path = `${base_dir}static/uploads/articleImg/${_name}-${(+new Date()).toString().slice(5)}`
+        let name = `${_name}-${(+new Date()).toString().slice(5)}`
+        let path = `${base_dir}static/uploads/articleImg/${name}`
         let base64 = miniurl.replace(/^data:image\/\w+;base64,/, "")
         let dataBuffer = new Buffer(base64, 'base64')
-        let url = `http://${ctx.request.host}/uploads/articleImg/${_name}-${(+new Date()).toString().slice(5)}`
+        let url = `http://${ctx.request.host}/uploads/articleImg/${name}`
         try {
             fs.writeFileSync(path, dataBuffer)
             ctx.body = {
