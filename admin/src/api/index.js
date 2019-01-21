@@ -9,6 +9,9 @@ export default {
     postChangePass(value) {
         return ajax('/admin/changePass', value, 'POST')
     },
+    addManager (value) {
+        return ajax('/admin/addManager', value, 'POST')
+    },
     getTags(value) {
         return ajax('/admin/getTags')
     },
@@ -57,6 +60,7 @@ export default {
     addTool (value) {
         return ajax('/admin/addTool', value, 'POST')
     },
+
     toComment (value) {
         return ajax('/toComment', value, 'POST')
     },

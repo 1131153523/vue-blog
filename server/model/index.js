@@ -22,6 +22,10 @@ class Model {
         return p.query(sql)
     }
 
+    static addManager ({username, pass, admin_id}) {
+        let sql = escape`insert into admin(admin_id, admin_name, admin_password) values(${admin_id}, ${username}, ${pass})`
+        return p.query(sql)
+    }
     //标签数据库操作
     static getTags() {
         let sql = escape`select * from tags`

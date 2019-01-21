@@ -1,10 +1,12 @@
 const createToken = require('../token/createToken')
 const Model = require('../model/index')
 const github = require('../config/github')
-const fetch = require('node-fetch');
+const fetch = require('node-fetch')
+const md5  = require('js-md5')
 class UserController {
     static async loginPost (ctx) {
-        const {username, password} = ctx.request.body
+        let {username, password} = ctx.request.body
+        password = md5(md5(md5(password)))
         try {
             let data = await Model.login(username, password)
             let res = JSON.parse(JSON.stringify(data))
@@ -52,7 +54,8 @@ class UserController {
 
     static async checkPrepass(ctx) {
         try {
-            let data = await Model.checkPrepass(ctx.request.body)
+            let {prepass} = ctx.request.body
+            let data = await Model.checkPrepass({...ctx.request.body, prepass: md5(md5(md5(prepass)))})
             if (data.length > 0) {
                 ctx.body  = {
                     code: 1,
@@ -77,7 +80,7 @@ class UserController {
     static async changePass(ctx){
         try {
             let {username, password, token} = ctx.request.body
-            let data = await Model.changePass({username, password, token})
+            let data = await Model.changePass({username, password: md5(md5(md5(password))), token})
             if (data.affectedRows > 0) {
                 ctx.body = {
                     code: 1,
@@ -141,6 +144,23 @@ class UserController {
                     ctx.body = res
                 })
         })
+    }
+    static async addManager (ctx) {
+        try {
+            let {pass} = ctx.request.body
+            await Model.addManager({...ctx.request.body, pass: md5(md5(md5(pass)))})
+            ctx.body = {
+                code: 1,
+                msg: '添加成功'
+            }
+        } catch(e) {
+            ctx.body  = {
+                code: 0,
+                msg: '服务器出错,添加管理失败'
+            }
+            console.log(e)
+            console.log('服务器出错,添加管理失败')
+        }
     }
 }
 
