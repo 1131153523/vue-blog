@@ -56,7 +56,6 @@
                 placeholder="文章关键字搜索"
                 style="width: 250px;margin-bottom: 10px;margin-right: 10px;width: 172px"
                 class="selectAndInput"
-                
         ><i slot="prefix" class="el-input__icon el-icon-search"></i></el-input>
         <div class="articleList">
             <el-table
@@ -312,7 +311,7 @@
 
                 },
                 set(val){
-                    this.$store.commit('SCREEN_TAGS_AUTHOR', val)
+                    this.$store.commit('SCREEN_SEARCH', val)
                 }
             },
             ...mapState(['articleList','options2', 'options1'])

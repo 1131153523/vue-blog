@@ -67,13 +67,17 @@ ${article_id}, ${article_title}, ${article_introduce}, ${article_author}, ${arti
         } else {
             let {limit, offset, tags_name} = value
             let sql = ''
-            if (tags_name === 'home') {
+            if (tags_name === 'undefined') {
                 sql = escape`select article_id, article_title, article_pass, article_author, article_assist, article_read, article_img, article_time, tags.tags_id, tags.tags_name from articles,tags where articles.tags_id=tags.tags_id  limit ${parseInt(limit)} offset ${parseInt(offset)}`
             } else {
                 sql = escape`select article_id, article_title, article_pass, article_author, article_assist, article_read, article_img, article_time, tags.tags_id, tags.tags_name from articles,tags where articles.tags_id=tags.tags_id and tags_name=${tags_name} limit ${parseInt(limit)} offset ${parseInt(offset)}`
             }
             return p.query(sql)
         }
+    }
+    static getCount({table, tags_name}) {
+        let sql = escape`select count(*) from ` + table + escape` where tags_id=(select tags_id from tags where tags_name=${tags_name})`
+        return p.query(sql)
     }
     static updateArticleVerify ({article_id}) {
         let sql = escape`update articles set article_pass=1 where article_id=${article_id}`

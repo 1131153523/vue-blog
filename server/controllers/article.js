@@ -106,18 +106,20 @@ class ArticleController {
     }
     static async getArticleList (ctx) {
         try {
+            let count = await Model.getCount({table: 'articles', tags_name: ctx.request.query.tags_name})
             let data = await Model.getArticleList(ctx.request.query)
             if (data.every(item => item.tags_id && !item.tags_name) && data.length > 0) {
                 let a = data.find(item => item.tags_id && !item.tags_name)
                 ctx.body = {
                     code: 0,
-                    msg: `文章名为${a.article_title}的标签可能删除，请更改文章的标签`
+                    msg: `文章名为${a.article_title}的标签可能删除，请更改文章的标签`,
                 }
             }
             ctx.body = {
                 code: 1,
                 data: data,
-                isShow: false
+                isShow: false,
+                count: count[0]
             }
         } catch (e) {
             console.log('服务器错误，获取文章列表失败');

@@ -1,6 +1,11 @@
 
 # 动手实现一个简单的Promise
+::: hljs-center
+
 ![bpic8127.jpg](http://127.0.0.1:3000/uploads/articleImg/bpic8127.jpg-78284395)
+
+:::
+
 ```javascript
 const PENDING = 'pending';
 const FULFILLED = 'fulfilled';

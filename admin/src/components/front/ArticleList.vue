@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="articles" v-if=" list.length !== 0">
+        <div class="articles" v-if="list.length !== 0">
             <article v-for="item in list" :key="item.article_id" v-if="item.article_pass" class="hvr-overline-reveal">
                 <div class="article-info">
                     <router-link :to="'/article/' + item.article_id" ><h3 class="article-title">{{item.article_title}}</h3></router-link>
@@ -32,22 +32,30 @@
 <script>
     import api from '../../api/index.js'
     import { setTimeout } from 'timers';
+    import { resolve } from 'url';
+    import { rejects } from 'assert';
     export default {
         props: {
             size: {
                 type: Number,
-                default: 5,
+                default: 2,
             }
         },
         data () {
             return {
                 articles: [],
-                page: 1,
+                page: {},
                 list: [],
+                pageList: {},
+                isEnd: {}
             }
         },
-        mounted () {
-            this.getData()
+        async mounted () {
+            let tags_name = this.$route.query.tags_name ? this.$route.query.tags_name: 'undefined'
+            this.page[tags_name] = 1
+            this.list = await this.getData(this.page[tags_name])
+            this.pageList[tags_name] = this.list
+            this.isEnd[tags_name] = false
             window.onscroll = () => {
                 if (this.$route.path.indexOf('/home') > -1) {
                     let html = document.documentElement
@@ -55,20 +63,35 @@
                     let top = html.scrollTop
                     let height = html.offsetHeight
                     if (scheight <= top + height) {
-                        this.page ++
+                        this.page[this.$route.query.tags_name ? this.$route.query.tags_name: 'undefined'] ++
                         this.loadMore()
                     }  
                 }
             }
         },
         watch: {
-            '$route.query.tags_name': function (newVal, oldVal) {
-                this.page = 1
-                if (newVal === undefined) {
-                    this.list = this.articles.slice((this.page - 1) * this.size, (this.page - 1) * this.size + this.size)
-                } else {
-                    this.list = this.articles.filter(e => e.tags_name === newVal).slice((this.page - 1) * this.size, (this.page - 1) * this.size + this.size)
+            '$route.query.tags_name': async function (newVal, oldVal) {
+                if (!this.page[newVal]) {
+                    this.page[newVal] = 1
                 }
+                console.log('-------------------');
+                console.log(newVal);
+                console.log(this.pageList[newVal]);
+                console.log(this.isEnd[newVal]);
+                console.log('-------------------');
+                if (!this.pageList[newVal] && !this.isEnd[newVal]) {
+                    this.pageList[newVal] = []
+                } else {
+                    this.list = this.pageList[newVal]
+                    return
+                }
+                // if (this.isEnd[newVal]) {
+                //     this.list = this.pageList[newVal]
+                //     return
+                // }
+                let newList = await this.getData(this.page[newVal])
+                this.pageList[newVal] = this.pageList[newVal].concat(newList)
+                this.list = this.removeDup(this.pageList[newVal].concat(newList), 'article_id')
             },
             '$store.state.search': function (newVal, oldVal) {
                 this.page = 1
@@ -82,24 +105,29 @@
                 }
             }
         },
+        computed: {
+
+        },
         methods: {
-            loadMore () {
-                setTimeout(() => {
-                    let tags_name = this.$route.query.tags_name
-                    let search = this.$store.state.search
-                    let prelist = []
-                    if (tags_name === undefined) {
-                        prelist = this.removeDup(this.list.concat(this.articles.slice((this.page - 1) * this.size, (this.page - 1) * this.size + this.size)), 'article_id')
-                        if (search === '' || search) {
-                            this.list = prelist.filter(e => e.article_title.indexOf(search) > -1 || e.article_author.indexOf(search) > -1)
-                        }
-                    } else {
-                        prelist = this.removeDup(this.list.concat(this.articles.filter(e => e.tags_name === tags_name).slice((this.page - 1) * this.size, (this.page - 1) * this.size + this.size)), 'article_id')
-                        if (search === '' || search) {
-                            this.list = prelist.filter(e => e.article_title.indexOf(search) > -1 || e.article_author.indexOf(search) > -1)
-                        }
+            async loadMore () {
+                let tags_name = this.$route.query.tags_name ? this.$route.query.tags_name: 'undefined'
+                let search = this.$store.state.search
+                let prelist = []
+                let newList = await this.getData(this.page[tags_name])
+                if (this.isEnd[tags_name]) {
+                    return
+                }
+                this.pageList[tags_name] = this.pageList[tags_name].concat(newList)
+                prelist = this.removeDup(this.pageList[tags_name], 'article_id')
+                if (tags_name === 'undefined') {
+                    if (search === '' || search) {
+                        this.list = prelist.filter(e => e.article_title.indexOf(search) > -1 || e.article_author.indexOf(search) > -1)
                     }
-                }, 300)
+                } else {
+                    if (search === '' || search) {
+                        this.list = prelist.filter(e => e.article_title.indexOf(search) > -1 || e.article_author.indexOf(search) > -1)
+                    }
+                }
             },
             removeDup (arr, key) {
                 let result = [];
@@ -112,58 +140,66 @@
                 }
                 return result
             },
-            getData(value={}, tags_name='') {
-                    api.getArticleList({...value, tags_name})
-                        .then(res => {
-                            let re = res.data.filter(e => e.tags_name !== '项目')
-                            let data = re.map(e => {
-                                if (e.article_time.indexOf('下午') > -1) {
-                                    let t = e.article_time.replace('下午', '')
-                                    let h = t.split(' ')
-                                    t = h[1].split(':')
-                                    t[0] = parseInt(t[0]) + 12
-                                    t[0] = t[0].toString()
-                                    t = t.join(':')
-                                    h[1] = t
-                                    h = h.join(' ')      
-                                    let T = new Date(h);
-                                    e.article_time = T.getTime()
-                                    return e
-                                }
-                                if (e.article_time.indexOf('上午') > -1) {
-                                    let t = e.article_time.replace('上午', '')
-                                    let h = t.split(' ')
-                                    t = h[1].split(':')
-                                    t = t.join(':')
-                                    h[1] = t
-                                    h = h.join(' ')
-                                    let T = new Date(h);
-                                    e.article_time = T.getTime()
-                                    return e
+            getData(page) {
+                let tags_name = this.$route.query.tags_name? this.$route.query.tags_name : 'undefined'
+                let value = {
+                        limit: this.size, 
+                        offset: (page - 1) * this.size, 
+                        tags_name: tags_name
+                }
+                return new Promise((resolve, reject) => {
+                    if (!this.isEnd[this.$route.query.tags_name]) {
+                        api.getArticleList(value)
+                            .then(res => {
+                                let re = res.data.filter(e => e.tags_name !== '项目')
+                                let data = re.map(e => {
+                                    if (e.article_time.indexOf('下午') > -1) {
+                                        let t = e.article_time.replace('下午', '')
+                                        let h = t.split(' ')
+                                        t = h[1].split(':')
+                                        t[0] = parseInt(t[0]) + 12
+                                        t[0] = t[0].toString()
+                                        t = t.join(':')
+                                        h[1] = t
+                                        h = h.join(' ')      
+                                        let T = new Date(h);
+                                        e.article_time = T.getTime()
+                                        return e
+                                    }
+                                    if (e.article_time.indexOf('上午') > -1) {
+                                        let t = e.article_time.replace('上午', '')
+                                        let h = t.split(' ')
+                                        t = h[1].split(':')
+                                        t = t.join(':')
+                                        h[1] = t
+                                        h = h.join(' ')
+                                        let T = new Date(h);
+                                        e.article_time = T.getTime()
+                                        return e
+                                    }
+                                })
+                                if (res.code) {
+                                    data.sort((a, b) => b.article_time - a.article_time)
+                                    this.$emit('getArticleList', data)
+                                    if (data.length === 0 ||res.count['count(*)'] === data.length) {
+                                        this.isEnd[tags_name] = true
+                                    }
+                                    resolve(data)
                                 }
                             })
-                            if (res.code) {
-                                data.sort((a, b) => b.article_time - a.article_time)
-                                this.$emit('getArticleList', data)
-                                let tags_name = this.$route.query.tags_name
-                                this.articles = this.removeDup(this.articles.concat(data), 'article_id')
-                                this.$store.commit('SET_LIST', this.removeDup(this.articles.concat(data), 'article_id'))
-                                if (tags_name === undefined) {
-                                    this.list = this.articles.slice((this.page - 1) * this.size, (this.page - 1) * this.size + this.size)
-                                } else {
-                                    this.list = this.articles.filter(e => e.tags_name === tags_name).slice((this.page - 1) * this.size, (this.page - 1) * this.size + this.size)
-                                }
-                            }
-                        })
-                        .catch(e => {
-                            console.log(e)
-                        })
+                            .catch(e => {
+                                console.log(e)
+                                reject(e)
+                            })
+                    } else {
+                        resolve('end')
+                    }
+                }) 
             },
             toComment (id) {
                 this.$router.push({ name: 'Article', params: { article_id: id }})
             }
         },
-        
         filters: {
             formatDate (date) {
                 let now = +new Date()
