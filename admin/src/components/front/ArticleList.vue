@@ -74,35 +74,21 @@
                 if (!this.page[newVal]) {
                     this.page[newVal] = 1
                 }
-                console.log('-------------------');
-                console.log(newVal);
-                console.log(this.pageList[newVal]);
-                console.log(this.isEnd[newVal]);
-                console.log('-------------------');
                 if (!this.pageList[newVal] && !this.isEnd[newVal]) {
                     this.pageList[newVal] = []
                 } else {
                     this.list = this.pageList[newVal]
                     return
                 }
-                // if (this.isEnd[newVal]) {
-                //     this.list = this.pageList[newVal]
-                //     return
-                // }
                 let newList = await this.getData(this.page[newVal])
                 this.pageList[newVal] = this.pageList[newVal].concat(newList)
                 this.list = this.removeDup(this.pageList[newVal].concat(newList), 'article_id')
+                this.$emit('getArticleList', this.list)
+
             },
             '$store.state.search': function (newVal, oldVal) {
-                this.page = 1
-                if (newVal === '') {
-                    this.list = this.articles.filter(e => e.article_title.indexOf(newVal) > -1 || e.article_author.indexOf(newVal) > -1).slice((this.page - 1) * this.size, (this.page - 1) * this.size + this.size)              
-                }
-                if (this.$route.query.tags_name === undefined) {
-                    this.list = this.articles.filter(e => e.article_title.indexOf(newVal) > -1 || e.article_author.indexOf(newVal) > -1).slice((this.page - 1) * this.size, (this.page - 1) * this.size + this.size)              
-                } else {
-                    this.list = this.articles.filter(e => e.article_title.indexOf(newVal) > -1 && e.tags_name === this.$route.query.tags_name || e.article_author.indexOf(newVal) > -1).slice((this.page - 1) * this.size, (this.page - 1) * this.size + this.size)             
-                }
+                this.list = this.pageList[this.$route.query.tags_name].filter(e => e.article_title.indexOf(newVal) > -1 || e.article_author.indexOf(newVal) > -1)               
+                this.$emit('getArticleList', this.list)
             }
         },
         computed: {
@@ -119,15 +105,10 @@
                 }
                 this.pageList[tags_name] = this.pageList[tags_name].concat(newList)
                 prelist = this.removeDup(this.pageList[tags_name], 'article_id')
-                if (tags_name === 'undefined') {
-                    if (search === '' || search) {
-                        this.list = prelist.filter(e => e.article_title.indexOf(search) > -1 || e.article_author.indexOf(search) > -1)
-                    }
-                } else {
-                    if (search === '' || search) {
-                        this.list = prelist.filter(e => e.article_title.indexOf(search) > -1 || e.article_author.indexOf(search) > -1)
-                    }
-                }
+                this.list = prelist.filter(e => e.article_title.indexOf(search) > -1 || e.article_author.indexOf(search) > -1)
+                console.log(this.pageList[tags_name]);
+                
+                this.$emit('getArticleList', this.pageList[tags_name])
             },
             removeDup (arr, key) {
                 let result = [];
@@ -135,7 +116,7 @@
                 for(let i =0; i<arr.length; i++){
                     if(!obj[arr[i][key]]){
                         result.push(arr[i])
-                        obj[arr[i][key]] = true;
+                        obj[arr[i][key]] = true
                     }
                 }
                 return result
@@ -180,10 +161,11 @@
                                 })
                                 if (res.code) {
                                     data.sort((a, b) => b.article_time - a.article_time)
-                                    this.$emit('getArticleList', data)
+                                    
                                     if (data.length === 0 ||res.count['count(*)'] === data.length) {
                                         this.isEnd[tags_name] = true
                                     }
+                                    this.$emit('getArticleList', data)
                                     resolve(data)
                                 }
                             })

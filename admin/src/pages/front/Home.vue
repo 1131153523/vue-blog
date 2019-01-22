@@ -129,7 +129,6 @@
 </script>
     
 <style lang="less">
-
     .banner {
         display: flex;
         justify-content: space-between;
