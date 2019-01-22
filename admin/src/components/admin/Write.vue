@@ -50,6 +50,7 @@
             </el-upload>
         </div>
         <h1 style="font-size: 30px;font-weight: 200;margin-bottom: 10px">直接发布</h1>
+        <el-input v-model="title" placeholder="请输入文章标题" style="width: 50%;margin-bottom: 10px;"></el-input>
         <el-input
             type="textarea"
             :rows="5"
@@ -163,6 +164,7 @@ import { clearInterval } from 'timers';
                 },
                 content1: '',
                 content2: '',
+                title: '',
                 token: window.sessionStorage.getItem('token')
             }
         },
@@ -206,14 +208,9 @@ import { clearInterval } from 'timers';
                     })
                     return
                 }
-                let re = /#(.*)\n?/
-                let r = '';
-                let title = ''
-                r = re.exec(value)
-                title = r[1]
                 this.info = {
                     article_id: getRandomId(),
-                    article_title: title,
+                    article_title: this.title,
                     article_content: value,
                     article_img: '',
                     article_author: this.username,
@@ -289,7 +286,9 @@ import { clearInterval } from 'timers';
 <style scoped lang="less">
     .write {
         padding: 0 10px;
-        box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+           -moz-box-sizing: border-box;
+                box-sizing: border-box;
         height: 400px;
     }
     .Breadcrumb {

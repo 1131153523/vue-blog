@@ -28,10 +28,9 @@
     </div>
 </template>
 <script>
-    import Header from '../../components/front/Header.vue'
     export default {
         components: {
-            Header
+            Header: resolve => require(['../../components/front/Header.vue'], resolve) 
         },
         methods: {
             toTop () {
@@ -50,6 +49,7 @@
 <style lang="less">
 
     .wrapper {
+        padding-top: 64px;
         padding-top: 4rem;
         .toTop {
             position: fixed;
@@ -77,7 +77,9 @@
             width:100%;
             margin-top: 20px;
             padding: 10px;
-            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+               -moz-box-sizing: border-box;
+                    box-sizing: border-box;
         }
     }
     @media screen and (max-width: 800px){
@@ -112,7 +114,6 @@
         -o-transform: translate3d(60px, 0, 0);
         opacity: 0;
         -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-        position: absolute;
     }
     .slide-fade-leave-active {
         opacity: 0;

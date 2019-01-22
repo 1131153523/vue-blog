@@ -336,11 +336,15 @@
 </script>
 <style scoped lang="less">
     .comments {
-        box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1), 0 1px rgba(0,0,0,0.1);
+        -webkit-box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1), 0 1px rgba(0,0,0,0.1);
+           -moz-box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1), 0 1px rgba(0,0,0,0.1);
+                box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1), 0 1px rgba(0,0,0,0.1);
         margin-top: -15px;
         margin-right: 10px;
         padding: 0 20px;
-        box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+           -moz-box-sizing: border-box;
+                box-sizing: border-box;
         background-color: #fff;
         padding-bottom: 20px;
         .comments-title {
@@ -354,8 +358,16 @@
             .comments-input {
                 width: 100%;
                 margin-bottom: 10px;
+                display: -webkit-box;
+                display: -webkit-flex;
+                display: -moz-box;
+                display: -ms-flexbox;
                 display: flex;
-                justify-content: space-between;
+                -webkit-box-pack: justify;
+                -webkit-justify-content: space-between;
+                   -moz-box-pack: justify;
+                    -ms-flex-pack: justify;
+                        justify-content: space-between;
                 .comments-name {
                     margin-top: 10px;
                     margin-right: 10px;
@@ -364,8 +376,10 @@
                 .comments-email {
                     margin-top: 10px;
                     position: relative;
-                    box-sizing: border-box;
-                    &::after {
+                    -webkit-box-sizing: border-box;
+                       -moz-box-sizing: border-box;
+                            box-sizing: border-box;
+                    &:after {
                         content: "选填";
                         position: absolute;
                         z-index: 11;
@@ -376,17 +390,27 @@
                 }
             }
             .comments-content {
+                display: -webkit-box;
+                display: -webkit-flex;
+                display: -moz-box;
+                display: -ms-flexbox;
                 display: flex;
                 .textarea {
                     background-color: #fff;
-                    border-radius: 3px;
-                    box-sizing: border-box;
+                    -webkit-border-radius: 3px;
+                       -moz-border-radius: 3px;
+                            border-radius: 3px;
+                    -webkit-box-sizing: border-box;
+                       -moz-box-sizing: border-box;
+                            box-sizing: border-box;
                     font-size: 16px;
                     outline: none;
                     margin-bottom: 10px;
                     &:focus {
                         outline: 1px solid #ccc;
-                        box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1), 0 1px rgba(0,0,0,0.1);
+                        -webkit-box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1), 0 1px rgba(0,0,0,0.1);
+                           -moz-box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1), 0 1px rgba(0,0,0,0.1);
+                                box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1), 0 1px rgba(0,0,0,0.1);
                     }
                 }
             }
@@ -396,31 +420,51 @@
             width: 100%;
             padding-top: 20px;
             padding-left: 30px;
-            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+               -moz-box-sizing: border-box;
+                    box-sizing: border-box;
             .comments-item {
                 margin-top: 20px;
                 border-bottom: 1px solid #e6e4e4;
                 padding-bottom: 10px;
                 .item-main {
+                    display: -webkit-box;
+                    display: -webkit-flex;
+                    display: -moz-box;
+                    display: -ms-flexbox;
                     display: flex;
-                    justify-content: space-between;
+                    -webkit-box-pack: justify;
+                    -webkit-justify-content: space-between;
+                       -moz-box-pack: justify;
+                        -ms-flex-pack: justify;
+                            justify-content: space-between;
                     .item-left {
-                        border-radius: 50%;
+                        -webkit-border-radius: 50%;
+                           -moz-border-radius: 50%;
+                                border-radius: 50%;
                         svg {
                             font-size: 35px;
                         }
                     }
                     .item-right {
-                        flex: 1;
+                        -webkit-box-flex: 1;
+                        -webkit-flex: 1;
+                           -moz-box-flex: 1;
+                            -ms-flex: 1;
+                                flex: 1;
                         .item-name {
                             margin-left: 10px;
                             line-height: 35px;
                             font-size: 14px;
                         }
                         .item-content {
-                            box-sizing: border-box;
+                            -webkit-box-sizing: border-box;
+                               -moz-box-sizing: border-box;
+                                    box-sizing: border-box;
                             padding: 12px;
-                            border-radius: 3px;
+                            -webkit-border-radius: 3px;
+                               -moz-border-radius: 3px;
+                                    border-radius: 3px;
                             margin-top: 0px;
                             font-size: 13px;
                             background-color: #fafbfc;
@@ -459,27 +503,47 @@
                             width: 80%;
                             background-color: #fafbfc;
                             margin-top: 15px;
+                            display: -webkit-box;
+                            display: -webkit-flex;
+                            display: -moz-box;
+                            display: -ms-flexbox;
                             display: flex;
-                            justify-content: space-between;
+                            -webkit-box-pack: justify;
+                            -webkit-justify-content: space-between;
+                               -moz-box-pack: justify;
+                                -ms-flex-pack: justify;
+                                    justify-content: space-between;
                             padding: 10px;
-                            box-sizing: border-box;
+                            -webkit-box-sizing: border-box;
+                               -moz-box-sizing: border-box;
+                                    box-sizing: border-box;
                             .reply-left {
-                                border-radius: 50%;
+                                -webkit-border-radius: 50%;
+                                   -moz-border-radius: 50%;
+                                        border-radius: 50%;
                                 svg {
                                     font-size: 35px;
                                 }
                             }
                             .reply-right {
-                                flex: 1;
+                                -webkit-box-flex: 1;
+                                -webkit-flex: 1;
+                                   -moz-box-flex: 1;
+                                    -ms-flex: 1;
+                                        flex: 1;
                                 .reply-name {
                                     margin-left: 10px;
                                     line-height: 35px;
                                     font-size: 14px;                                    
                                 }
                                 .reply-content {
-                                    box-sizing: border-box;
+                                    -webkit-box-sizing: border-box;
+                                       -moz-box-sizing: border-box;
+                                            box-sizing: border-box;
                                     padding: 12px;
-                                    border-radius: 3px;
+                                    -webkit-border-radius: 3px;
+                                       -moz-border-radius: 3px;
+                                            border-radius: 3px;
                                     margin-top: 0px;
                                     font-size: 13px;
                                     width: 80%;
@@ -507,8 +571,16 @@
                                     }
                                 }
                                 .reply-btn {
+                                    display: -webkit-box;
+                                    display: -webkit-flex;
+                                    display: -moz-box;
+                                    display: -ms-flexbox;
                                     display: flex;
-                                    justify-content: flex-end;
+                                    -webkit-box-pack: end;
+                                    -webkit-justify-content: flex-end;
+                                       -moz-box-pack: end;
+                                        -ms-flex-pack: end;
+                                            justify-content: flex-end;
                                     margin-bottom: 10px;
                                     margin-top: 10px;
                                 }

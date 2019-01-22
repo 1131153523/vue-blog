@@ -76,7 +76,7 @@ export default {
     deleteComment (value) {
         return ajax('/deleteComment', value, 'POST')
     },
-    loginGithub () {
-        return ajax('/login/github')
+    getProjects() {
+        return ajax('/getProjects')
     }
 }

@@ -140,10 +140,20 @@
 <style scoped lang="less">
     .tool {
         padding: 10px;
-        box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+           -moz-box-sizing: border-box;
+                box-sizing: border-box;
         .inputTool {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -moz-box;
+            display: -ms-flexbox;
             display: flex;
-            justify-content: flex-start;
+            -webkit-box-pack: start;
+            -webkit-justify-content: flex-start;
+               -moz-box-pack: start;
+                -ms-flex-pack: start;
+                    justify-content: flex-start;
             width: 70%;
             margin-top: 5px;
             .input {

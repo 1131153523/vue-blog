@@ -44,35 +44,61 @@
     }
 </script>
 <style scoped>
-    /*.home {*/
-        /*width: 100%;*/
-    /*}*/
     .home .Info {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -moz-box;
+        display: -ms-flexbox;
         display: flex;
-        justify-content: space-around;
+        -webkit-justify-content: space-around;
+            -ms-flex-pack: distribute;
+                justify-content: space-around;
         height: 80px;
         width: 100%;
     }
     .home .Info  > div {
         background-color: #fff;
         height: 100px;
-        flex-basis: 25%;
+        -webkit-flex-basis: 25%;
+            -ms-flex-preferred-size: 25%;
+                flex-basis: 25%;
         -moz-box-shadow: 4px 4px 40px rgba(0,0,0,.05);
         -webkit-box-shadow: 4px 4px 40px rgba(0,0,0,.05);
         box-shadow: 4px 4px 40px rgba(0,0,0,.05);
-        border-radius: 3px;
+        -webkit-border-radius: 3px;
+           -moz-border-radius: 3px;
+                border-radius: 3px;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -moz-box;
+        display: -ms-flexbox;
         display: flex;
-        justify-content: space-around;
-        align-items: center;
+        -webkit-justify-content: space-around;
+            -ms-flex-pack: distribute;
+                justify-content: space-around;
+        -webkit-box-align: center;
+        -webkit-align-items: center;
+           -moz-box-align: center;
+            -ms-flex-align: center;
+                align-items: center;
         cursor: pointer;
     }
     .home .Info  > div svg {
         opacity: 0.8;
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+        -webkit-transition: all 0.2s ease-out;
+        -o-transition: all 0.2s ease-out;
+        -moz-transition: all 0.2s ease-out;
         transition: all 0.2s ease-out;
     }
     .home .Info  > div:hover  svg {
-        transform: translateY(-5px);
+        -webkit-transform: translateY(-5px);
+           -moz-transform: translateY(-5px);
+            -ms-transform: translateY(-5px);
+             -o-transform: translateY(-5px);
+                transform: translateY(-5px);
         opacity: 1;
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
     }
     .home .Info  > div svg {
         font-size: 45px;
@@ -100,14 +126,23 @@
 
     @media screen and (max-width: 640px) {
         .home .Info {
-            flex-wrap: wrap;
+            -webkit-flex-wrap: wrap;
+                -ms-flex-wrap: wrap;
+                    flex-wrap: wrap;
             margin-top: 5px;
 
         }
         .home .Info > div {
-            flex-basis: 80%;
+            -webkit-flex-basis: 80%;
+                -ms-flex-preferred-size: 80%;
+                    flex-basis: 80%;
             margin-top: 20px;
-            align-items: center;
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+               -moz-box-align: center;
+                -ms-flex-align: center;
+                        -ms-grid-row-align: center;
+                    align-items: center;
         }
         .home .Info  > div svg {
             font-size: 45px;

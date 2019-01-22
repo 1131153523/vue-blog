@@ -141,7 +141,8 @@
         -webkit-box-pack: center;
         -ms-flex-pack: center;
         -webkit-justify-content: center;
-        justify-content: center;
+        -moz-box-pack: center;
+             justify-content: center;
         width: 100%;
     }
 

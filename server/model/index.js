@@ -142,5 +142,10 @@ ${article_id}, ${article_title}, ${article_introduce}, ${article_author}, ${arti
         let sql = escape`delete from comments where id=${id} or parent_id=${id}`
         return p.query(sql)
     }
+    static getProjects () {
+        let str = '项目'
+        let sql = escape`select * from articles where tags_id=(select tags_id from tags where tags_name=${str})`
+        return p.query(sql)
+    }
 }
 module.exports = Model

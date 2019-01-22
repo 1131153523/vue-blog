@@ -33,10 +33,6 @@
     </div>
 </template>
 <script>
-    import Read from '../../components/common/Read.vue'
-    import Tag from '../../components/front/Tag.vue'
-    import Tools from '../../components/front/Tools.vue'
-    import Comment from '../../components/front/Comment.vue'
     export default {
         data () {
             return {
@@ -44,10 +40,10 @@
             }
         },
         components: {
-            Read,
-            Tag,
-            Comment,
-            Tools
+            Read: resolve => require(['../../components/common/Read.vue'], resolve),
+            Tag: resolve => require(['../../components/front/Tag.vue'], resolve),
+            Comment: resolve => require(['../../components/front/Comment.vue'], resolve),
+            Tools: resolve => require(['../../components/front/Tools.vue'], resolve)
         },
         mounted () {
 
@@ -71,10 +67,20 @@
 <style lang="less" scoped>
     .readArticle {
         .article {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -moz-box;
+            display: -ms-flexbox;
             display: flex;
-            justify-content: space-between;
+            -webkit-box-pack: justify;
+            -webkit-justify-content: space-between;
+               -moz-box-pack: justify;
+                -ms-flex-pack: justify;
+                    justify-content: space-between;
             .article-detail {
-                box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1), 0 1px rgba(0,0,0,0.1);
+                -webkit-box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1), 0 1px rgba(0,0,0,0.1);
+                   -moz-box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1), 0 1px rgba(0,0,0,0.1);
+                        box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1), 0 1px rgba(0,0,0,0.1);
                 // overflow: auto;
                 margin-right: 10px;
                 &::-webkit-scrollbar {
@@ -84,15 +90,25 @@
                     width: 100%;
                     background-color: #fff;
                     padding-left: 20px;
-                    box-sizing: border-box;
+                    -webkit-box-sizing: border-box;
+                       -moz-box-sizing: border-box;
+                            box-sizing: border-box;
                     .article-title {
                         line-height: 65px;
                         font-size: 30px;
                         font-weight: 200;
                     }
                     .article-info-d {
+                        display: -webkit-box;
+                        display: -webkit-flex;
+                        display: -moz-box;
+                        display: -ms-flexbox;
                         display: flex;
-                        align-items: center;
+                        -webkit-box-align: center;
+                        -webkit-align-items: center;
+                           -moz-box-align: center;
+                            -ms-flex-align: center;
+                                align-items: center;
                         padding-bottom: 10px;
                         > span {
                             color: #999;

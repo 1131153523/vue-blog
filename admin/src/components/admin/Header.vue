@@ -84,7 +84,8 @@
         -webkit-box-flex: 1;
         -ms-flex: 1;
         -webkit-flex: 1;
-        flex: 1;
+        -moz-box-flex: 1;
+             flex: 1;
 
         -moz-box-shadow:0px 1px 5px #949494;
         -webkit-box-shadow:0px 1px 5px #949494;
@@ -93,37 +94,56 @@
         display: -webkit-box;
         display: -ms-flexbox;
         display: -webkit-flex;
+        display: -moz-box;
         display: flex;
 
         -webkit-box-pack: center;
         -ms-flex-pack: center;
         -webkit-justify-content: center;
-        justify-content: center;
+        -moz-box-pack: center;
+             justify-content: center;
 
         -webkit-box-align: center;
         -ms-flex-align: center;
         -webkit-align-items: center;
-        align-items: center;
+        -moz-box-align: center;
+             align-items: center;
 
         position: fixed;
         z-index: 3000;
         width: 100%;
         > div {
-            flex-basis: 95%;
+            -webkit-flex-basis: 95%;
+                -ms-flex-preferred-size: 95%;
+                    flex-basis: 95%;
             display: -webkit-box;
             display: -ms-flexbox;
             display: -webkit-flex;
+            display: -moz-box;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            -webkit-box-pack: justify;
+            -webkit-justify-content: space-between;
+               -moz-box-pack: justify;
+                -ms-flex-pack: justify;
+                    justify-content: space-between;
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+               -moz-box-align: center;
+                -ms-flex-align: center;
+                    align-items: center;
             .userInfo {
                 cursor: pointer;
                 padding-left: 30px;
                 display: -webkit-box;
                 display: -ms-flexbox;
                 display: -webkit-flex;
+                display: -moz-box;
                 display: flex;
-                justify-content: space-between;
+                -webkit-box-pack: justify;
+                -webkit-justify-content: space-between;
+                   -moz-box-pack: justify;
+                    -ms-flex-pack: justify;
+                        justify-content: space-between;
                 span {
                     color: #fff;
                 }
@@ -139,7 +159,9 @@
                     img {
                         width: 100%;
                         height: 100%;
-                        border-radius: 50%;
+                        -webkit-border-radius: 50%;
+                           -moz-border-radius: 50%;
+                                border-radius: 50%;
                     }
                 }
                 .chooseColor {
@@ -152,8 +174,11 @@
             display: -webkit-box;
             display: -ms-flexbox;
             display: -webkit-flex;
+            display: -moz-box;
             display: flex;
-            justify-content: space-around;
+            -webkit-justify-content: space-around;
+                -ms-flex-pack: distribute;
+                    justify-content: space-around;
             .logo {
                 padding-left: 50px;
                 color: #fff;
@@ -164,7 +189,9 @@
                 font-size: 23px;
                 cursor: pointer;
                 border: 1px solid #fff;
-                border-radius: 50%;
+                -webkit-border-radius: 50%;
+                   -moz-border-radius: 50%;
+                        border-radius: 50%;
                 color: #fff;
             }
         }

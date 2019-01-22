@@ -1,19 +1,19 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Login from '../pages/admin/Login.vue'
-import Admin from '../pages/admin/Admin.vue'
-import Home from '../components/admin/Home.vue'
 import store from '../store/index'
-import _404 from '../pages/admin/404.vue'
-import Tool from '../components/admin/Tool.vue'
-import Tags from '../components/admin/Tags.vue'
-import Write from '../components/admin/Write.vue'
-import VerifyArticle from '../components/admin/VerifyArticle.vue'
-import Read from '../components/common/Read.vue'
-import Index from '../pages/front/Index.vue'
-import Main from '../pages/front/Home.vue'
-import Article from '../pages/front/Article.vue'
-import Project from '../pages/front/Project.vue'
+const Login = resolve => require(['../pages/admin/Login.vue'], resolve) 
+const Admin = resolve => require(['../pages/admin/Admin.vue'], resolve) 
+const Home = resolve => require(['../components/admin/Home.vue'], resolve) 
+const _404 = resolve => require(['../pages/admin/404.vue'], resolve) 
+const Tool = resolve => require(['../components/admin/Tool.vue'], resolve) 
+const Tags = resolve => require(['../components/admin/Tags.vue'], resolve) 
+const Write = resolve => require(['../components/admin/Write.vue'], resolve) 
+const VerifyArticle = resolve => require(['../components/admin/VerifyArticle.vue'], resolve) 
+const Read = resolve => require(['../components/common/Read.vue'], resolve) 
+const Index = resolve => require(['../pages/front/Index.vue'], resolve) 
+const Main = resolve => require(['../pages/front/Home.vue'], resolve) 
+const Article = resolve => require(['../pages/front/Article.vue'], resolve) 
+const Project = resolve => require(['../pages/front/Project.vue'], resolve) 
 import { log } from 'util';
 Vue.use(Router)
 const router = new Router({

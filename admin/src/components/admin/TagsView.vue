@@ -36,12 +36,17 @@
             margin-left: 10px;
             display: -webkit-box;
             display: -ms-flexbox;
+            display: -webkit-flex;
+            display: -moz-box;
             display: flex;
             -ms-flex-wrap: nowrap;
-            flex-wrap: nowrap;
+            -webkit-flex-wrap: nowrap;
+                    flex-wrap: nowrap;
             -webkit-box-align: flex-end;
             -ms-flex-align: flex-end;
-            align-items: flex-end;
+            -webkit-align-items: flex-end;
+               -moz-box-align: end;
+                    align-items: flex-end;
 
             .view-item {
                 border: 1px solid #d8dce5;
@@ -52,6 +57,8 @@
                 height: 18px;
                 width: 100px;
                 -webkit-transition: all 0.3s ease;
+                -o-transition: all 0.3s ease;
+                -moz-transition: all 0.3s ease;
                 transition: all 0.3s ease;
                 i {
                     float: right;

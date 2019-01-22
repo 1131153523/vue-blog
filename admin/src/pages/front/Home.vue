@@ -65,9 +65,6 @@
     </div>
 </template>
 <script>
-    import Tools from '../../components/front/Tools.vue'
-    import Tag from '../../components/front/Tag.vue'
-    import ArticleList from '../../components/front/ArticleList.vue'
     import api from '../../api/index.js'
     export default {
         data () {
@@ -79,9 +76,9 @@
             }
         },
         components: {
-            Tag,
-            ArticleList,
-            Tools
+            Tag: resolve => require(['../../components/front/Tag.vue'], resolve) ,
+            ArticleList: resolve => require(['../../components/front/ArticleList.vue'], resolve) ,
+            Tools: resolve => require(['../../components/front/Tools.vue'], resolve)
         },
         mounted () {
 
@@ -131,23 +128,41 @@
     
 <style lang="less">
     .banner {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -moz-box;
+        display: -ms-flexbox;
         display: flex;
-        justify-content: space-between;
+        -webkit-box-pack: justify;
+        -webkit-justify-content: space-between;
+           -moz-box-pack: justify;
+            -ms-flex-pack: justify;
+                justify-content: space-between;
         .banner-left {
-            flex: 1;
+            -webkit-box-flex: 1;
+            -webkit-flex: 1;
+               -moz-box-flex: 1;
+                -ms-flex: 1;
+                    flex: 1;
             margin-right: 10px;
         }
         .banner-right {
+            width: 320px;
             width: 20rem;
             background-color: #fff;
             margin-bottom: 10px;
-            box-sizing: border-box;
-            box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1), 0 1px rgba(0,0,0,0.1);
+            -webkit-box-sizing: border-box;
+               -moz-box-sizing: border-box;
+                    box-sizing: border-box;
+            -webkit-box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1), 0 1px rgba(0,0,0,0.1);
+               -moz-box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1), 0 1px rgba(0,0,0,0.1);
+                    box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1), 0 1px rgba(0,0,0,0.1);
             .banner-recommend {
                 list-style: none;
                 li {
                     overflow: hidden;
-                    text-overflow:ellipsis;
+                    -o-text-overflow:ellipsis;
+                       text-overflow:ellipsis;
                     white-space: nowrap;
                     a {
                         font-size: 15px;
@@ -163,25 +178,49 @@
     }
     .home {
         width: 100%;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -moz-box;
+        display: -ms-flexbox;
         display: flex;
-        justify-content: space-between;
+        -webkit-box-pack: justify;
+        -webkit-justify-content: space-between;
+           -moz-box-pack: justify;
+            -ms-flex-pack: justify;
+                justify-content: space-between;
         .home-left {
-            flex: 1;
+            -webkit-box-flex: 1;
+            -webkit-flex: 1;
+               -moz-box-flex: 1;
+                -ms-flex: 1;
+                    flex: 1;
             background-color: #fff;
             margin-right: 10px;
             .home-title {
+                line-height: 64px;
                 line-height: 4rem;
+                height: 64px;
                 height: 4rem;
                 border-bottom: 1px solid #f6f6f6;
                 > h3 {
+                    font-size: 23.2px;
                     font-size: 1.45rem;
                     font-weight: 300;
                     text-indent: 0.5em;
                     color: rgba(0, 0, 0, 0.58);
+                    display: -webkit-box;
+                    display: -webkit-flex;
+                    display: -moz-box;
+                    display: -ms-flexbox;
                     display: flex;
-                    justify-content: space-between;                    
+                    -webkit-box-pack: justify;
+                    -webkit-justify-content: space-between;
+                       -moz-box-pack: justify;
+                        -ms-flex-pack: justify;
+                            justify-content: space-between;                    
                     i {
                         font-weight: 200;
+                        font-size: 20px;
                         font-size: 1.25rem;
                         color: #000;
                     }

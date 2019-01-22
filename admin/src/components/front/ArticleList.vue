@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="articles" v-if="list.length !== 0">
-            <article v-for="item in list" :key="item.article_id" v-if="item.article_pass" class="hvr-overline-reveal">
+            <article v-for="item in list" :key="item.article_id" v-if="item.article_pass" class="hvr-overline-reveal" >
                 <div class="article-info">
                     <router-link :to="'/article/' + item.article_id" ><h3 class="article-title">{{item.article_title}}</h3></router-link>
                     <router-link :to="'/article/' + item.article_id" v-if="item.article_introduce">                                    
@@ -78,7 +78,7 @@
                 if (!this.pageList[newVal] && !this.isEnd[newVal]) {
                     this.pageList[newVal] = []
                 } else {
-                    this.list = this.pageList[newVal]
+                    this.list = this.removeDup(this.pageList[newVal], 'article_id')
                     return
                 }
                 let newList = await this.getData(this.page[newVal])
@@ -117,6 +117,7 @@
                         obj[arr[i][key]] = true
                     }
                 }
+                result.sort((a, b) => b.article_time - a.article_time)
                 return result
             },
             getData(page) {
@@ -159,7 +160,6 @@
                                 })
                                 if (res.code) {
                                     data.sort((a, b) => b.article_time - a.article_time)
-                                    
                                     if (data.length === 0 ||res.count['count(*)'] === data.length) {
                                         this.isEnd[tags_name] = true
                                     }
@@ -208,9 +208,21 @@
         article {
             background-color: #fff;
             border-bottom: 1px solid #f6f6f6;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -moz-box;
+            display: -ms-flexbox;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            -webkit-box-pack: justify;
+            -webkit-justify-content: space-between;
+               -moz-box-pack: justify;
+                -ms-flex-pack: justify;
+                    justify-content: space-between;
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+               -moz-box-align: center;
+                -ms-flex-align: center;
+                    align-items: center;
             &:hover {
                 background-color: rgba(0, 0, 0, 0.05);
             }
@@ -219,10 +231,14 @@
             }
             .article-info {
                 padding-left: 18px;
-                box-sizing: border-box;
+                -webkit-box-sizing: border-box;
+                   -moz-box-sizing: border-box;
+                        box-sizing: border-box;
                 .article-title {
                     font-weight: 500;
+                    font-size: 25px;
                     font-size: 1.5625rem;
+                    line-height: 48px;
                     line-height: 3rem;
                     color: #212121;
                     vertical-align: middle;
@@ -231,7 +247,8 @@
                 .article-intro {
                     width: 80%;
                     overflow: hidden;
-                    text-overflow: ellipsis;
+                    -o-text-overflow: ellipsis;
+                       text-overflow: ellipsis;
                     display: -webkit-box;
                     -webkit-line-clamp: 2;
                     -webkit-box-orient: vertical;
@@ -242,23 +259,48 @@
                 }
                 .article-hot {
                     margin-top: 7px;
+                    display: -webkit-box;
+                    display: -webkit-flex;
+                    display: -moz-box;
+                    display: -ms-flexbox;
                     display: flex;
-                    justify-content: flex-start;
-                    align-items: center;
+                    -webkit-box-pack: start;
+                    -webkit-justify-content: flex-start;
+                       -moz-box-pack: start;
+                        -ms-flex-pack: start;
+                            justify-content: flex-start;
+                    -webkit-box-align: center;
+                    -webkit-align-items: center;
+                       -moz-box-align: center;
+                        -ms-flex-align: center;
+                            align-items: center;
                     margin-bottom: 8px;
                     .assist {
                         display: block;
                         color: #b2bac2;
-                        border-radius: 1px;
+                        -webkit-border-radius: 1px;
+                           -moz-border-radius: 1px;
+                                border-radius: 1px;
+                        display: -webkit-box;
+                        display: -webkit-flex;
+                        display: -moz-box;
+                        display: -ms-flexbox;
                         display: flex;
-                        align-items: center;
+                        -webkit-box-align: center;
+                        -webkit-align-items: center;
+                           -moz-box-align: center;
+                            -ms-flex-align: center;
+                                align-items: center;
+                        height: 35.2px;
                         height: 2.2rem;
                         cursor: pointer;
                         > svg {
                             display: block;
                             font-size: 15px;
                             margin-right: 5px;
-                            border-radius: 50%;
+                            -webkit-border-radius: 50%;
+                               -moz-border-radius: 50%;
+                                    border-radius: 50%;
                             background-color: rgba(1, 126, 102, 0.08);
                             color: #2098D1;
                             padding: 4px;
@@ -273,7 +315,7 @@
                         .comment-num {
                             color: #2098D1;
                             font-weight: bold;
-                            &::before {
+                            &:before {
                                 content: "x ";
                                 font-size: 12px;
                             } 
@@ -302,7 +344,9 @@
                 img {
                     width: 100%;
                     height: 100%;
-                    border-radius: 5px;
+                    -webkit-border-radius: 5px;
+                       -moz-border-radius: 5px;
+                            border-radius: 5px;
                 }
             }
         }
@@ -325,8 +369,11 @@
   display: inline-block;
   vertical-align: middle;
   -webkit-transform: perspective(1px) translateZ(0);
-  transform: perspective(1px) translateZ(0);
-  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+  -moz-transform: perspective(1px) translateZ(0);
+       transform: perspective(1px) translateZ(0);
+  -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+     -moz-box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+          box-shadow: 0 0 1px rgba(0, 0, 0, 0);
   position: relative;
   overflow: hidden;
 }
@@ -340,17 +387,31 @@
     background: #2098D1;
     height: 2px;
     -webkit-transform: translateY(-2px);
-    transform: translateY(-2px);
+    -moz-transform: translateY(-2px);
+     -ms-transform: translateY(-2px);
+      -o-transform: translateY(-2px);
+         transform: translateY(-2px);
     -webkit-transition-property: transform;
+    -webkit-transition-property: -webkit-transform;
+    transition-property: -webkit-transform;
+    -o-transition-property: -o-transform;
+    -moz-transition-property: transform, -moz-transform;
     transition-property: transform;
+    transition-property: transform, -webkit-transform, -moz-transform, -o-transform;
     -webkit-transition-duration: 0.3s;
-    transition-duration: 0.3s;
+    -moz-transition-duration: 0.3s;
+      -o-transition-duration: 0.3s;
+         transition-duration: 0.3s;
     -webkit-transition-timing-function: ease-out;
-    transition-timing-function: ease-out;
+    -moz-transition-timing-function: ease-out;
+      -o-transition-timing-function: ease-out;
+         transition-timing-function: ease-out;
 }
 .hvr-overline-reveal:hover:before, .hvr-overline-reveal:focus:before, .hvr-overline-reveal:active:before {
     -webkit-transform: translateY(0);
-    transform: translateY(0);
+    -moz-transform: translateY(0);
+     -ms-transform: translateY(0);
+      -o-transform: translateY(0);
+         transform: translateY(0);
 }
-
 </style>

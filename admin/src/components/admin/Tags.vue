@@ -137,8 +137,14 @@
         vertical-align: bottom;
     }
     .tags {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -moz-box;
+        display: -ms-flexbox;
         display: flex;
-        justify-content: space-around;
+        -webkit-justify-content: space-around;
+            -ms-flex-pack: distribute;
+                justify-content: space-around;
         width: 100%;
         > div {
             height: 600px;
@@ -146,17 +152,23 @@
             -moz-box-sizing: border-box;
             box-sizing: border-box;
             padding: 10px;
-            flex-basis: 40%;
+            -webkit-flex-basis: 40%;
+                -ms-flex-preferred-size: 40%;
+                    flex-basis: 40%;
             overflow: auto;
         }
         .add-tags {
             background-color: #fff;
-            flex-wrap: wrap;
+            -webkit-flex-wrap: wrap;
+                -ms-flex-wrap: wrap;
+                    flex-wrap: wrap;
             position: relative;
             -moz-box-shadow: 4px 4px 40px rgba(0,0,0,.05);
             -webkit-box-shadow: 4px 4px 40px rgba(0,0,0,.05);
             box-shadow: 4px 4px 40px rgba(0,0,0,.05);
-            border-radius: 3px;
+            -webkit-border-radius: 3px;
+               -moz-border-radius: 3px;
+                    border-radius: 3px;
             .addTag {
                 position: absolute;
                 left: 20px;
@@ -169,20 +181,36 @@
             }
         }
         .tags-tree {
-            flex-basis: 40%;
+            -webkit-flex-basis: 40%;
+                -ms-flex-preferred-size: 40%;
+                    flex-basis: 40%;
             background-color: #fff;
             -moz-box-shadow: 4px 4px 40px rgba(0,0,0,.05);
             -webkit-box-shadow: 4px 4px 40px rgba(0,0,0,.05);
             box-shadow: 4px 4px 40px rgba(0,0,0,.05);
-            border-radius: 3px;
+            -webkit-border-radius: 3px;
+               -moz-border-radius: 3px;
+                    border-radius: 3px;
         }
     }
     @media screen and (max-width: 760px){
         .tags {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -moz-box;
+            display: -ms-flexbox;
             display: flex;
-            flex-direction: column;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -webkit-flex-direction: column;
+               -moz-box-orient: vertical;
+               -moz-box-direction: normal;
+                -ms-flex-direction: column;
+                    flex-direction: column;
             padding: 10px;
-            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+               -moz-box-sizing: border-box;
+                    box-sizing: border-box;
             > div {
                 height: 400px;
             }

@@ -122,6 +122,21 @@ export default {
                     console.log(e)
                 })           
         }
+        if (this.status === 'read') {
+            api.getArticleById({article_id: this.$route.params.article_id})
+                .then(res => {
+                    if (res.code) {
+                        let val = res.data.replace(/#.+\n/, '')
+                        this.value = val
+                        this.articles[this.$route.params.article_id] = val
+                        this.info[this.$route.params.article_id] = res.info
+                        this.$emit('getArticle', res.info)
+                    }
+                })
+                .catch(e => {
+                    console.log(e)
+                })            
+        }
 
     },
     computed: {
@@ -131,8 +146,6 @@ export default {
             api.uploadArticleImg({...$file})
                 .then(res => {
                     if (res.code) {
-                        console.log(res.data)
-                        
                         this.value = this.value.replace(`![${$file._name}](${pos})`,`![${$file._name}](${res.data})`)
                     }
                 })
@@ -161,7 +174,7 @@ export default {
                 })
         }
         if (this.status === 'read') {
-            api.getArticleById({article_id: this.$route.params.article_id.replace('-comment', '')})
+            api.getArticleById({article_id: this.$route.params.article_id})
                 .then(res => {
                     if (res.code) {
                         let val = res.data.replace(/#.+\n/, '')
