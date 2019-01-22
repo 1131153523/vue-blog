@@ -4,7 +4,7 @@
             <article v-for="item in list" :key="item.article_id" v-if="item.article_pass" class="hvr-overline-reveal">
                 <div class="article-info">
                     <router-link :to="'/article/' + item.article_id" ><h3 class="article-title">{{item.article_title}}</h3></router-link>
-                    <router-link :to="'/article/' + item.article_id" >                                    
+                    <router-link :to="'/article/' + item.article_id" v-if="item.article_introduce">                                    
                         <p class="article-intro">
                             {{item.article_introduce === 'undefined' ? '' : item.article_introduce}}
                         </p>
@@ -38,7 +38,7 @@
         props: {
             size: {
                 type: Number,
-                default: 2,
+                default: 4,
             }
         },
         data () {
@@ -71,6 +71,7 @@
         },
         watch: {
             '$route.query.tags_name': async function (newVal, oldVal) {
+                this.$emit('getArticleList', this.pageList[newVal])
                 if (!this.page[newVal]) {
                     this.page[newVal] = 1
                 }
@@ -83,8 +84,6 @@
                 let newList = await this.getData(this.page[newVal])
                 this.pageList[newVal] = this.pageList[newVal].concat(newList)
                 this.list = this.removeDup(this.pageList[newVal].concat(newList), 'article_id')
-                this.$emit('getArticleList', this.list)
-
             },
             '$store.state.search': function (newVal, oldVal) {
                 this.list = this.pageList[this.$route.query.tags_name].filter(e => e.article_title.indexOf(newVal) > -1 || e.article_author.indexOf(newVal) > -1)               
@@ -97,6 +96,7 @@
         methods: {
             async loadMore () {
                 let tags_name = this.$route.query.tags_name ? this.$route.query.tags_name: 'undefined'
+                this.$emit('getArticleList', this.pageList[tags_name])
                 let search = this.$store.state.search
                 let prelist = []
                 let newList = await this.getData(this.page[tags_name])
@@ -106,8 +106,6 @@
                 this.pageList[tags_name] = this.pageList[tags_name].concat(newList)
                 prelist = this.removeDup(this.pageList[tags_name], 'article_id')
                 this.list = prelist.filter(e => e.article_title.indexOf(search) > -1 || e.article_author.indexOf(search) > -1)
-                console.log(this.pageList[tags_name]);
-                
                 this.$emit('getArticleList', this.pageList[tags_name])
             },
             removeDup (arr, key) {

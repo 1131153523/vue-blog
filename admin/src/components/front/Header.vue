@@ -84,6 +84,13 @@
         padding: 0 10px;
         z-index: 101111111111111;
         box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1), 0 1px rgba(0,0,0,0.1);
+        moz-user-select: -moz-none;
+        -moz-user-select: none;
+        -o-user-select:none;
+        -khtml-user-select:none;
+        -webkit-user-select:none;
+        -ms-user-select:none;
+        user-select:none;
         .nav {
             width: 100%;
             display: flex;

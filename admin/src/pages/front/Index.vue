@@ -86,25 +86,7 @@
             bottom: 100px!important;
         }
     }
-    ::selection {
-        background: #2098D1;
-        color: #ffffff;
-    }
 
-    ::-moz-selection {
-        background: #2098D1;
-        color: #ffffff;
-    }
-
-    ::selection {
-        background: #2098D1;
-        color: #ffffff;
-    }
-
-    ::-moz-selection {
-        background: #2098D1;
-        color: #ffffff;
-    }
 
 
     .slide-fade-enter-active {

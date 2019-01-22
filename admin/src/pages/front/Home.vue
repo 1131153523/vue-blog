@@ -39,7 +39,6 @@
                             <span class="refrash-list" @click.stop="Refrash">刷新列表</span>                                       
                         </span>
                         <el-dropdown :hide-on-click="false" trigger="click" class="selectTag">
-                              
                             <span class="el-dropdown-link">
                                 热门标签<i class="el-icon-arrow-down el-icon--right"></i>
                             </span>
@@ -55,7 +54,7 @@
                             </el-dropdown-menu>
                         </el-dropdown>   
                     </h3>
-                    <ArticleList @getArticleList="getArticleList"/>
+                    <ArticleList @getArticleList="getArticleList" :size="6"/>
                 </div>
             </div>
             <div class="home-right">
@@ -99,6 +98,8 @@
                 switch(val.toLowerCase()) {
                     case 'javascript':
                         return '#icon-JavaScript'
+                    case 'es6':
+                        return '#icon-JavaScript'
                     case 'python':
                         return '#icon-python'
                     case 'vue':
@@ -121,7 +122,7 @@
                 this.$store.commit('SET_SEARCH', '')
             },
             getArticleList (list) {
-                this.list = list.slice(0, 6)
+                this.list = list ? list.slice(0, 6) : []
             }         
         },
 

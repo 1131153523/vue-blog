@@ -38,7 +38,7 @@
                 .then(res => {
                     if (res.code) {
                         this.tags = res.data.filter(e => e.tags_name !== '项目')
-                        this.$emit('getTags', res.data)
+                        this.$emit('getTags', this.tags)
                     }
                 })
                 .catch(e => {
