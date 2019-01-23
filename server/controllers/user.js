@@ -131,7 +131,7 @@ class UserController {
             const access_token = arg[1];
             console.log(body);
             console.log(access_token);
-            ctx.body
+            return access_token
         })
         .then(async(token) => {
             const url = 'https://api.github.com/user?access_token=' + token
