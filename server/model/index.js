@@ -147,5 +147,9 @@ ${article_id}, ${article_title}, ${article_introduce}, ${article_author}, ${arti
         let sql = escape`select * from articles where tags_id=(select tags_id from tags where tags_name=${str})`
         return p.query(sql)
     }
+    static getAbout () {
+        let sql = escape`select * from articles where article_title='关于我' limit 1`
+        return p.query(sql)
+    }
 }
 module.exports = Model

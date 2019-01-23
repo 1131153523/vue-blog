@@ -1,5 +1,5 @@
 <template>
-    <div class="about">
+    <div class="message">
         <div id="vcomments"></div>
     </div>
 </template>
@@ -30,7 +30,7 @@
     }
 </script>
 <style scoped lang="less">
-    .about {
+    .message {
         background-color: #fff;
 
     }

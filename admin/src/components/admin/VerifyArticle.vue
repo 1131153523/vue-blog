@@ -270,7 +270,7 @@
                     header: false, // 标题
                     underline: false, // 下划线
                     strikethrough: false, // 中划线
-                    mark: false, // 标记
+                    mark: true, // 标记
                     superscript: false, // 上角标
                     subscript: false, // 下角标
                     quote: true, // 引用

@@ -60,7 +60,6 @@ export default {
     addTool (value) {
         return ajax('/admin/addTool', value, 'POST')
     },
-
     toComment (value) {
         return ajax('/toComment', value, 'POST')
     },
@@ -79,4 +78,7 @@ export default {
     getProjects() {
         return ajax('/getProjects')
     },
+    getAbout() {
+        return ajax('/getAbout')
+    }
 }

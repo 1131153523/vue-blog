@@ -5,6 +5,7 @@ const Article = require('../controllers/article')
 const Tool = require('../controllers/tool')
 const Comment = require('../controllers/comment')
 const Project = require('../controllers/project')
+const About = require('../controllers/about')
 const checkToken = require('../token/checkToken')
 
 router.post('/admin/login', User.loginPost)
@@ -34,5 +35,5 @@ router.post('/toAgree', Comment.toAgree)
 router.post('/getCommentsById', Comment.getCommentsById)
 router.post('/deleteComment', Comment.deleteComment)
 router.get('/getProjects', Project.getProjects)
-
+router.get('/getAbout', About.getAbout)
 module.exports = router
