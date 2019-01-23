@@ -22,8 +22,8 @@
         },
         methods: {
             async loginGithub() {
-                let res = await api.loginGithub({client_id: this.client_id, client_secret: this.client_secret})
-                console.log(res);
+                let res = await api.loginGithub()
+                console.log(res)
             }
         }
     }
