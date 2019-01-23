@@ -62,9 +62,6 @@
                     let scheight = html.scrollHeight
                     let top = html.scrollTop
                     let height = html.clientHeight
-                    console.log(scheight);
-                    console.log(top + height);
-                    console.log('---------');
                     if (scheight <= top + height) {
                         this.page[this.$route.query.tags_name ? this.$route.query.tags_name: 'undefined'] ++
                         this.loadMore()
