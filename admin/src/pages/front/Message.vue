@@ -18,7 +18,7 @@
         },
         async mounted (){
             let data = (+new Date()).toString()
-            this.path = `/github?client_id=${this.client_id}&scope=${this.scope}&state=${data}`
+            this.path = `/message/github?client_id=${this.client_id}&scope=${this.scope}&state=${data}`
         },
         methods: {
             async loginGithub() {
