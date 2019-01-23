@@ -13,16 +13,16 @@
             </el-row> 
         </div>
         <div class="toTop">
-            <svg class="icon" aria-hidden="true"  @click.stop="toTop">
-                <use xlink:href="#icon-fanhuidingbu1"></use>
-            </svg>
-            <div>
-            <svg class="icon" aria-hidden="true" v-if="$route.fullPath.indexOf('/article') > -1" @click="toBottom">
-                <use xlink:href="#icon-pinglun1"></use>
-            </svg> 
-            <svg class="icon" aria-hidden="true" v-if="$route.fullPath.indexOf('/article') > -1" >
-                <use xlink:href="#icon-tableshare"></use>
-            </svg>  
+                <svg class="icon" aria-hidden="true"  @click.stop="toTop">
+                    <use xlink:href="#icon-fanhuidingbu1"></use>
+                </svg>
+                <div>
+                <svg class="icon" aria-hidden="true" v-if="$route.fullPath.indexOf('/article') > -1" @click="toBottom">
+                    <use xlink:href="#icon-pinglun1"></use>
+                </svg> 
+                <svg class="icon" aria-hidden="true" v-if="$route.fullPath.indexOf('/article') > -1" >
+                    <use xlink:href="#icon-tableshare"></use>
+                </svg>  
             </div>           
         </div>   
     </div>

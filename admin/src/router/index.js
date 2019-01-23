@@ -14,7 +14,7 @@ const Index = resolve => require(['../pages/front/Index.vue'], resolve)
 const Main = resolve => require(['../pages/front/Home.vue'], resolve) 
 const Article = resolve => require(['../pages/front/Article.vue'], resolve) 
 const Project = resolve => require(['../pages/front/Project.vue'], resolve) 
-import { log } from 'util';
+const Message = resolve => require(['../pages/front/Message.vue'], resolve) 
 Vue.use(Router)
 const router = new Router({
     routes: [
@@ -38,10 +38,14 @@ const router = new Router({
                     path: '/project',
                     name: 'Project',
                     component: Project 
+                },
+                {
+                    path: '/message',
+                    name: 'Message',
+                    component: Message
                 }
             ]
         },
-
         {
             path: '/login',
             name: 'Login',
