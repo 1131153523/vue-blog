@@ -78,5 +78,8 @@ export default {
     },
     getProjects() {
         return ajax('/getProjects')
+    },
+    loginGithub() {
+        return ajax('/login/github')
     }
 }
