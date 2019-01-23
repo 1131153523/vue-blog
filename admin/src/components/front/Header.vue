@@ -15,7 +15,7 @@
                                 <li class="hvr-underline-reveal" :class="{'hvr-underline-reveal-active': $route.fullPath.indexOf('/home') > -1}"><router-link to="/home">首页</router-link></li>
                                 <li class="hvr-underline-reveal" :class="{'hvr-underline-reveal-active': $route.fullPath.indexOf('/project') > -1}"><router-link to="/project">项目</router-link></li>
                                 <li class="hvr-underline-reveal" :class="{'hvr-underline-reveal-active': $route.fullPath.indexOf('/message') > -1}"><router-link to="/message">留言</router-link></li>
-                                <li class="hvr-underline-reveal"><router-link to="/article">关于我</router-link></li>
+                                <li class="hvr-underline-reveal" :class="{'hvr-underline-reveal-active': $route.fullPath.indexOf('/about') > -1}"><router-link to="/about">关于我</router-link></li>
                             </ul>
                         </nav>
                     </div>

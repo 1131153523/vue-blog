@@ -1,20 +1,28 @@
 <template>
-    <div>
-        <svg class="icon" aria-hidden="true" @click="loginGithub" >
-            <use xlink:href="#icon-GitHub" ></use>
-        </svg>  
+    <div class="about">
+        <div id="vcomments"></div>
     </div>
 </template>
 <script>
     import api from '../../api/index.js'
+    import Valine from 'valine';
     export default {
         data () {
             return {
 
             }
         },
-        async mounted (){
-
+        mounted (){
+            window.AV = require('leancloud-storage')
+            new Valine({
+                el: '#vcomments' ,
+                appId: '2YwTwkrYghGrn5kJbwo1aKNO-gzGzoHsz',
+                appKey: 'JgMJ2pf4k3RXPAhL5CBe2pkI',
+                notify:false, 
+                verify:false, 
+                avatar:'mm', 
+                placeholder: 'just go go' 
+            });
         },
         methods: {
 
@@ -22,7 +30,7 @@
     }
 </script>
 <style scoped lang="less">
-    svg {
-        font-size: 30px;
+    .about {
+        background-color: #fff;
     }
 </style>

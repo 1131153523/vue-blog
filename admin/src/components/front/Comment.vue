@@ -22,8 +22,6 @@
                     v-model="content">
                 </el-input>
             </div>
-
-
         </div>
 
         <el-button type="primary" plain style="margin-bottom: 20px;" @click.stop="toComment">评论</el-button>
@@ -221,21 +219,33 @@
             },
             toComment () {
                 if (this.name.length > 30) {
-                    alert('昵称太长了！')
+                    this.$notify.warning({
+                        message: '昵称太长了！',
+                        offset: 150
+                    })   
                     return
                 }
                 if (this.content.length > 530) {
-                    alert('内容太长了！')
+                    this.$notify.warning({
+                        message: '内容太长了！',
+                        offset: 150
+                    })    
                     return
                 }
                 if (this.email !== '' && !/^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/.test(this.email)) {
-                    alert('邮箱格式不正确!')
+                    this.$notify.warning({
+                        message: '邮箱格式不正确',
+                        offset: 150
+                    })    
                     this.email = ''
                     return 
                 }
 
                 if (this.name === '' || this.content === '') {
-                    alert('昵称和内容不能为空')
+                    this.$notify.warning({
+                        message: '昵称和内容不能为空！',
+                        offset: 150
+                    })    
                 } else {
                     let comment = {
                         id: getRandomId(),
@@ -252,6 +262,8 @@
                             this.comment.unshift({...comment, parent_id: '', comment_agree: 0})
                             this.comments[this.$route.params.article_id] = this.comment
                             this.content = ''
+                            this.name = ''
+
                             setTimeout(() => {
                                 Array.prototype.forEach.call(document.querySelectorAll('.comments-item'), (item => {
                                     if (item.dataset.id === comment.id) {
@@ -270,7 +282,10 @@
             },
             toReply (parent_id) {
                 if (this.recontent === '') {
-                    alert('回复内容不能为空')
+                    this.$notify.warning({
+                        message: '回复内容不能为空',
+                        offset: 150
+                    })                    
                     return 
                 }
                 let comment = {
