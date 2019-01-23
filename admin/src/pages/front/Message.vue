@@ -1,7 +1,7 @@
 <template>
     <div>
-        <svg class="icon" aria-hidden="true"  >
-            <use xlink:href="#icon-GitHub"></use>
+        <svg class="icon" aria-hidden="true" @click="loginGithub" >
+            <use xlink:href="#icon-GitHub" ></use>
         </svg>  
     </div>
 </template>
