@@ -7,7 +7,9 @@ const Comment = require('../controllers/comment')
 const Project = require('../controllers/project')
 const About = require('../controllers/about')
 const checkToken = require('../token/checkToken')
-
+// router.get('/', async (ctx) => {
+//     ctx.render('index.html')
+// })
 router.post('/admin/login', User.loginPost)
 router.post('/admin/checkPrepass', checkToken, User.checkPrepass)
 router.post('/admin/changePass', checkToken, User.changePass)

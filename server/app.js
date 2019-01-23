@@ -2,11 +2,13 @@ const Koa = require('koa')
 const app = new Koa()
 const json = require('koa-json')
 const onerror = require('koa-onerror')
-
+// const render = require('koa-art-template');
 const koaBody = require('koa-body');
 const logger = require('koa-logger')
 const index = require('./routes/index')
 const checkToken = require('./token/checkToken')
+const path = require('path')
+
 var cors = require('koa2-cors');
 // error handler
 onerror(app)
@@ -29,7 +31,11 @@ app.use(koaBody({
 app.use(json())
 app.use(logger())
 app.use(require('koa-static')(__dirname + '/static'))
-
+// render(app, {
+//     root: path.join(__dirname, 'view'),
+//     extname: '.html',
+//     debug: process.env.NODE_ENV !== 'production'
+// });
 
 
 
