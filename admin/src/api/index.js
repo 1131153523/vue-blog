@@ -79,7 +79,4 @@ export default {
     getProjects() {
         return ajax('/getProjects')
     },
-    loginGithub(value) {
-        return ajax(value)
-    }
 }
