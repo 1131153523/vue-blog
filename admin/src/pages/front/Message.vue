@@ -1,6 +1,6 @@
 <template>
     <div>
-        <svg class="icon" aria-hidden="true" @click="loginGithub" >
+        <svg class="icon" aria-hidden="true"    @click="loginGithub">
             <use xlink:href="#icon-GitHub"></use>
         </svg>  
     </div>
@@ -21,7 +21,6 @@
         methods: {
             loginGithub() {
                 console.log('s');
-                
                 let res = await api.loginGithub({client_id: this.client_id, client_secret: this.client_secret})
                 console.log(res);
             }
