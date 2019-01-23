@@ -32,5 +32,7 @@
 <style scoped lang="less">
     .about {
         background-color: #fff;
+        padding: 15px;
+        box-sizing: border-box;
     }
 </style>
