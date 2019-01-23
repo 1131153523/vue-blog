@@ -7,7 +7,7 @@
             个人简介
         </h3>
         <div class="info-avator">
-            <img src="http://127.0.0.1:3000/images/IMG_0402.JPG" alt="">
+            <img src="/static/images/IMG_0402.JPG" alt="">
         </div>
         <div class="info-content">
             <p>范义辉</p>
