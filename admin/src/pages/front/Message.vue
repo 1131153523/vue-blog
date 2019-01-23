@@ -32,6 +32,9 @@
 <style scoped lang="less">
     .about {
         background-color: #fff;
+
+    }
+    #vcomments {
         padding: 15px;
         box-sizing: border-box;
     }
