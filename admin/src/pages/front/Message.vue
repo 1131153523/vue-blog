@@ -20,8 +20,8 @@
                 appKey: 'JgMJ2pf4k3RXPAhL5CBe2pkI',
                 notify:false, 
                 verify:false, 
-                avatar:'mm', 
-                placeholder: 'just go go' 
+                avatar:'wavatar', 
+                placeholder: '～＼（≧▽≦）／～来啊　　评论啊' 
             });
         },
         methods: {
