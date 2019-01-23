@@ -1,10 +1,10 @@
 <template>
     <div>
-        <div>
-            <svg class="icon" aria-hidden="true"    @click="loginGithub">
+        <a href="/login/github">
+            <svg class="icon" aria-hidden="true"  >
                 <use xlink:href="#icon-GitHub"></use>
             </svg>  
-        </div>
+        </a>
     </div>
 </template>
 <script>
