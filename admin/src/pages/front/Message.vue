@@ -1,10 +1,8 @@
 <template>
     <div>
-        <a :href="path" >
-            <svg class="icon" aria-hidden="true"  >
-                <use xlink:href="#icon-GitHub"></use>
-            </svg>  
-        </a>
+        <svg class="icon" aria-hidden="true"  >
+            <use xlink:href="#icon-GitHub"></use>
+        </svg>  
     </div>
 </template>
 <script>
@@ -24,8 +22,9 @@
         },
         methods: {
             async loginGithub() {
-                let res = await api.loginGithub()
+                let res = await api.loginGithub(this.path)
                 console.log(res)
+                
             }
         }
     }
