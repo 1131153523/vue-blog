@@ -79,7 +79,8 @@ export default {
     getProjects() {
         return ajax('/getProjects')
     },
-    loginGithub() {
-        return ajax('/login/github')
+    loginGithub({client_id, scope}) {
+        let data = (+new Date()).toString()
+        return ajax(`https://github.com/login/oauth/authorize?client_id=${client_id}&scope=${scope}&state=${data}`)
     }
 }

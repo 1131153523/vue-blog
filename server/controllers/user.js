@@ -133,19 +133,19 @@ class UserController {
             console.log(access_token);
             ctx.body = access_token
         })
-        .then(async(token) => {
-            const url = 'https://api.github.com/user?access_token=' + token
-            console.log(url)
-            await fetch(url)
-                .then(res => {
-                    return res.json()
-                })
-                .then(res => {
-                    ctx.body = {
+        // .then(async(token) => {
+        //     const url = 'https://api.github.com/user?access_token=' + token
+        //     console.log(url)
+        //     await fetch(url)
+        //         .then(res => {
+        //             return res.json()
+        //         })
+        //         .then(res => {
+        //             ctx.body = {
 
-                    }
-                })
-        })
+        //             }
+        //         })
+        // })
     }
     static async addManager (ctx) {
         try {

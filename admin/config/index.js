@@ -15,7 +15,12 @@ module.exports = {
             target: 'http://127.0.0.1:3000',
             changeOrigin: true,
         },
-        
+        '/github': {
+            target: 'https://github.com',
+            changeOrigin: true,
+            pathRewrite: {
+                '^/github': '/'
+        }
     },
 
     // Various Dev Server settings
