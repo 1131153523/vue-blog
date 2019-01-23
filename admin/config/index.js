@@ -11,17 +11,18 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-        '/': {
-            target: 'http://127.0.0.1:3000',
-            changeOrigin: true,
-        },
         '/github': {
             target: 'https://github.com',
             changeOrigin: true,
             pathRewrite: {
                 '^/github': '/'
             }
-        }
+        },
+        '/': {
+            target: 'http://127.0.0.1:3000',
+            changeOrigin: true,
+        },
+
     },
 
     // Various Dev Server settings
