@@ -20,8 +20,10 @@
         },
         methods: {
             loginGithub() {
+                console.log('s');
+                
                 let res = await api.loginGithub({client_id: this.client_id, client_secret: this.client_secret})
-                console.log(res)
+                console.log(res);
             }
         }
     }
