@@ -70,7 +70,7 @@
         data () {
             return {
                 activeName: 'first',
-                banner: ['http://127.0.0.1:3000/images/bpic8127.jpg', 'http://127.0.0.1:3000/images/bpic9202.jpg','http://127.0.0.1:3000/images/zzpic14973.jpg'],
+                banner: [],
                 tags: [],
                 list: [],
             }
@@ -80,9 +80,10 @@
             ArticleList: resolve => require(['../../components/front/ArticleList.vue'], resolve) ,
             Tools: resolve => require(['../../components/front/Tools.vue'], resolve)
         },
-        mounted () {
-
-            
+        async mounted () {
+            let res = await api.getArticleList()
+            let imgs = res.data.filter(e => e.article_img).map(e => e.article_img)
+            this.banner =  imgs      
         },
         methods: {
             tabClick (tab, event) {
