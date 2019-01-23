@@ -103,8 +103,7 @@ class UserController {
         }
     }
     static async loginGithub (ctx) {
-        let data = (+new Date()).toString()
-        let path = `https://github.com/login/oauth/authorize?client_id=${github.client_id}&scope=${github.scope}&state=${data}`
+        let path = ``
         ctx.redirect(path)
     }
     static async loginCallback (ctx) {
