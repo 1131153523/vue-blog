@@ -20,6 +20,7 @@ module.exports = {
             changeOrigin: true,
             pathRewrite: {
                 '^/github': '/'
+            }
         }
     },
 
