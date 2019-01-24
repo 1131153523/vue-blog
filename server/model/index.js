@@ -21,7 +21,6 @@ class Model {
         let sql = escape`update admin set admin_password=${password} where admin_name=${username} and admin_token=${token}`
         return p.query(sql)
     }
-
     static addManager ({username, pass, admin_id}) {
         let sql = escape`insert into admin(admin_id, admin_name, admin_password) values(${admin_id}, ${username}, ${pass})`
         return p.query(sql)
@@ -36,7 +35,7 @@ class Model {
         return p.query(sql)
     }
     static addTag({tags_id, tags_name}) {
-        let sql = escape`insert into tags values(${tags_id}, ${tags_name})`
+        let sql = escape`insert into tags(tags_id, tags_name) values(${tags_id}, ${tags_name})`
         return p.query(sql)
     }
 

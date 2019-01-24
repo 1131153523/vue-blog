@@ -6,6 +6,7 @@
 <script>
     import api from '../../api/index.js'
     import Valine from 'valine';
+    window.AV = require('leancloud-storage')
     export default {
         data () {
             return {
@@ -13,7 +14,7 @@
             }
         },
         mounted (){
-            window.AV = require('leancloud-storage')
+            
             new Valine({
                 el: '#vcomments' ,
                 appId: '2YwTwkrYghGrn5kJbwo1aKNO-gzGzoHsz',

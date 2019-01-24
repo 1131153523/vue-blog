@@ -68,7 +68,7 @@
 
         },
         components: {
-            Info
+            Info: resolve => require(['../../components/front/Info.vue'], resolve)
         }
     }
 </script>

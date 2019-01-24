@@ -54,7 +54,7 @@
                             </el-dropdown-menu>
                         </el-dropdown>   
                     </h3>
-                    <ArticleList @getArticleList="getArticleList" :size="6"/>
+                    <ArticleList @getArticleList="getArticleList" :size="12"/>
                 </div>
             </div>
             <div class="home-right">

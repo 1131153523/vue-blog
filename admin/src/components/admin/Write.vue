@@ -8,7 +8,7 @@
         </div>
         <div class="upload">
             <h1 style="font-size: 30px;font-weight: 200;margin-bottom: 10px">上传发布</h1>
-            <el-button size="small" type="success" @click="submitUpload" :disabled="uploadDisabled" style="display: block;margin-bottom: 10px;">选择完成上传</el-button>
+            <el-button size="small" type="success" @click.stop="submitUpload" :disabled="uploadDisabled" style="display: block;margin-bottom: 10px;">选择完成上传</el-button>
             <el-select v-model="selectValue" clearable placeholder="请选择标签" style="margin-bottom: 10px;">
                 <el-option
                         v-for="item in tags"
@@ -223,7 +223,7 @@ import { clearInterval } from 'timers';
             },
             SelectClose() {
                 if (this.dialogVisible) {
-                    if (!this.info.article_title || !this.selectValue || this.info.article_title === 'Number') {
+                    if (!this.info.article_title || !this.selectValue) {
                         this.$notify.warning({
                             message: '标题或标签不能为空',
                             offset: 150
