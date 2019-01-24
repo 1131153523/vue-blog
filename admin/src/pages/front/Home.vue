@@ -46,7 +46,7 @@
                                 <el-dropdown-item v-for="item in tags" :key="item.tags_id">
                                     <router-link :to="{ path:'/home', query: { tags_name:  item.tags_name} }">
                                         <svg class="icon" aria-hidden="true">
-                                            <use :xlink:href="tagIcon(item.tags_name)"></use>
+                                            <use :xlink:href="item.tags_icon"></use>
                                         </svg>
                                         {{item.tags_name}}                                                  
                                     </router-link>
@@ -91,30 +91,6 @@
             },
             getTags (tags) {
                 this.tags = tags
-            },
-            tagIcon (val) {
-                switch(val.toLowerCase()) {
-                    case 'javascript':
-                        return '#icon-JavaScript'
-                    case 'es6':
-                        return '#icon-JavaScript'
-                    case 'python':
-                        return '#icon-python'
-                    case 'vue':
-                        return '#icon-Vue'
-                    case 'html':
-                        return '#icon-HTML'
-                    case 'css':
-                        return '#icon-CSS-outline'
-                    case '算法': 
-                        return '#icon-jiyinsuanfa'
-                    case '数据库':
-                        return '#icon-database'
-                    case 'nodejs':
-                        return '#icon-node-jsNodejsxingnengpingtai'
-                    case 'webpack':
-                        return '#icon-webpack'
-                }   
             },
             Refrash () {
                 this.$store.commit('SET_SEARCH', '')

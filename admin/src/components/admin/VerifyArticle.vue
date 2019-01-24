@@ -138,7 +138,7 @@
                     <template slot-scope="scope">
                         <el-upload
                                 class="upload-demo"
-                                action="http://127.0.0.1:3000/admin/uploadArticleTumbImg"
+                                action="/admin/uploadArticleTumbImg"
                                 multiple
                                 :limit="1"
                                 :show-file-list="false"

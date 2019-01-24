@@ -58,9 +58,6 @@
                     if (res1.code) {
                         this.value = res1.data
                     }
-                    console.log(this.value);
-                    
-                    
                 }
             } catch(e) {
                 console.log(e)
@@ -89,6 +86,11 @@
                     -webkit-box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1), 0 1px rgba(0,0,0,0.1);
            -moz-box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1), 0 1px rgba(0,0,0,0.1);
                 box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1), 0 1px rgba(0,0,0,0.1);
+        }
+    }
+    @media screen and (max-width: 800px){
+        .about-right {
+            display: none;
         }
     }
 </style>

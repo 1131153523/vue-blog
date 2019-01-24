@@ -37,7 +37,7 @@
                     ref="upload"
                     class="upload-demo"
                     drag
-                    action="http://127.0.0.1:3000/admin/uploadArticle"
+                    action="/admin/uploadArticle"
                     :auto-upload="false"
                     multiple
                     :on-change="fileChange"

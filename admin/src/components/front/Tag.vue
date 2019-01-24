@@ -13,7 +13,7 @@
                         <li class="hvr-pulse-shrink">
                             <router-link :to="{ path:'/home', query: { tags_name:  e.tags_name} }">
                                 <svg class="icon" aria-hidden="true">
-                                    <use :xlink:href="tagIcon(e.tags_name)"></use>
+                                    <use :xlink:href="e.tags_icon"></use>
                                 </svg>
                                 <span>{{e.tags_name}}</span>
                             </router-link>
@@ -47,28 +47,7 @@
         },
         methods: {
             tagIcon (val) {
-                switch(val.toLowerCase()) {
-                    case  'es6': 
-                        return '#icon-JavaScript'
-                    case 'javascript':
-                        return '#icon-JavaScript'
-                    case 'python':
-                        return '#icon-python'
-                    case 'vue':
-                        return '#icon-Vue'
-                    case 'html':
-                        return '#icon-HTML'
-                    case 'css':
-                        return '#icon-CSS-outline'
-                    case '算法': 
-                        return '#icon-jiyinsuanfa'
-                    case '数据库':
-                        return '#icon-database'
-                    case 'nodejs':
-                        return '#icon-node-jsNodejsxingnengpingtai'
-                    case 'webpack':
-                        return '#icon-webpack'
-                }   
+
             }
         },
         computed: {
