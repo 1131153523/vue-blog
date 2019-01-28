@@ -20,9 +20,6 @@
                 <svg class="icon" aria-hidden="true" v-if="$route.fullPath.indexOf('/article') > -1" @click="toBottom">
                     <use xlink:href="#icon-pinglun1"></use>
                 </svg> 
-                <svg class="icon" aria-hidden="true" v-if="$route.fullPath.indexOf('/article') > -1" >
-                    <use xlink:href="#icon-tableshare"></use>
-                </svg>  
             </div>           
         </div>   
     </div>

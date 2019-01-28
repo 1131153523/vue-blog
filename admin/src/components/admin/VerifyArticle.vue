@@ -31,7 +31,7 @@
                 <el-option
                         v-for="item in group.options"
                         :key="item.value + Math.random() + Math.random()"
-                        :label="(item.label.lastIndexOf('下') > -1 || item.label.lastIndexOf('上') > -1) ? item.label.substring(0, item.label.length - 1): item.label"
+                        :label="item.value"
                         :value="item.value">
                 </el-option>
             </el-option-group>
@@ -76,7 +76,7 @@
 
                     <template slot-scope="scope">
                         <i class="el-icon-time"></i>
-                        <span style="margin-left: 10px">{{ scope.row.article_time}}</span>
+                        <span style="margin-left: 10px">{{ scope.row.article_time | formatDate}}</span>
                     </template>
                 </el-table-column>
                 <el-table-column
@@ -418,11 +418,7 @@
         },
         filters: {
             formatDate (value){
-                if (!value) {
-                    return
-                }
-                value = value.toString()
-                return value.slice(0, 10)
+                return new Date(parseInt(value)).toLocaleString()
             }
         },
         activated() {

@@ -38,4 +38,5 @@ router.post('/getCommentsById', Comment.getCommentsById)
 router.post('/deleteComment', Comment.deleteComment)
 router.get('/getProjects', Project.getProjects)
 router.get('/getAbout', About.getAbout)
+router.get('/getBanners', About.getBanners)
 module.exports = router

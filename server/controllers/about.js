@@ -19,6 +19,24 @@ class AboutController {
             }
         }
     }
+    static async getBanners(ctx) {
+        try {
+            let data = JSON.parse(JSON.stringify(await Model.getBanners()))
+            ctx.body = {
+                code: 1,
+                data: data,
+                isShow: false
+            }
+        } catch(e) {
+            console.log(e)
+            console.log('服务器错误，获取轮播图失败');
+            ctx.body = {
+                code: 0,
+                msg: '服务器错误，获取轮播图失败'
+            }
+        }
+
+    }
 }   
 
 module.exports = AboutController

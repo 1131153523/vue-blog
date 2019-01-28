@@ -75,10 +75,13 @@ export default {
     deleteComment (value) {
         return ajax('/deleteComment', value, 'POST')
     },
-    getProjects() {
+    getProjects () {
         return ajax('/getProjects')
     },
-    getAbout() {
+    getAbout () {
         return ajax('/getAbout')
+    },
+    getBanners () {
+        return ajax('/getBanners')
     }
 }

@@ -84,14 +84,13 @@
                 let newList = await this.getData(this.page[newVal])
                 this.pageList[newVal] = this.pageList[newVal].concat(newList)
                 this.list = this.removeDup(this.pageList[newVal].concat(newList), 'article_id')
+                this.list.sort((a, b) => b.article_time - a.article_time)
             },
             '$store.state.search': function (newVal, oldVal) {
                 this.list = this.pageList[this.$route.query.tags_name].filter(e => e.article_title.indexOf(newVal) > -1 || e.article_author.indexOf(newVal) > -1)               
+                this.list.sort((a, b) => b.article_time - a.article_time)
                 this.$emit('getArticleList', this.list)
             }
-        },
-        computed: {
-
         },
         methods: {
             async loadMore () {
@@ -104,8 +103,10 @@
                     return
                 }
                 this.pageList[tags_name] = this.pageList[tags_name].concat(newList)
+                this.pageList[tags_name].sort((a, b) => b.article_time - a.article_time)
                 prelist = this.removeDup(this.pageList[tags_name], 'article_id')
                 this.list = prelist.filter(e => e.article_title.indexOf(search) > -1 || e.article_author.indexOf(search) > -1)
+                this.list.sort((a, b) => b.article_time - a.article_time)
                 this.$emit('getArticleList', this.pageList[tags_name])
             },
             removeDup (arr, key) {
@@ -157,6 +158,7 @@
                                         e.article_time = T.getTime()
                                         return e
                                     }
+                                    return e
                                 })
                                 if (res.code) {
                                     data.sort((a, b) => b.article_time - a.article_time)

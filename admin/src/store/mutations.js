@@ -102,7 +102,7 @@ const mutations = {
             label: '作者',
             options: [...new Set([...value.map(e => e.article_author)])].map(e => ({value: e, label: e}))
         }
-        let times = [...new Set([...value.map(e => e.article_time.slice(0, 10))])]
+        let times = [...new Set([...value.map(e => new Date(parseInt(e.article_time)).toLocaleString().slice(0, 10).replace('下', '').replace('上', ''))])]
         times.sort((a,b) => a > b? -1 : 1)
         state.options2[0] = {
             label: '日期',
@@ -111,7 +111,8 @@ const mutations = {
     },
     //日期筛选文章列表
     [types.SCREEN_DATE]: (state, value) => {
-        state.articleList = state.articleList1.filter(e => e.article_time.slice(0, 10) === value)
+
+        state.articleList = state.articleList1.filter(e => new Date(parseInt(e.article_time)).toLocaleString().slice(0, 10).replace('下', '').replace('上', '') === value)
     },
     //通过标签或作者筛选文章列表
     [types.SCREEN_TAGS_AUTHOR]: (state, value) => {

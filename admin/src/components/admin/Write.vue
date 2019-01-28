@@ -9,7 +9,7 @@
         <div class="upload">
             <h1 style="font-size: 30px;font-weight: 200;margin-bottom: 10px">上传发布</h1>
             <el-button size="small" type="success" @click.stop="submitUpload" :disabled="uploadDisabled" style="display: block;margin-bottom: 10px;">选择完成上传</el-button>
-            <el-select v-model="selectValue" clearable placeholder="请选择标签" style="margin-bottom: 10px;">
+            <el-select v-model="selectValue1" clearable placeholder="请选择标签" style="margin-bottom: 10px;">
                 <el-option
                         v-for="item in tags"
                         :key="item.tags_id  "
@@ -150,6 +150,7 @@ import { clearInterval } from 'timers';
                 isUpload: false,
                 dialogVisible: false,
                 selectValue: [],
+                selectValue1: [],
                 info: {},
                 drafts_id: '',
                 uploadDisabled: false,
@@ -158,7 +159,7 @@ import { clearInterval } from 'timers';
                     article_id: getRandomId(),
                     article_author: this.$store.state.username,
                     article_title: '',
-                    article_time: new Date().toLocaleString().replace(/\//g, '-'),
+                    article_time: Date.now().toString(),
                     tags_id: '',
                     article_introduce: this.content2
                 },
@@ -217,7 +218,7 @@ import { clearInterval } from 'timers';
                     article_assist: 0,
                     article_read: 0,
                     article_introduce: this.content1,
-                    article_time: new Date().toLocaleString().replace(/\//g, '-'),
+                    article_time: Date.now().toString(),
                 }
                 this.dialogVisible = true
             },
@@ -241,7 +242,7 @@ import { clearInterval } from 'timers';
                 this.extraData.article_id = getRandomId()
             },
             beforeUpload(file){
-
+                this.extraData.tags_id = this.$store.state.tags.find(item => item.tags_name === this.selectValue1).tags_id
             },
             fileChange(file, fileList) {
                 this.uploadDisabled = false
@@ -253,10 +254,6 @@ import { clearInterval } from 'timers';
                     })
                     fileList.clearFiles()
                 }
-                if (this.selectValue !== '') {
-                    this.extraData.tags_id = this.$store.state.tags.find(item => item.tags_name === this.selectValue).tags_id
-                }
-
             },
             fileSuccess(response, file, fileList){
                 if (response.code) {

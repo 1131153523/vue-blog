@@ -2,8 +2,8 @@
     <div>
         <div class="banner">
             <el-carousel :interval="4000" type="card" height="200px" class="banner-left">
-                <el-carousel-item v-for="item in banner" :key="item">
-                <h3 style="margin: 0;"><img :src="item" alt="" style="background-size: cover;"></h3>
+                <el-carousel-item v-for="item in banner" :key="item.banner_path">
+                <h3 style="margin: 0;"><img :src="item.banner_path" alt="" ></h3>
                 </el-carousel-item>
             </el-carousel>
             <div class="banner-right">
@@ -20,7 +20,6 @@
                             </li>
                         </ul>
                     </el-tab-pane>
-                    <el-tab-pane label="关于本站" name="second">关于本站</el-tab-pane>
                 </el-tabs>
             </div>
         </div>
@@ -54,7 +53,7 @@
                             </el-dropdown-menu>
                         </el-dropdown>   
                     </h3>
-                    <ArticleList @getArticleList="getArticleList" :size="12"/>
+                    <ArticleList @getArticleList="getArticleList" :size="15"/>
                 </div>
             </div>
             <div class="home-right">
@@ -81,9 +80,8 @@
             Tools: resolve => require(['../../components/front/Tools.vue'], resolve)
         },
         async mounted () {
-            let res = await api.getArticleList()
-            let imgs = res.data.filter(e => e.article_img).map(e => e.article_img)
-            this.banner =  imgs      
+            let res = await api.getBanners()
+            this.banner = res.data
         },
         methods: {
             tabClick (tab, event) {
@@ -122,6 +120,10 @@
                 -ms-flex: 1;
                     flex: 1;
             margin-right: 10px;
+            img {
+                background-size: cover;
+                width: 100%;
+            }
         }
         .banner-right {
             width: 320px;

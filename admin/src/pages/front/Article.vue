@@ -58,7 +58,7 @@
                 if (date === undefined){
                     return
                 }
-                return date.slice(0, 10).replace('下', '').replace('上', '')
+                return new Date(parseInt(date)).toLocaleString().replace(/\//g, '-')
             }
         }   
     }   
